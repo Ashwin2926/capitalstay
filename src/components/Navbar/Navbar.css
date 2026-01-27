@@ -1,0 +1,265 @@
+/* ============================================================= */
+/* GLOBAL NAVBAR VARIABLES                                       */
+/* ============================================================= */
+:root {
+  --navbar-height: 80px;
+  --navbar-scrolled-height: 60px;
+
+  --logo-height: 70px;
+  --logo-scrolled-height: 50px;
+
+  --nav-text-light: white;
+  --nav-text-dark: #333;
+
+  --primary-color: #007bff;
+  --secondary-color: #f8b400;
+
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-text: #fff;
+
+  --white-bg: #ffffff;
+  --white-text: #333;
+}
+
+/* ============================================================= */
+/* NAVBAR BASE                                                    */
+/* ============================================================= */
+.navbar {
+  position: fixed !important;
+  top: 0 !important;
+  width: 100% !important;
+  z-index: 99999 !important;
+
+  height: var(--navbar-height);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Transparent hero mode */
+.navbar.transparent {
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+/* Scrolled mode */
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  height: var(--navbar-scrolled-height);
+}
+
+/* ============================================================= */
+/* LOGO                                                           */
+/* ============================================================= */
+.navbar-logo {
+  height: var(--logo-height);
+  transition: height 0.3s ease;
+}
+
+.navbar.scrolled .navbar-logo {
+  height: var(--logo-scrolled-height);
+}
+
+/* ============================================================= */
+/* NAV LINKS                                                      */
+/* ============================================================= */
+.nav-item {
+  margin-left: 15px;
+}
+
+.nav-link,
+.dropdown-toggle {
+  font-weight: 500;
+  font-size: 1.05rem;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  transition: color 0.3s ease;
+}
+
+/* Transparent hero text */
+.navbar.transparent .nav-link,
+.navbar.transparent .dropdown-toggle {
+  color: var(--nav-text-light) !important;
+}
+
+/* Scrolled dark text */
+.navbar.scrolled .nav-link,
+.navbar.scrolled .dropdown-toggle {
+  color: var(--nav-text-dark) !important;
+}
+
+/* Hover */
+.nav-link:hover,
+.dropdown-toggle:hover {
+  color: var(--secondary-color) !important;
+}
+
+/* Remove Bootstrap caret */
+.dropdown-toggle::after {
+  content: none !important;
+}
+
+/* Icon rotation */
+.dropdown-toggle > svg {
+  margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-toggle[aria-expanded="true"] > svg {
+  transform: rotate(180deg);
+}
+
+/* ============================================================= */
+/* DROPDOWN BASE POSITIONING                                     */
+/* ============================================================= */
+.nav-item.dropdown {
+  position: relative;
+}
+
+/* ============================================================= */
+/* GLASS DROPDOWN — ONLY WHEN NAVBAR IS TRANSPARENT (AT TOP)     */
+/* ============================================================= */
+.navbar.transparent .dropdown-menu {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  color: var(--glass-text);
+}
+
+/* Dropdown item text when glass */
+.navbar.transparent .dropdown-item {
+  color: white !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.35);
+}
+
+/* Hover in glass mode */
+.navbar.transparent .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateX(4px);
+}
+
+/* ============================================================= */
+/* WHITE DROPDOWN — WHEN NAVBAR IS SCROLLED                      */
+/* ============================================================= */
+.navbar.scrolled .dropdown-menu {
+  background: var(--white-bg) !important;
+  border: 1px solid #ddd;
+  color: var(--white-text);
+}
+
+.navbar.scrolled .dropdown-item {
+  color: #333 !important;
+}
+
+.navbar.scrolled .dropdown-item:hover {
+  background: rgba(0, 0, 0, 0.07) !important;
+  color: #000 !important;
+  transform: translateX(4px);
+}
+
+/* ============================================================= */
+/* SHARED DROPDOWN ANIMATION & STRUCTURE                         */
+/* ============================================================= */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+  min-width: 240px;
+  padding: 10px 0;
+
+  border-radius: 14px;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Right-aligned dropdowns */
+.dropdown-menu.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+/* Visible state */
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Dropdown items */
+.dropdown-item {
+  padding: 12px 20px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+/* Divider */
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 6px 0;
+}
+
+/* Scrolled divider override */
+.navbar.scrolled .dropdown-divider {
+  background: #ddd;
+}
+
+/* ============================================================= */
+/* MOBILE MENU                                                    */
+/* ============================================================= */
+@media (max-width: 992px) {
+  .navbar-collapse.collapse {
+    display: none;
+  }
+
+  .navbar-collapse.show {
+    background: rgba(0, 0, 0, 0.96);
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 85%;
+    height: 100vh;
+    padding: 30px;
+    overflow-y: auto;
+    display: flex !important;
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .navbar-toggler {
+    z-index: 100000;
+  }
+
+  .dropdown-menu {
+    position: static !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    padding-left: 15px;
+  }
+
+  .dropdown-item {
+    padding: 10px 0;
+    color: white !important;
+  }
+
+  .dropdown-item:hover {
+    background: none !important;
+    color: var(--secondary-color) !important;
+  }
+}

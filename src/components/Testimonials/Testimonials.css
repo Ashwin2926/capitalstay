@@ -1,0 +1,131 @@
+/* Section Styling */
+.testimonials-section {
+  background-color: #f7f7f7;
+  color: #333;
+  padding: 3rem 1.5rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ff5a5f; /* Airbnb brand color */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Testimonial Card */
+.testimonial-card {
+  background-color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Image with Airbnb Logo */
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ff5a5f;
+}
+
+.airbnb-logo {
+  position: absolute;
+  bottom: 0;
+  right: -10px;
+  width: 30px;
+  height: 30px;
+  opacity: 0.8;
+}
+
+/* Typography */
+.testimonial-text {
+  font-size: 1.1rem;
+  color: #555;
+  font-style: italic;
+}
+
+.stars i {
+  font-size: 1.2rem;
+}
+
+.testimonial-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #212529;
+}
+
+/* Carousel Styling */
+.testimonials-carousel .carousel-indicators [data-bs-target] {
+  background-color: #ff5a5f;
+}
+
+.testimonials-carousel .carousel-indicators [data-bs-target].active {
+  background-color: #d84348;
+}
+
+.testimonials-carousel .carousel-item {
+  text-align: center;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: brightness(0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .testimonial-card {
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .profile-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .testimonial-text {
+    font-size: 1rem;
+  }
+
+  .testimonial-name {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .testimonial-card {
+    padding: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .stars i {
+    font-size: 1rem;
+  }
+
+  .airbnb-logo {
+    width: 25px;
+    height: 25px;
+  }
+}

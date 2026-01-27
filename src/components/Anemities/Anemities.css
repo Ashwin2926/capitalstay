@@ -1,0 +1,106 @@
+/* Amenities.css */
+
+.amenities-section {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  padding: 5rem 1rem; /* Responsive padding */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: white;
+  overflow: hidden; /* Prevent overflow from animations */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75); /* Darker overlay */
+  z-index: 1; /* Ensure overlay is below content */
+}
+
+.content-wrapper {
+  position: relative;
+  z-index: 2; /* Ensure content is above overlay */
+  max-width: 1280px; /* Increased max-width for larger screens */
+  margin: 0 auto; /* Center content */
+  text-align: center;
+  padding: 0 1rem; /* Inner padding for content */
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #60a5fa; /* Blue-400 equivalent */
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: #d1d5db; /* Gray-300 equivalent */
+  margin-bottom: 3rem; /* Increased margin */
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+  gap: 2rem;
+}
+
+/* Adjust grid for larger screens */
+@media (min-width: 768px) {
+  .amenities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .amenities-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+.amenity-card {
+  background: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
+  backdrop-filter: blur(8px); /* Blur effect */
+  padding: 2rem; /* Increased padding */
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.amenity-card:hover {
+  transform: translateY(-8px) scale(1.03); /* Lift and slightly scale on hover */
+  background: rgba(255, 255, 255, 0.25); /* More transparent white on hover */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+}
+
+.icon {
+  font-size: 2.5rem; /* Increased icon size */
+  margin-bottom: 1rem;
+  color: #60a5fa; /* Blue-400 equivalent */
+}
+
+.amenity-title {
+  font-size: 1.5rem; /* Increased title size */
+  font-weight: 600; /* Semi-bold */
+  margin-bottom: 0.75rem; /* Adjusted margin */
+  color: white;
+}
+
+.amenity-desc {
+  font-size: 1rem;
+  color: #d1d5db; /* Gray-300 equivalent */
+  opacity: 0.9;
+  line-height: 1.5; /* Improved readability */
+}

@@ -1,0 +1,413 @@
+/* ================================
+   COLOR PALETTE (Blue Theme)
+   Primary: #1e293b (Dark Slate) - Kept for deep text contrast
+   Accent Blue: #007bff (Standard Blue)
+   Dark Accent Blue: #0056b3 (Darker Blue)
+   Success: #10b981 (Green)
+   Light Background: #f8f9fa
+=================================== */
+
+/* ================================
+   BASE LAYOUT
+=================================== */
+
+.property-page {
+  background: #f8f9fa; /* Lighter background */
+  min-height: 100vh;
+}
+
+.property-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem;
+}
+
+.property-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 3.5rem;
+}
+
+.section-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* ================================
+   CARD + DESIGN UPGRADES
+=================================== */
+
+.card {
+ 
+  border-radius: 18px;
+  padding: 2.5rem;
+ 
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.06);
+}
+
+/* Cost card in the main column - uses a strong blue accent border */
+.cost-card-full {
+    border: 2px solid #007bff; 
+    background: #f8faff; /* Very light blue wash */
+}
+
+/* ================================
+   TYPOGRAPHY + HEADINGS
+=================================== */
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.25rem;
+  border-left: 5px solid #007bff; /* Blue Accent rule */
+  padding-left: 10px;
+  line-height: 1;
+}
+
+.section-title-lg {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.promo-subtitle {
+  margin-top: 2rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0056b3; /* Darker blue accent for promo subtitle */
+}
+
+.section-paragraph {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #475569;
+}
+
+/* ================================
+   GRADIENT SECTIONS (Promotional Content)
+=================================== */
+
+.card-gradient {
+  background: linear-gradient(135deg, #eaf4ff, #ffffff); /* Light blue gradient */
+  border: 2px solid #a8c8ff;
+}
+
+/* ================================
+   AMENITIES GRID
+=================================== */
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: all 0.2s ease;
+}
+
+.amenity-item:hover {
+  background: #f0f4ff; /* Light blue on hover */
+  border-color: #bbd0ff;
+  transform: translateY(-1px);
+}
+
+.amenity-icon {
+  font-size: 1.25rem;
+  color: #10b981; /* Green success checkmark retained */
+}
+
+.amenity-text {
+  font-weight: 600 !important;
+  color: #1e293b !important;
+}
+
+/* ================================
+   ANNUAL RENTAL COSTS
+=================================== */
+
+.cost-section-title {
+  border-left: none;
+  padding-left: 0;
+  font-size: 1.6rem;
+}
+
+.cost-icon {
+  color: #007bff; /* Accent Blue */
+  font-size: 1.45rem;
+}
+
+.cost-list {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dashed #b3d7ff; /* Blue dashed line */
+}
+
+.cost-item.last-cost-item {
+  border-bottom: none;
+  padding-top: 1rem;
+  border-top: 2px solid #007bff; /* Final blue separator line */
+}
+
+.cost-label {
+  font-size: 1.05rem;
+  text-transform: capitalize;
+  color: #334155;
+  font-weight: 500;
+}
+
+.cost-value {
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: #1e293b;
+}
+
+/* ================================
+   TOP LOCATIONS
+=================================== */
+
+.nearby-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nearby-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #fcfdfe;
+  transition: all 0.2s ease;
+}
+
+.nearby-item:hover {
+  background: #eaf4ff; /* Light blue on hover */
+  border-color: #a8c8ff;
+}
+
+.nearby-icon {
+  color: #007bff; /* Accent Blue */
+  font-size: 1.25rem;
+}
+
+.nearby-text {
+  font-weight: 600 !important;
+  color: #1e293b !important;
+}
+
+
+/* ================================
+   STEPS LIST
+=================================== */
+
+.step-card {
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+}
+
+.step-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.step-item {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: flex-start;
+}
+
+.step-number {
+  background: #007bff; /* Accent Blue */
+  color: #fff;
+  min-width: 2.8rem;
+  height: 2.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  border-radius: 14px;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4); /* Blue shadow */
+}
+
+.step-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.3rem;
+}
+
+/* ================================
+   FAQ ACCORDION
+=================================== */
+
+.faq-list {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faq-item {
+  background: #ffffff;
+  border: 1px solid #e5eaf1;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item.open {
+  background: #eaf4ff; /* Light blue background when open */
+  border-color: #a8c8ff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.faq-header {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.faq-header:hover {
+  background: #f0f4ff;
+}
+
+.faq-question-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  flex-grow: 1;
+}
+
+.faq-arrow {
+  font-size: 1rem;
+  color: #007bff; /* Accent Blue */
+  transition: transform 0.3s ease;
+}
+
+.faq-item.open .faq-arrow {
+  transform: rotate(180deg);
+}
+
+.faq-answer-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.faq-item.open .faq-answer-wrapper {
+  max-height: 500px;
+}
+
+.faq-answer {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #475569;
+}
+
+/* ================================
+   NEW VISUAL ACCENT BLOCK (Right Column)
+=================================== */
+
+.visual-accent-block {
+    background: #eaf4ff; /* Lightest blue background */
+    border: 2px solid #a8c8ff;
+    border-radius: 18px;
+    padding: 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.home-icon-bg {
+    color: rgba(0, 123, 255, 0.1); /* Very light blue, subtle icon */
+    font-size: 8rem;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    transform: rotate(-15deg);
+    z-index: 0;
+}
+
+.accent-text {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0056b3; /* Darker blue */
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.accent-subtext {
+    font-size: 1rem;
+    color: #007bff;
+    position: relative;
+    z-index: 1;
+}
+
+/* ================================
+   RESPONSIVE
+=================================== */
+
+@media (max-width: 1024px) {
+  .property-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .property-content {
+    padding: 2.5rem 1rem;
+  }
+
+  .section-title-lg {
+    font-size: 1.5rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+    border-radius: 14px;
+  }
+
+  .property-grid {
+    gap: 2rem;
+  }
+}

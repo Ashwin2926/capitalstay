@@ -1,0 +1,89 @@
+/* Updated Loader.css for Clean, Minimal-Futuristic Look */
+
+:root {
+    --electric-blue: #00bfff;  
+    --dark-background: #ffffff;  
+    --light-text: #000000;
+}
+
+.loader-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    /* Clean, high-contrast dark background */
+    background: var(--dark-background); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    padding: 20px;
+    text-align: center;
+}
+
+/* --- Clean, Segmented Spinner Styling --- */
+.clean-futuristic-spinner {
+    width: 50px; 
+    height: 50px;
+    /* Very thin border for a delicate, minimal structure */
+    border: 2px solid rgba(255, 255, 255, 0.1); 
+    /* Primary blue segment for the movement */
+    border-top: 2px solid var(--electric-blue);
+    border-right: 2px solid var(--electric-blue); 
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite; /* Smoother spin curve */
+    margin-bottom: 30px;
+    
+    /* Remove glow/shadow, rely on color contrast */
+    box-shadow: none; 
+}
+
+/* --- Text Styling (High Contrast, Geometric) --- */
+.loader-text {
+    /* Clean, modern, high-contrast sans-serif */
+    font-family: 'Inter', 'Segoe UI', sans-serif; 
+    font-size: 3rem; 
+    font-weight: 300; /* Light weight for elegance */
+    letter-spacing: 0.4em; /* Wide spacing */
+    color: var(--light-text); 
+    text-transform: uppercase;
+    margin: 0;
+    
+    /* Subtle, single shadow for crispness */
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.text-highlight {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600; /* Bold weight for the accent */
+    letter-spacing: 0.6em; 
+    color: var(--electric-blue); 
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+/* --- Keyframes --- */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .clean-futuristic-spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 2px;
+    }
+    .loader-text {
+        font-size: 2rem;
+        letter-spacing: 0.3em;
+    }
+    .text-highlight {
+        font-size: 1rem;
+        letter-spacing: 0.4em;
+    }
+}

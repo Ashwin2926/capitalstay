@@ -1,0 +1,327 @@
+/* Variables for easier customization */
+:root {
+    --primary-blue: #0044cc;
+    --secondary-blue: #2563eb;
+    --text-color-dark: #222;
+    --text-color-light: #555;
+    --background-gradient-start: #f0f4f8;
+    --background-gradient-end: #ffffff;
+    --node-size: 140px; /* Base size for member image wrapper */
+    --grid-gap: 30px; /* Spacing between grid items */
+    --animation-duration: 1s;
+    --stagger-delay: 0.08s;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+    --hover-shadow-color: rgba(0, 0, 0, 0.25);
+    --connection-color: rgba(0, 68, 204, 0.1); /* Softer connection line color */
+}
+
+/* Global font smoothing for better text rendering */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Main Section Styling */
+.interconnected-team-section {
+    position: relative;
+    width: 100%;
+    min-height: 95vh;
+    padding: 100px 20px;
+    background: linear-gradient(to bottom, var(--background-gradient-start), var(--background-gradient-end));
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Removed justify-content: center to allow text to be at the top */
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity var(--animation-duration) ease-out, transform var(--animation-duration) ease-out;
+}
+
+/* Animation in view */
+.interconnected-team-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Central Text */
+.interconnected-team-section .interconnected-central-text {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 900px;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity var(--animation-duration) ease-out calc(var(--animation-duration) * 0.4), transform var(--animation-duration) ease-out calc(var(--animation-duration) * 0.4);
+}
+
+.interconnected-team-section.visible .interconnected-central-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.interconnected-team-section .interconnected-central-text h2 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+.interconnected-team-section .interconnected-central-text p {
+    font-size: clamp(1.1rem, 2.8vw, 1.4rem);
+    color: var(--text-color-light);
+    line-height: 1.7;
+    margin: 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Interconnected Members Container - Now a Grid */
+.interconnected-team-section .interconnected-members-container {
+    position: relative; /* Position relative for connections */
+    display: grid; /* Use CSS Grid */
+    grid-template-columns: repeat(auto-fit, minmax(var(--node-size), 1fr)); /* Responsive columns */
+    gap: var(--grid-gap); /* Spacing between grid items */
+    max-width: 1200px; /* Max width for the grid */
+    width: 100%;
+    padding: 0 var(--grid-gap); /* Add padding equal to gap for edge spacing */
+    z-index: 1;
+    /* Removed absolute positioning and centering transform */
+}
+
+/* Individual Team Member Node/Card - Grid Item */
+.interconnected-team-section .interconnected-member-node {
+    position: relative; /* Needed for pseudo-elements/connections */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    transition: transform 0.5s ease, opacity 0.7s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px); /* Initial state for entry animation */
+    /* Staggered animation delay based on index */
+    transition-delay: calc(var(--index) * var(--stagger-delay) + 0.5s);
+}
+
+/* Animation for nodes when section is visible */
+.interconnected-team-section.visible .interconnected-member-node {
+    opacity: 1;
+    transform: translateY(0); /* Move to final position */
+}
+
+/* Hover effect for nodes */
+.interconnected-team-section .interconnected-member-node:hover {
+    transform: translateY(-10px) scale(1.05); /* Lift and slightly enlarge on hover */
+    box-shadow: 0 15px 40px var(--hover-shadow-color);
+}
+
+/* Member Image Wrapper */
+.interconnected-team-section .interconnected-member-image-wrapper {
+    width: var(--node-size);
+    height: var(--node-size);
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 12px;
+    background: #e0e7ff;
+    transition: transform 0.4s ease;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+}
+
+.interconnected-team-section .interconnected-member-node:hover .interconnected-member-image-wrapper {
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.interconnected-team-section .interconnected-member-image-wrapper img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.interconnected-team-section .interconnected-member-node:hover .interconnected-member-image-wrapper img {
+    transform: scale(1.15);
+}
+
+/* Member Name and Title */
+.interconnected-team-section .interconnected-member-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin: 0 0 4px 0;
+}
+
+.interconnected-team-section .interconnected-member-title {
+    font-size: 0.95rem;
+    color: var(--text-color-light);
+    margin: 0;
+}
+
+/* --- Visual Connections (using pseudo-elements) --- */
+/* Add subtle lines connecting nodes in the grid */
+.interconnected-member-node::before,
+.interconnected-member-node::after {
+    content: '';
+    position: absolute;
+    background-color: var(--connection-color);
+    z-index: -1; /* Behind the node content */
+}
+
+/* Vertical connections (top and bottom) */
+.interconnected-member-node::before {
+    width: var(--line-thickness);
+    height: var(--grid-gap); /* Height is the gap between rows */
+    top: calc(-1 * var(--grid-gap)); /* Position above the node */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Horizontal connections (left and right) */
+.interconnected-member-node::after {
+    height: var(--line-thickness);
+    width: var(--grid-gap); /* Width is the gap between columns */
+    top: 50%;
+    left: calc(-1 * var(--grid-gap)); /* Position to the left */
+    transform: translateY(-50%);
+}
+
+/* Hide connections on the first and last items in the grid as needed */
+/* This requires more complex selectors or potentially adjusting based on grid position */
+/* For simplicity, we'll make them subtle enough that edge cases aren't jarring */
+
+/* Remove top connection for the first row */
+.interconnected-members-container > *:nth-child(-n + 3)::before { /* Adjust '3' based on expected columns on larger screens */
+    height: 0;
+}
+
+/* Remove left connection for the first item in each row */
+/* This is tricky with auto-fit grid, might need JS or more complex CSS */
+/* Let's simplify for now and rely on subtlety or handle with JS if needed */
+
+
+/* Subtle background pattern on the main section */
+.interconnected-team-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 68, 204, 0.08) 0%, rgba(0, 68, 204, 0) 50%);
+    background-size: 700px 700px;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Add a subtle background texture or pattern */
+.interconnected-team-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml,%3Csvg width="6" height="6" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239C9C9C" fill-opacity="0.05" fill-rule="evenodd"%3E%3Cpath d="M0 0h3v3H0V0zm3 3h3v3H3V3z"/%3E%3C/g%3E%3C/svg%3E'); /* Reduced opacity in SVG */
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+     :root {
+        --node-size: 120px;
+        --grid-gap: 25px;
+    }
+
+     .interconnected-team-section .interconnected-members-container {
+         padding: 0 var(--grid-gap);
+     }
+
+     .interconnected-member-node::before {
+        height: var(--grid-gap);
+        top: calc(-1 * var(--grid-gap));
+     }
+
+     .interconnected-member-node::after {
+        width: var(--grid-gap);
+        left: calc(-1 * var(--grid-gap));
+     }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --node-size: 100px;
+        --grid-gap: 20px;
+    }
+
+    .interconnected-team-section {
+        padding: 60px 15px;
+        min-height: unset; /* Allow height to be determined by content */
+    }
+
+    .interconnected-team-section .interconnected-central-text {
+        margin-bottom: 40px;
+    }
+
+     .interconnected-team-section .interconnected-members-container {
+         padding: 0 var(--grid-gap);
+     }
+
+     .interconnected-member-node::before {
+        height: var(--grid-gap);
+        top: calc(-1 * var(--grid-gap));
+     }
+
+     .interconnected-member-node::after {
+        width: var(--grid-gap);
+        left: calc(-1 * var(--grid-gap));
+     }
+}
+
+@media (max-width: 480px) {
+     :root {
+        --node-size: 80px;
+        --grid-gap: 15px;
+    }
+
+     .interconnected-team-section {
+        padding: 40px 10px;
+    }
+
+     .interconnected-team-section .interconnected-members-container {
+         padding: 0 var(--grid-gap);
+     }
+
+    .interconnected-team-section .interconnected-member-name {
+        font-size: 0.9rem;
+    }
+
+    .interconnected-team-section .interconnected-member-title {
+        font-size: 0.75rem;
+    }
+
+     .interconnected-member-node::before {
+        height: var(--grid-gap);
+        top: calc(-1 * var(--grid-gap));
+     }
+
+     .interconnected-member-node::after {
+        width: var(--grid-gap);
+        left: calc(-1 * var(--grid-gap));
+     }
+}

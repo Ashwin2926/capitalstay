@@ -1,0 +1,526 @@
+import React, { useState, useCallback, useEffect } from 'react';
+import { ChevronDown, Plane, Car, Home, ShoppingCart, Utensils, Sailboat } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import PageHeader from '../Pageheader/PageHeader';
+ 
+
+/* ----------------------------- SERVICE DATA -------------------------------- */
+const SERVICE_ITEMS = [
+  {
+    id: 'airport-transfer',
+    title: 'Airport Transfers',
+    icon: Plane,
+    description: `Experience a seamless and stress-free arrival with CapitalStay’s luxury airport transfer service.
+Guests are welcomed personally at the airport—assisted with luggage and escorted to a premium vehicle selected
+for comfort and class. Chauffeurs monitor flights in real time and provide optional in-car refreshments,
+preferred music, VIP fast-track coordination, and multi-stop routing.`,
+    image: '../assets/services/Airport_transfer.jpg',
+  },
+  {
+    id: 'car-rental',
+    title: 'Car Rental',
+    icon: Car,
+    description: `CapitalStay’s private car rental service provides a curated fleet of luxury sedans, executive cars,
+and premium SUVs. Concierge-level support includes vehicle delivery/pickup, full sanitization, insurance, and
+optional driver services. Perfect for business trips, events, and leisure drives.`,
+    image: '../assets/services/Car_rental.webp',
+  },
+  {
+    id: 'daily-maid-services',
+    title: 'Daily Maid Services',
+    icon: Home,
+    description: `Discrete, professional housekeeping tailored to your schedule: bed and linen changes, bathroom refresh,
+kitchen and floor care, and optional laundry/ironing and turndown service. Staff are vetted, trained in privacy,
+and committed to consistent luxury-level standards.`,
+    image: '../assets/services/maid.jpg',
+  },
+  {
+    id: 'yatch-rental-services',
+    title: 'Yatch Rental Services',
+    icon: Sailboat,
+    description: `Cruise Dubai’s iconic coastline in unmatched luxury. Our private yacht charters are fully customizable — from romantic dinners under the stars and unforgettable sunset voyages to lively celebrations with friends or serene family escapes. Enjoy premium service, curated dining, and panoramic views of Burj Al Arab, Palm Jumeirah, Bluewaters Island, and more`,
+    image: '../assets/services/Yatch_Services.jpg',
+  },
+  {
+    id: 'private-chef',
+    title: 'Private Chef',
+    icon: Utensils,
+    description: `Indulge in customized in-residence dining prepared by experienced private chefs. Menus cover everything
+from daily meals to multi-course tasting experiences, including grocery sourcing, service, and kitchen cleanup.
+Optional cooking classes and wine pairings are available.`,
+image: '../assets/services/private-chef-in-dubai.jpg'
+ 
+  },
+  
+];
+
+/* ---------------------------- ACCORDION ITEM -------------------------------- */
+interface AccordionItemProps {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  icon: React.ComponentType<{ className?: string }>;
+  isOpen: boolean;
+  onClick: () => void;
+}
+
+const AccordionItem = ({ id, title, description, image, icon: Icon, isOpen, onClick }: AccordionItemProps) => {
+  return (
+    <div id={id} className={`accordion-item-wrapper ${isOpen ? 'is-open-item' : ''}`}>
+      <button
+        className={`accordion-header-btn ${isOpen ? 'is-open' : ''}`}
+        onClick={onClick}
+        aria-expanded={isOpen}
+        aria-controls={`${id}-content`}
+      >
+        <div className="header-left">
+          <Icon className={`header-icon ${isOpen ? 'text-primary' : 'text-muted'}`} />
+          <span className="header-title">{title}</span>
+        </div>
+        <ChevronDown className="chevron-icon" aria-hidden />
+      </button>
+
+      <div
+        id={`${id}-content`}
+        className={`accordion-content ${isOpen ? 'open' : ''}`}
+        role="region"
+        aria-labelledby={id}
+      >
+        <div className="content-inner-grid">
+          <div className="content-text-area">
+            <p className="content-description">{description}</p>
+            {/* <button className="request-service-btn">Request Service</button> */}
+          </div>
+
+          {image && (
+            <div className="content-image-wrapper">
+              <img
+                src={image}
+                alt={title}
+                className="content-image"
+                onError={(e) => {
+                  const img = e.target as HTMLImageElement;
+                  img.onerror = null;
+                  img.src = 'https://placehold.co/800x400/0A0A0E/E0E0E0?text=Image+Unavailable';
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ------------------------------- IMAGE PANEL -------------------------------- */
+/* Layout 1: vertical stack on right - main top image, middle info card, small bottom image */
+const RightImagePanel = () => {
+  return (
+    <aside className="image-section-container" aria-hidden>
+      <div className="image-stack">
+        <div className="image-card image-card-main" aria-hidden>
+          <img
+            src="../assets/services/guest_services_explore.webp"
+            alt="Premium Services"
+            className="image-card-img"
+          />
+        </div>
+
+        <div className="info-card">
+          <h4 className="info-card-title">Tailored Experiences</h4>
+          <p className="info-card-text">Thoughtfully designed to complement the CapitalStay experience.</p>
+        </div>
+
+        <div className="image-card image-card-small" aria-hidden>
+          <img
+            src="../assets/services/experience.avif"
+            alt="Executive Experience"
+            className="image-card-img"
+          />
+        </div>
+      </div>
+    </aside>
+  );
+};
+
+/* --------------------------------- MAIN PAGE -------------------------------- */
+const ServicesPage = () => {
+  const location = useLocation();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  // use functional update to avoid stale closures
+  const toggleItem = useCallback((index: number | null) => {
+    setOpenIndex((prev) => (prev === index ? null : index));
+  }, []);
+
+  // open via URL hash if provided
+  useEffect(() => {
+    const hash = location.hash ? location.hash.substring(1) : '';
+    if (hash) {
+      const idx = SERVICE_ITEMS.findIndex((s) => s.id === hash);
+      if (idx !== -1) {
+        setOpenIndex(idx);
+        // optional: scroll into view if needed in parent app
+      }
+    }
+  }, [location.hash]);
+ 
+
+  return (
+    <>
+     <PageHeader
+        title= "Executive Lifestyle Services"
+        description= "Premium services curated by CapitalStay — designed for comfort, luxury, and complete peace of mind."
+        breadcrumbs={[{ name: 'Home', href: '/' }, { name: ' Services', href: '' }]}
+        backgroundImage="../assets/services/guest_services_banner.jpg"
+      />
+    
+    <div className="services-page-wrapper">
+      <style>{`
+        :root {
+          --primary-blue: #007BFF;
+          --accent-blue: #0056B3;
+          --bg: #ffffff;
+          --card-bg: #f8f8fb;
+          --muted: #6b7280;
+          --text: #111827;
+          --radius-lg: 1rem;
+          --radius-md: 0.75rem;
+        }
+
+        /* Page wrapper */
+        .services-page-wrapper {
+          min-height: 100vh;
+          background: var(--bg);
+          color: var(--text);
+          font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+          padding: 4.25rem 1rem;
+        }
+
+        .page-header {
+          text-align: center;
+          margin-bottom: 3.5rem;
+          max-width: 90rem;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .header-main-title {
+          font-size: 2.75rem;
+          line-height: 1.02;
+          font-weight: 800;
+          margin: 0;
+          background: linear-gradient(90deg, #002a5f 0%, var(--primary-blue) 100%);
+          -webkit-background-clip: text;
+          color: transparent;
+          letter-spacing: -0.02em;
+        }
+
+        .header-subtitle {
+          margin-top: 0.75rem;
+          color: var(--muted);
+          font-size: 1.05rem;
+          max-width: 56rem;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        /* Grid layout: left accordion, right panel */
+        .main-grid {
+          max-width: 90rem;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 2.25rem;
+        }
+
+        @media (min-width: 1024px) {
+          .main-grid {
+            grid-template-columns: 1fr 360px; /* Right column fixed width for consistent layout */
+            align-items: start;
+            gap: 3rem;
+          }
+        }
+
+        /* Accordion container */
+        .accordion-list {
+     
+          border-radius: var(--radius-lg);
+          padding: 0.75rem;
+      
+          overflow: hidden;
+        }
+
+        /* Individual item */
+        .accordion-item-wrapper {
+          border-radius: 0.75rem;
+          margin: 0.5rem 0;
+          overflow: visible;
+          background: transparent;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .accordion-item-wrapper.is-open-item {
+          transform: translateY(-2px);
+        }
+
+        .accordion-header-btn {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          width: 100%;
+          padding: 1.25rem 1.25rem;
+          background: transparent;
+          border: none;
+          text-align: left;
+          border-radius: 0.65rem;
+          cursor: pointer;
+          transition: background 0.18s ease, color 0.18s ease;
+        }
+
+        .accordion-header-btn:hover {
+          background: rgba(15, 23, 42, 0.03);
+        }
+
+        .accordion-header-btn.is-open {
+          background: linear-gradient(90deg, rgba(0, 123, 255, 0.06), rgba(0, 86, 179, 0.03));
+          box-shadow: inset 3px 0 0 var(--primary-blue);
+        }
+
+        .header-left {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .header-icon {
+          width: 1.4rem;
+          height: 1.4rem;
+        }
+
+        .header-title {
+          font-weight: 700;
+          font-size: 1.06rem;
+          color: var(--text);
+        }
+
+        .text-primary {
+          color: var(--primary-blue);
+        }
+        .text-muted {
+          color: var(--muted);
+        }
+
+        .chevron-icon {
+          width: 1.25rem;
+          height: 1.25rem;
+          color: var(--primary-blue);
+          transition: transform 0.36s cubic-bezier(.2,.9,.3,1);
+        }
+        .accordion-header-btn.is-open .chevron-icon {
+          transform: rotate(180deg);
+        }
+
+        /* Accordion content */
+        .accordion-content {
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0;
+          transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s ease;
+        }
+
+        .accordion-content.open {
+          max-height: 900px; /* generous to accommodate rich text */
+          opacity: 1;
+        }
+
+        .content-inner-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.25rem;
+          padding: 1.25rem 1.25rem 1.75rem;
+        }
+
+        @media (min-width: 720px) {
+          .content-inner-grid {
+            grid-template-columns: 1fr 340px;
+            gap: 1.75rem;
+            padding: 1.5rem 1.5rem 2rem;
+          }
+        }
+
+        .content-text-area {
+          align-self: start;
+        }
+
+        .content-description {
+          margin: 0 0 1.25rem;
+          color: var(--text);
+          line-height: 1.65;
+          white-space: pre-line;
+        }
+
+        .request-service-btn {
+          display: inline-block;
+          padding: 0.75rem 1.25rem;
+          background: var(--primary-blue);
+          color: white;
+          border-radius: 0.5rem;
+          border: none;
+          font-weight: 700;
+          cursor: pointer;
+          box-shadow: 0 8px 20px rgba(0, 123, 255, 0.14);
+          transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .request-service-btn:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 12px 30px rgba(0, 123, 255, 0.22);
+        }
+
+        .content-image-wrapper {
+          border-radius: 0.6rem;
+          overflow: hidden;
+          border: 1px solid rgba(15, 23, 42, 0.04);
+          background: #fff;
+          width: 100%;
+          max-width: 100%;
+          height: 220px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .content-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+
+        .content-image:hover {
+          transform: scale(1.03);
+        }
+
+        /* ---------------------- RIGHT PANEL (vertical stack) --------------------- */
+
+        .image-section-container {
+          display: none; /* hidden on small screens */
+        }
+
+        @media (min-width: 1024px) {
+          .image-section-container {
+            display: block;
+            position: sticky;
+            top: 6rem;
+            align-self: start;
+            height: calc(100vh - 8rem);
+            padding-left: 0;
+          }
+        }
+
+        .image-stack {
+          display: grid;
+          grid-template-rows: 1fr auto 240px;
+          gap: 1rem;
+          height: 100%;
+        }
+
+        .image-card {
+          border-radius: var(--radius-md);
+          overflow: hidden;
+       
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .image-card-main {
+          min-height: 260px;
+          max-height: 360px;
+        }
+
+        .image-card-small {
+          min-height: 160px;
+          max-height: 220px;
+        }
+
+        .image-card-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.45s ease;
+        }
+
+        .image-card:hover .image-card-img {
+          transform: scale(1.03);
+        }
+
+        .info-card {
+          border-radius: var(--radius-md);
+          padding: 1.25rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 0.5rem;
+          background: white;
+          border: 1px solid rgba(16, 24, 40, 0.04);
+          box-shadow: 0 6px 20px rgba(13, 20, 30, 0.06);
+        }
+
+        .info-card-title {
+          margin: 0;
+          font-size: 1.25rem;
+          font-weight: 800;
+          color: var(--text);
+        }
+
+        .info-card-text {
+          margin: 0;
+          color: var(--muted);
+          font-size: 0.95rem;
+        }
+
+        /* Small screens: full-width accordion and compact content-image sizes */
+        @media (max-width: 1023px) {
+          .content-image-wrapper {
+            height: 200px;
+          }
+        }
+      `}</style>
+     
+
+      <header className="page-header">
+        <h1 className="header-main-title">Explore Services we offer</h1>
+        <p className="header-subtitle">Premium services curated by CapitalStay — designed for comfort, luxury, and complete peace of mind.</p>
+      </header>
+
+      <main className="main-grid" role="main">
+        {/* LEFT: Accordion column */}
+        <section className="accordion-list" aria-label="Services list">
+          {SERVICE_ITEMS.map((item, idx) => (
+            <AccordionItem
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              description={item.description}
+              image={item.image}
+              icon={item.icon}
+              isOpen={openIndex === idx}
+              onClick={() => toggleItem(idx)}
+            />
+          ))}
+        </section>
+
+        {/* RIGHT: Fixed width vertical image panel */}
+        <RightImagePanel />
+      </main>
+    </div>
+    </>
+  );
+};
+
+export default ServicesPage;

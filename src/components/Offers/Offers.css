@@ -1,0 +1,43 @@
+.faq-section {
+    background-color: #f8f9fa; /* Light background for section */
+    color: #343a40; /* Dark text */
+  }
+  
+  .faq-section h2 {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #212529; /* Header color */
+    margin-bottom: 1.5rem;
+  }
+  
+  .accordion-button {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #212529;
+    background-color: #e9ecef; /* Light background for buttons */
+    border: none;
+  }
+  
+  .accordion-button:focus {
+    box-shadow: none;
+  }
+  
+  .accordion-body {
+    font-size: 1rem;
+    color: #495057; /* Muted dark text */
+  }
+  
+  @media (max-width: 768px) {
+    .faq-section h2 {
+      font-size: 1.5rem;
+    }
+  
+    .accordion-button {
+      font-size: 1rem;
+    }
+  
+    .accordion-body {
+      font-size: 0.95rem;
+    }
+  }
+  

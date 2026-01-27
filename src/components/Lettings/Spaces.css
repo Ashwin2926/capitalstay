@@ -1,0 +1,229 @@
+/* Spaces.css - Updated for Premium Look and Row Layout */
+
+/* General container styling */
+#style-spaces {
+  background-color: #f0f2f5; /* Slightly lighter, modern background */
+  padding: 6rem 2rem; /* Increased padding for more breathing room */
+  font-family: 'Inter', sans-serif; /* Use Inter font */
+  overflow: hidden; /* Prevent potential overflow issues */
+}
+
+/* Heading styles */
+.modern-heading {
+  color: #1a2e4d; /* Darker, more sophisticated blue for heading */
+  font-size: 3rem; /* Larger, more impactful font size */
+  margin-bottom: 4rem; /* More space below heading */
+  position: relative;
+  display: inline-block; /* To center the pseudo-element */
+  font-weight: 700; /* Bolder heading */
+  letter-spacing: -0.5px; /* Subtle letter spacing adjustment */
+}
+
+.modern-heading::after {
+  content: '';
+  display: block;
+  width: 80px; /* Longer underline */
+  height: 5px; /* Thicker underline */
+  background: linear-gradient(to right, #007bff, #0056b3); /* Blue gradient */
+  margin: 15px auto 0; /* Center the underline */
+  border-radius: 3px; /* More rounded underline */
+}
+
+/* Grid layout for spaces - Default (mobile first) */
+.spaces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Stack on smaller screens */
+  gap: 1.5rem; /* Space between cards */
+  max-width: 1300px; /* Increased max width for the grid */
+  margin: 0 auto; /* Center the grid */
+}
+
+/* Individual card styling */
+.space-card {
+  border: none; /* Remove default border */
+  border-radius: 20px; /* More rounded corners */
+  overflow: hidden; /* Hide overflowing content */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Softer and larger shadow */
+  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out; /* Smoother transitions */
+  background-color: #ffffff; /* White background for cards */
+  cursor: pointer; /* Indicate interactivity */
+  display: flex; /* Use flexbox for card content layout */
+  flex-direction: column; /* Stack image and body vertically */
+}
+
+.space-card:hover {
+  transform: translateY(-15px); /* Lift card more on hover */
+  box-shadow: 0 25px 40px rgba(0, 0, 0, 0.25); /* More prominent shadow on hover */
+}
+
+/* Image container to handle overlay */
+.image-container {
+  position: relative;
+  overflow: hidden;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  flex-shrink: 0; /* Prevent image container from shrinking */
+}
+
+/* Image styling */
+.card-img-top {
+  width: 100%;
+  height: 280px; /* Increased height */
+  object-fit: cover;
+  transition: transform 0.6s ease-in-out; /* Slower, smoother zoom effect */
+}
+
+.space-card:hover .card-img-top {
+  transform: scale(1.15); /* Zoom in image more on card hover */
+}
+
+/* Image overlay for subtle effect */
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)); /* Gradient overlay */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.6s ease-in-out;
+}
+
+.space-card:hover .image-overlay {
+  opacity: 1; /* Show overlay on hover */
+}
+
+/* Card body styling */
+.card-body {
+  padding: 2rem; /* More padding */
+  text-align: left; /* Align text to the left */
+  flex-grow: 1; /* Allow body to grow */
+}
+
+/* Card title styling - Highlighted */
+.card-title {
+  font-size: 1.4rem; /* Larger font size */
+  margin-bottom: 0.5rem; /* Space below title */
+  color: #0056b3; /* A slightly brighter blue for emphasis */
+  font-weight: 700; /* Bolder font weight */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+  transition: color 0.3s ease-in-out; /* Smooth color transition on hover */
+}
+
+.space-card:hover .card-title {
+    color: #007bff; /* Change color slightly on card hover */
+}
+
+
+/* Gradient badge styling - Reimagined as a subtle indicator */
+.gradient-badge {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  background: linear-gradient(to right, #007bff, #0056b3); /* Blue gradient */
+  color: white;
+  border-radius: 15px; /* Rounded corners */
+  font-size: 0.9rem; /* Smaller font size for indicator */
+  font-weight: normal;
+  letter-spacing: 0.3px;
+  margin-top: 0.5rem; /* Space above the badge */
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2); /* Subtle shadow */
+}
+
+/* Responsive adjustments */
+@media (min-width: 1200px) { /* Apply row layout on large screens */
+  .spaces-grid {
+    display: flex; /* Use flexbox for a row layout */
+    flex-wrap: nowrap; /* Prevent wrapping */
+    justify-content: center; /* Center the cards */
+    gap: 2rem; /* Adjust gap for row layout */
+  }
+
+  .space-card {
+    flex: 1; /* Allow cards to grow and shrink */
+    max-width: 250px; /* Set a max width for cards in the row */
+  }
+
+  .card-img-top {
+    height: 200px; /* Adjust image height for row layout */
+  }
+
+  .card-body {
+      padding: 1.5rem; /* Adjust padding for row layout */
+  }
+
+  .card-title {
+      font-size: 1.2rem; /* Adjust title font size for row layout */
+      text-shadow: none; /* Remove text shadow in row layout if preferred */
+  }
+}
+
+@media (max-width: 1199px) and (min-width: 768px) {
+  .spaces-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .card-img-top {
+    height: 250px;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.3rem;
+  }
+}
+
+
+@media (max-width: 767px) {
+  #style-spaces {
+    padding: 4rem 1rem;
+  }
+
+  .modern-heading {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .spaces-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card-img-top {
+    height: 200px;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .gradient-badge {
+    padding: 0.4rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modern-heading {
+    font-size: 1.8rem;
+  }
+
+  .spaces-grid {
+    grid-template-columns: 1fr; /* Stack cards on very small screens */
+    gap: 1rem;
+  }
+
+  .card-img-top {
+    height: 180px;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+}
