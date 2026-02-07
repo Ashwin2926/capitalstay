@@ -1,6 +1,5 @@
-
-import React, { useEffect, useState, useLayoutEffect } from "react";
-import { motion, useInView, easeInOut } from "framer-motion";
+import React, { useState, useLayoutEffect } from "react";
+import { motion, easeInOut } from "framer-motion";
 import {
   FaMapMarkerAlt,
   FaHome,
@@ -12,9 +11,12 @@ import {
   FaUserLock,
   FaCheckCircle,
   FaChevronDown,
+  FaArrowRight,
 } from "react-icons/fa";
 import PageHeader from "../Pageheader/PageHeader";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import PropertyListingModal from "./PropertyListingModal";
 
 /* ------------------------------
  * SEO & AI SEARCH SCHEMA (JSON-LD)
@@ -24,20 +26,58 @@ const SchemaMetadata = () => {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Capital Stay Property Management",
-    "serviceType": "Short-term Rental Management",
+    "serviceType": "DTCM Licensed Holiday Home Management",
     "areaServed": "Dubai",
-    "description": "Premium DTCM licensed holiday home management in Dubai. We maximize landlord ROI through dynamic pricing and full-service care.",
+    "description": "Professional property management for Dubai landlords. High-yield short-term rentals, DTCM compliance, and 5-star hosting.",
     "provider": {
       "@type": "LocalBusiness",
       "name": "Capital Stay",
       "address": {
         "@type": "PostalAddress",
+        "streetAddress": "Abdullah Kamber Business Center, Deira",
         "addressLocality": "Dubai",
         "addressCountry": "AE"
-      }
+      },
+      "telephone": "+971547047913"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://capitalstayuae.com/landlord-services/property-management"
     }
   };
-  return <script type="application/ld+json">{JSON.stringify(schema)}</script>;
+
+  return (
+    <Helmet>
+      <title>Expert Property Management Dubai | Maximize Rental ROI | Capital Stay</title>
+      <meta name="description" content="Join Dubai's leading holiday home managers. We handle DTCM licensing, marketing, and 5-star guest services to boost your rental income. List your property today." />
+      <meta name="keywords" content="Dubai property management, short term rental Dubai, landlord services Dubai, Airbnb management Dubai, DTCM holiday home" />
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is Capital Stay a legally licensed operator in Dubai?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Capital Stay is a fully licensed holiday home operator authorized by Dubai's DTCM."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does Capital Stay optimize occupancy?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We use AI-driven dynamic pricing and marketing across major OTAs to target 90% occupancy."
+              }
+            }
+          ]
+        })}
+      </script>
+    </Helmet>
+  );
 };
 
 /* ------------------------------
@@ -62,11 +102,9 @@ const ScopedStyles = () => (
       --cs-h1: 2.75rem;
       --cs-h2: 1.75rem;
       --cs-h3: 1.25rem;
-      
       background: var(--cs-page-bg);
       font-family: Inter, system-ui, sans-serif;
     }
-
     .cs-container {
       max-width: 88rem;
       margin: 0 auto;
@@ -75,11 +113,9 @@ const ScopedStyles = () => (
       flex-direction: column;
       gap: var(--cs-space-xxl);
     }
-
     .cs-card { background: white; border-radius: var(--cs-radius-lg); overflow: hidden; }
     .cs-p-lg { padding: var(--cs-space-xl); }
     .cs-p-md { padding: var(--cs-space-lg); }
-
     .cs-hero-title {
       font-size: var(--cs-h1);
       font-weight: 900;
@@ -89,7 +125,6 @@ const ScopedStyles = () => (
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
     .cs-subheading {
       font-size: var(--cs-h3);
       font-weight: 800;
@@ -98,7 +133,6 @@ const ScopedStyles = () => (
       -webkit-text-fill-color: transparent;
       margin-bottom: 0.5rem;
     }
-
     .cs-services {
       position: relative;
       z-index: 1;
@@ -107,14 +141,12 @@ const ScopedStyles = () => (
       background-position: center;
       color: white;
     }
-
     .cs-glass-card {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(1px);
       transition: all 0.3s ease;
     }
-
     .cs-btn-primary {
       background: var(--cs-color-primary);
       color: white;
@@ -122,10 +154,11 @@ const ScopedStyles = () => (
       border-radius: 999px;
       font-weight: 700;
       transition: transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-
     .cs-btn-primary:hover { transform: translateY(-2px); }
-
     .statBoxPrimary { border-left: 4px solid var(--cs-color-primary); background: var(--cs-color-primary-100); padding: 1rem; border-radius: 0.5rem; }
     .statBoxSecondary { border-left: 4px solid #94a3b8; background: #f1f5f9; padding: 1rem; border-radius: 0.5rem; }
   `}</style>
@@ -187,45 +220,64 @@ const FAQItem = ({ q, a, delay }: { q: string; a: string | React.ReactNode; dela
 /* ------------------------------
  * Main Component
  * ------------------------------ */
-const Presentation = () => {
+const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
   const navigate = useNavigate();
   const baseDelay = 0.1;
   const stagger = 0.15;
 
   useLayoutEffect(() => {
-    const timer = setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    }, 0);
-    return () => clearTimeout(timer);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
 
-  const handleClick = () => {
+  // GA4 Analytics Trackers
+  const trackGTM = (eventName: string, label: string) => {
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", eventName, {
+        event_category: "Landlord Engagement",
+        event_label: label,
+      });
+    }
+  };
+
+  const handleContactClick = () => {
+    trackGTM("click_contact_us", "Management Page");
     navigate("/#contact");
     setTimeout(() => {
-      const el = document.getElementById("contact");
-      el?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
+
+  const handleListPropertyClick = () => {
+      trackGTM("click_list_property", "Management Page Main CTA");
+      toggleForm(); // This now calls the App.tsx toggle
+    };
 
   return (
     <div className="cs-root">
       <SchemaMetadata />
       <ScopedStyles />
-
       <PageHeader
         title="Premier Property Management for Dubai Landlords"
         description="Partner with Capital Stay for seamless, high-performance short-term rental management that maximizes your asset's value and minimizes your effort."
         backgroundImage="../assets/dining.webp"
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Landlord Services", href: "/landlord-services" }]}
       >
-        <a href="https://dashboard.hostaway.com/login" className="px-6 py-2 bg-white w-fit text-blue-600 border border-blue-100 rounded-full font-bold hover:bg-blue-50 transition-all flex items-center gap-2">
-          <FaUserLock /> Owner Login
-        </a>
+        <div className="flex gap-3">
+          <button 
+            onClick={handleListPropertyClick}
+            className="cs-btn-primary"
+          >
+            List Your Property
+          </button>
+          <a href="https://dashboard.hostaway.com/login" className="px-6 py-2 bg-white w-fit text-blue-600 border border-blue-100 rounded-full font-bold hover:bg-blue-50 transition-all flex items-center gap-2">
+            <FaUserLock /> Owner Login
+          </a>
+        </div>
       </PageHeader>
 
       <main className="cs-container">
         {/* HERO SECTION */}
-        <section className="cs-card grid lg:grid-cols-2 gap-8 items-center bg-white shadow-sm border border-slate-100">
+        <section className="cs-card grid lg:grid-cols-2 gap-8 items-center">
           <div className="cs-p-lg">
             <motion.h1 className="cs-hero-title" initial="hidden" whileInView="show" viewport={{ once: true }} variants={VARIANTS.fadeUp(baseDelay)}>
               Experience Effortless Ownership — Expert Property Care, Elevated Returns
@@ -237,8 +289,12 @@ const Presentation = () => {
 
             <div className="flex flex-col gap-8">
               <div className="flex flex-wrap gap-4">
-                 <button onClick={handleClick} className="cs-btn-primary">Contact Us</button>
-                 <a href="https://dashboard.hostaway.com/login" className="px-8 py-3 border border-slate-200 rounded-full font-bold text-slate-700 hover:bg-slate-50 transition-all">Owner Portal Login</a>
+                 <button onClick={handleListPropertyClick} className="cs-btn-primary">
+                   List Your Property <FaArrowRight />
+                 </button>
+                 <button onClick={handleContactClick} className="cs-btn-primary bg-transparent border border-white/30 text-black hover:bg-white/10">
+                   Contact Us
+                 </button>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
@@ -255,7 +311,7 @@ const Presentation = () => {
           </div>
 
           <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="h-full min-h-[400px]">
-            <img className="w-full h-full object-cover" src="../assets/effort2.jpg" alt="Luxury property management in Dubai" />
+            <img className="w-full h-full object-cover" src="../assets/effort2.webp" alt="Luxury property management in Dubai" />
           </motion.div>
         </section>
 
@@ -314,7 +370,7 @@ const Presentation = () => {
             <h3 className="cs-subheading">A Truly Seamless, Full-Service Experience</h3>
             <p className="text-slate-600 mb-10 text-sm leading-relaxed">Everything handled with precision—from bespoke furnishing to strategic marketing.</p>
             <div className="space-y-8">
-   <WhyItem 
+              <WhyItem 
                 icon={<FaWarehouse />} 
                 title="Meticulous Property Maintenance" 
                 description="Your home is maintained in mint condition, protecting both its value and presentation at all times." 
@@ -343,7 +399,7 @@ const Presentation = () => {
 
           <div className="cs-services cs-p-lg rounded-[2rem]">
             <h3 className="text-2xl font-black mb-2 text-white">Comprehensive Owner Management Services</h3>
-            <p className="text-white/70 mb-8 text-sm">Everything covered — from  maximizing revenue and guest care to full legal compliance.</p>
+            <p className="text-white/70 mb-8 text-sm">Everything covered — from maximizing revenue and guest care to full legal compliance.</p>
             
             <div className="grid md:grid-cols-2 gap-4">
               {[
@@ -368,7 +424,6 @@ const Presentation = () => {
                 <div className="flex items-center gap-2 text-md font-bold text-white"><FaChartLine className="text-blue-400"/> Revenue Tracking</div>
                 <div className="flex items-center gap-2 text-md font-bold text-white"><FaHandshake className="text-blue-400"/> Auto-Payouts</div>
                 <div className="flex items-center gap-2 text-md font-bold text-white"><FaWarehouse className="text-blue-400"/> Maintenance Logs</div>
-
               </div>
             </div>
           </div>
@@ -386,43 +441,46 @@ const Presentation = () => {
         </section>
 
         {/* FINAL CTA */}
-<motion.section
-  id="contact"
-  initial="hidden"
-  whileInView="show"
-  viewport={{ once: true }}
-  variants={VARIANTS.fadeUp(0.2)}
-  className="relative overflow-hidden rounded-[2.5rem] px-12 py-20 text-center
-             bg-[radial-gradient(circle_at_top,_#2563eb_0%,_#1e40af_40%,_#0f172a_85%)]
-             shadow-[0_40px_100px_rgba(37,99,235,0.35)]"
->
-  {/* Soft Glow */}
-  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.15)_0%,_transparent_55%)]" />
+        <motion.section
+          id="contact"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={VARIANTS.fadeUp(0.2)}
+          className="relative overflow-hidden rounded-[2.5rem] px-12 py-20 text-center
+                     bg-[radial-gradient(circle_at_top,_#2563eb_0%,_#1e40af_40%,_#0f172a_85%)]
+                     shadow-[0_40px_100px_rgba(37,99,235,0.35)]"
+        >
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.15)_0%,_transparent_55%)]" />
 
-  <h3 className="relative z-10 text-3xl md:text-4xl font-black tracking-tight text-white mb-5">
-    Ready to Maximize Your Property's Potential?
-  </h3>
+          <h3 className="relative z-10 text-3xl md:text-4xl font-black tracking-tight text-white mb-5">
+            Ready to Maximize Your Property's Potential?
+          </h3>
 
-  <p className="relative z-10 text-blue-100 mb-12 max-w-2xl mx-auto text-lg leading-relaxed">
-    Speak to our team for a tailored revenue projection plan — premium presentation,
-    smarter pricing, and full-service hosting.
-  </p>
+          <p className="relative z-10 text-blue-100 mb-12 max-w-2xl mx-auto text-lg leading-relaxed">
+            Speak to our team for a tailored revenue projection plan — premium presentation,
+            smarter pricing, and full-service hosting.
+          </p>
 
-  <motion.button
-    whileHover={{ scale: 1.06 }}
-    whileTap={{ scale: 0.97 }}
-    onClick={handleClick}
-    className="relative z-10 px-16 py-5 bg-white text-blue-700 rounded-full
-               font-black text-lg tracking-wide
-               shadow-[0_18px_50px_rgba(255,255,255,0.35)]
-               hover:shadow-[0_22px_60px_rgba(255,255,255,0.55)]
-               transition-all"
-  >
-    Get Your Free Valuation
-  </motion.button>
-</motion.section>
-
-
+          <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleListPropertyClick}
+              className="px-10 py-4 bg-white text-[#1e40af] rounded-full font-bold text-lg shadow-lg hover:bg-gray-50 transition-colors"
+            >
+              List Your Property Now
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleContactClick}
+              className="px-10 py-4 border-2 border-white/30 text-white rounded-full font-bold text-lg hover:bg-white/10 transition-colors"
+            >
+              Contact Us
+            </motion.button>
+          </div>
+        </motion.section>
       </main>
     </div>
   );

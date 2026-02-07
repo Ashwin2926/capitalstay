@@ -28,9 +28,7 @@ export default function Footer({ toggleForm }: FooterProps) {
   // Only show CTA on the home page
   const isHomePage = location.pathname === "/";
 
-  interface NavigationOptions {
-    isExternal?: boolean;
-  }
+  
 
   const handleNav = (path: string, isExternal: boolean = false): void => {
     if (isExternal) {

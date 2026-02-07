@@ -1,26 +1,42 @@
-## Standard React Client-Side Routing Configuration
+## 1. COMPRESSION (Fixes Document Latency & Text Compression)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json
+</IfModule>
 
-# 1. Turn on the Rewrite Engine
+## 2. BROWSER CACHING (Fixes "Use efficient cache lifetimes")
+<IfModule mod_expires.c>
+  ExpiresActive On
+  
+  # Images (1 Year)
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # Web Fonts (1 Year)
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType font/otf "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+
+  # CSS & JS (1 Month - safe for React builds with hashes)
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+## 3. EXISTING REACT ROUTING & HTTPS
 RewriteEngine On
-
-# 2. Set the base directory for rewriting rules
-# If your application is in the root (public_html), use /
 RewriteBase /
 
-# 3. Exclude existing files and directories from the rewrite rule
-# If the requested URI is a real file (e.g., /assets/logo.webp), skip rewriting
-# If the requested URI is a real directory, skip rewriting
-
-# 4. Rewrite all other requests to index.html
-# For all other requests (like /about or /view-properties),
-# internally rewrite the path to load index.html
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.html [L]
-
-## END React Routing
+# Force HTTPS and WWW
 RewriteCond %{HTTPS} off
 RewriteCond %{HTTP:X-Forwarded-SSL} !on
 RewriteCond %{HTTP_HOST} ^www\.capitalstayuae\.com$
 RewriteRule ^(.*)$ "https\:\/\/www\.capitalstayuae\.com\/$1" [R=301,L]
 
+# React Router Support
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]

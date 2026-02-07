@@ -1,4 +1,4 @@
-import React from "react";
+ 
 import {
   Package,
   Home,
@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import PageHeader from "../Pageheader/PageHeader";
+import { Helmet } from "react-helmet-async";
 
 // -------------------- DATA --------------------
 const FEATURES = [
@@ -41,6 +42,41 @@ const PROCESS = [
   "Delivery & Installation",
   "Final Styling & Walkthrough",
 ];
+/* --- SEO & AI SEARCH ENHANCEMENTS --- */
+const FurnishingSchema = () => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Luxury Property Furnishing & Interior Curation",
+    "description": "Professional furnishing services for Dubai holiday homes. We transform properties into high-yield short-term rentals using data-backed interior design to increase nightly rates and guest reviews.",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Capital Stay",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Dubai",
+        "addressCountry": "AE"
+      }
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Furnishing Packages",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Concept Development & Mood Boards" }},
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Furniture Procurement & Sourcing" }},
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "White-Glove Installation & Styling" }}
+      ]
+    }
+  };
+  return (
+    <Helmet>
+      <title>Luxury Property Furnishing Dubai | High-Yield Interior Curation</title>
+      <meta name="description" content="Elevate your Dubai property's ROI with Capital Stay's furnishing services. Bespoke interior design tailored for Airbnb, Booking.com, and luxury short-term rentals." />
+      <meta name="keywords" content="Dubai holiday home furnishing, Airbnb interior design Dubai, short term rental furniture packages, property staging Dubai, luxury apartment curation" />
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+    </Helmet>
+  );
+};
 
 // -------------------- COMPONENT --------------------
 const FurnishingPage = () => {
@@ -55,10 +91,11 @@ const FurnishingPage = () => {
 
   return (
     <div className="min-h-screen bg-white text-black pb-24 font-sans">
+      <FurnishingSchema />
       <PageHeader
         title="Luxury Property Interior Curation"
         description="Premium furnishing solutions designed to elevate short-term rental performance and guest experience."
-        backgroundImage="../assets/furniture2.jpg"
+        backgroundImage="../assets/furniture2.webp"
         breadcrumbs={[
           { name: "Home", href: "/" },
           { name: "Landlord Services", href: "/landlord-services" },
@@ -88,7 +125,7 @@ const FurnishingPage = () => {
         {/* HERO IMAGE */}
         <section className="relative h-[340px] md:h-[480px] rounded-3xl overflow-hidden mb-28 group">
           <img
-            src="../assets/furniture.jpg"
+            src="../assets/furniture.webp"
             alt="Luxury furnished interior"
             className="w-full h-full object-cover brightness-75 scale-100 group-hover:scale-105 transition-transform duration-700"
           />

@@ -1,57 +1,58 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { ChevronDown, Plane, Car, Home, ShoppingCart, Utensils, Sailboat } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
-import PageHeader from '../Pageheader/PageHeader';
  
+   
+     
+ import React, { useState, useCallback, useEffect } from 'react';
+import { ChevronDown, Plane, Car, Home, Utensils, Sailboat } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import PageHeader from '../Pageheader/PageHeader';
 
-/* ----------------------------- SERVICE DATA -------------------------------- */
+/* ----------------------------- SERVICE DATA (SEO FLOODED) -------------------------------- */
 const SERVICE_ITEMS = [
   {
     id: 'airport-transfer',
-    title: 'Airport Transfers',
+    title: 'Luxury Airport Transfers Dubai',
     icon: Plane,
-    description: `Experience a seamless and stress-free arrival with CapitalStay’s luxury airport transfer service.
-Guests are welcomed personally at the airport—assisted with luggage and escorted to a premium vehicle selected
-for comfort and class. Chauffeurs monitor flights in real time and provide optional in-car refreshments,
-preferred music, VIP fast-track coordination, and multi-stop routing.`,
-    image: '../assets/services/Airport_transfer.jpg',
+    description: `Experience a seamless and stress-free arrival with CapitalStay’s luxury airport transfer service. 
+Guests are welcomed personally at the airport—assisted with luggage and escorted to a premium vehicle selected 
+for comfort and class. Chauffeurs monitor flights in real time and provide optional in-car refreshments, 
+preferred music, VIP fast-track coordination, and multi-stop routing to your holiday home in Marina or Downtown.`,
+    image: '../assets/services/Airport_transfer.webp',
   },
   {
     id: 'car-rental',
-    title: 'Car Rental',
+    title: 'Chauffeur & Luxury Car Rental Dubai',
     icon: Car,
-    description: `CapitalStay’s private car rental service provides a curated fleet of luxury sedans, executive cars,
-and premium SUVs. Concierge-level support includes vehicle delivery/pickup, full sanitization, insurance, and
-optional driver services. Perfect for business trips, events, and leisure drives.`,
+    description: `CapitalStay’s private car rental service provides a curated fleet of luxury sedans, executive cars, 
+and premium SUVs. Concierge-level support includes vehicle delivery/pickup, full sanitization, insurance, and 
+optional driver services. Perfect for business trips in DIFC, events, and leisure drives across the Jumeirah coastline.`,
     image: '../assets/services/Car_rental.webp',
   },
   {
     id: 'daily-maid-services',
-    title: 'Daily Maid Services',
+    title: 'Professional Housekeeping & Maid Services',
     icon: Home,
-    description: `Discrete, professional housekeeping tailored to your schedule: bed and linen changes, bathroom refresh,
-kitchen and floor care, and optional laundry/ironing and turndown service. Staff are vetted, trained in privacy,
-and committed to consistent luxury-level standards.`,
-    image: '../assets/services/maid.jpg',
+    description: `Discrete, professional housekeeping tailored to your schedule: bed and linen changes, bathroom refresh, 
+kitchen and floor care, and optional laundry/ironing and turndown service. Staff are vetted, trained in privacy, 
+and committed to consistent luxury-level standards for your short-term stay.`,
+    image: '../assets/services/maid.webp',
   },
   {
     id: 'yatch-rental-services',
-    title: 'Yatch Rental Services',
+    title: 'Private Yacht Charter Dubai Marina',
     icon: Sailboat,
-    description: `Cruise Dubai’s iconic coastline in unmatched luxury. Our private yacht charters are fully customizable — from romantic dinners under the stars and unforgettable sunset voyages to lively celebrations with friends or serene family escapes. Enjoy premium service, curated dining, and panoramic views of Burj Al Arab, Palm Jumeirah, Bluewaters Island, and more`,
-    image: '../assets/services/Yatch_Services.jpg',
+    description: `Cruise Dubai’s iconic coastline in unmatched luxury. Our private yacht charters are fully customizable — from romantic dinners under the stars and unforgettable sunset voyages to panoramic views of Burj Al Arab, Palm Jumeirah, and Bluewaters Island.`,
+    image: '../assets/services/Yatch_Services.webp',
   },
   {
     id: 'private-chef',
-    title: 'Private Chef',
+    title: 'In-Villa Private Chef & Fine Dining',
     icon: Utensils,
-    description: `Indulge in customized in-residence dining prepared by experienced private chefs. Menus cover everything
-from daily meals to multi-course tasting experiences, including grocery sourcing, service, and kitchen cleanup.
-Optional cooking classes and wine pairings are available.`,
-image: '../assets/services/private-chef-in-dubai.jpg'
- 
+    description: `Indulge in customized in-residence dining prepared by experienced private chefs. Menus cover everything 
+from daily meals to multi-course tasting experiences, including grocery sourcing, service, and kitchen cleanup. 
+Ideal for luxury villas in Palm Jumeirah or penthouses in Business Bay.`,
+    image: '../assets/services/private-chef-in-dubai.jpg'
   },
-  
 ];
 
 /* ---------------------------- ACCORDION ITEM -------------------------------- */
@@ -90,7 +91,6 @@ const AccordionItem = ({ id, title, description, image, icon: Icon, isOpen, onCl
         <div className="content-inner-grid">
           <div className="content-text-area">
             <p className="content-description">{description}</p>
-            {/* <button className="request-service-btn">Request Service</button> */}
           </div>
 
           {image && (
@@ -113,29 +113,26 @@ const AccordionItem = ({ id, title, description, image, icon: Icon, isOpen, onCl
   );
 };
 
-/* ------------------------------- IMAGE PANEL -------------------------------- */
-/* Layout 1: vertical stack on right - main top image, middle info card, small bottom image */
+/* ------------------------------- RIGHT PANEL -------------------------------- */
 const RightImagePanel = () => {
   return (
     <aside className="image-section-container" aria-hidden>
       <div className="image-stack">
-        <div className="image-card image-card-main" aria-hidden>
+        <div className="image-card image-card-main">
           <img
             src="../assets/services/guest_services_explore.webp"
-            alt="Premium Services"
+            alt="Premium Concierge Services Dubai"
             className="image-card-img"
           />
         </div>
-
         <div className="info-card">
           <h4 className="info-card-title">Tailored Experiences</h4>
           <p className="info-card-text">Thoughtfully designed to complement the CapitalStay experience.</p>
         </div>
-
-        <div className="image-card image-card-small" aria-hidden>
+        <div className="image-card image-card-small">
           <img
             src="../assets/services/experience.avif"
-            alt="Executive Experience"
+            alt="Executive Holiday Home Experience"
             className="image-card-img"
           />
         </div>
@@ -147,37 +144,56 @@ const RightImagePanel = () => {
 /* --------------------------------- MAIN PAGE -------------------------------- */
 const ServicesPage = () => {
   const location = useLocation();
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0); // Default first item open
 
-  // use functional update to avoid stale closures
   const toggleItem = useCallback((index: number | null) => {
     setOpenIndex((prev) => (prev === index ? null : index));
   }, []);
 
-  // open via URL hash if provided
+  // Hash Navigation Logic
   useEffect(() => {
     const hash = location.hash ? location.hash.substring(1) : '';
     if (hash) {
       const idx = SERVICE_ITEMS.findIndex((s) => s.id === hash);
       if (idx !== -1) {
         setOpenIndex(idx);
-        // optional: scroll into view if needed in parent app
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }
   }, [location.hash]);
- 
 
   return (
     <>
-     <PageHeader
-        title= "Executive Lifestyle Services"
-        description= "Premium services curated by CapitalStay — designed for comfort, luxury, and complete peace of mind."
+      <Helmet>
+        <title>Luxury Guest Services Dubai | Airport Transfer & Yacht Charter | Capital Stay</title>
+        <meta name="description" content="Elevate your Dubai stay with Capital Stay's executive lifestyle services. Premium airport transfers, luxury car rentals, private chefs, and yacht charters." />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "Capital Stay Premium Services",
+            "itemListElement": SERVICE_ITEMS.map((item, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "name": item.title,
+              "description": item.description
+            }))
+          })}
+        </script>
+      </Helmet>
+
+      <PageHeader
+        title="Executive Lifestyle Services"
+        description="Premium services curated by CapitalStay — designed for comfort, luxury, and complete peace of mind."
         breadcrumbs={[{ name: 'Home', href: '/' }, { name: ' Services', href: '' }]}
-        backgroundImage="../assets/services/guest_services_banner.jpg"
+        backgroundImage="../assets/services/guest_services_banner.webp"
       />
-    
-    <div className="services-page-wrapper">
-      <style>{`
+
+      <div className="services-page-wrapper">
+         <style>{`
         :root {
           --primary-blue: #007BFF;
           --accent-blue: #0056B3;
@@ -491,34 +507,31 @@ const ServicesPage = () => {
           }
         }
       `}</style>
-     
+        
+        <header className="page-header">
+          <h1 className="header-main-title">Explore Services we offer</h1>
+          <p className="header-subtitle">Tailored lifestyle solutions for the modern traveler in Dubai.</p>
+        </header>
 
-      <header className="page-header">
-        <h1 className="header-main-title">Explore Services we offer</h1>
-        <p className="header-subtitle">Premium services curated by CapitalStay — designed for comfort, luxury, and complete peace of mind.</p>
-      </header>
+        <main className="main-grid" role="main">
+          <section className="accordion-list" aria-label="Services list">
+            {SERVICE_ITEMS.map((item, idx) => (
+              <AccordionItem
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                description={item.description}
+                image={item.image}
+                icon={item.icon}
+                isOpen={openIndex === idx}
+                onClick={() => toggleItem(idx)}
+              />
+            ))}
+          </section>
 
-      <main className="main-grid" role="main">
-        {/* LEFT: Accordion column */}
-        <section className="accordion-list" aria-label="Services list">
-          {SERVICE_ITEMS.map((item, idx) => (
-            <AccordionItem
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              description={item.description}
-              image={item.image}
-              icon={item.icon}
-              isOpen={openIndex === idx}
-              onClick={() => toggleItem(idx)}
-            />
-          ))}
-        </section>
-
-        {/* RIGHT: Fixed width vertical image panel */}
-        <RightImagePanel />
-      </main>
-    </div>
+          <RightImagePanel />
+        </main>
+      </div>
     </>
   );
 };

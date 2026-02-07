@@ -1,6 +1,6 @@
 // components/PagePlaceholder.jsx
 
-import React from 'react';
+ 
 
 interface PagePlaceholderProps {
   title: string;

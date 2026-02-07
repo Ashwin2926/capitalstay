@@ -334,7 +334,7 @@ const CallToAction: React.FC<CallToActionProps> = ({ showForm, toggleForm }) => 
               )}
 
               <button type="submit" className="btn btn-form-submit w-100" disabled={isSubmitting || !isEmailJSApiReady}>
-                {isSubmitting ? "Sending..." : "Receive My Free Valuation"}
+                {isSubmitting ? "Sending..." : "Submit"}
               </button>
               
               <p className="text-center mt-3 text-muted" style={{ fontSize: '0.75rem' }}>

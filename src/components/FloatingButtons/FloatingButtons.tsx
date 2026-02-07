@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import   { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faArrowUp, faComments } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import './FloatingButtons.css';
 
 const FloatingButtons = () => {

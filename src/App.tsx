@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
-
-// Standard Component Imports
-
-
-// NEW COMPONENT IMPORTS
-import PagePlaceholder from "./components/PagePlaceholder"; 
+import { Routes, Route, useLocation, Navigate } from "react-router-dom"; 
 import { useSeo } from "./hooks/useSeo";
 import "./index.css";
 import Navbar from "./components/Navbar/Navbar";
@@ -29,6 +23,7 @@ import NewsAndAccomplishments from "./components/Team/Feed";
 import TeamPage from "./components/Team/Team";
 import PropertyDetails from "./components/Property/PropertyDetails";
 import Loader from "./components/Loader/Loader";
+import PropertyListingModal from "./components/Management/PropertyListingModal";
 
 
 const backgroundImages: string[] = [
@@ -46,8 +41,33 @@ const App: React.FC = () => {
   const toggleForm = () => setShowForm((prev) => !prev);
 
   // Set Default SEO for the whole app
-  useSeo("Luxury Holiday Homes Dubai", "Premium short-term rentals and property management in Dubai.");
-
+useSeo({
+  title: "Luxury Holiday Homes Dubai",
+  description: "Premium short-term rentals and property management in Dubai."
+});
+const OrganizationSchema = () => (
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Capital Stay UAE",
+      "url": "https://capitalstayuae.com",
+      "logo": "https://capitalstayuae.com/assets/logo.webp",
+      "telephone": "+971547047913",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Abdullah Kamber Business Center, Deira",
+        "addressLocality": "Dubai",
+        "addressCountry": "AE"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "120"
+      }
+    })}
+  </script>
+);
   useEffect(() => {
     const preloadImages = async () => {
       try {
@@ -89,7 +109,13 @@ const App: React.FC = () => {
           <Navbar toggleForm={toggleForm} isScrolled={isScrolled} />
           <div className={`navbar-spacer ${isScrolled ? "scrolled" : ""}`} />
           <MainContent showForm={showForm} toggleForm={toggleForm} />
+          <OrganizationSchema />
           <Footer toggleForm={toggleForm}/>
+
+          <PropertyListingModal 
+            isOpen={showForm} 
+            onClose={() => setShowForm(false)} 
+          />
         </>
       )}
     </div>
@@ -130,12 +156,13 @@ const MainContent: React.FC<{ showForm: boolean; toggleForm: () => void }> = ({
           <div id="testimonials"><Testimonials /></div>
           <div id="contact"><ContactUs /></div> 
           <FloatingButtons />
+      
           
         </>
       } />
 
       <Route path="/services" element={<ServicesPage />} />  
-      <Route path="/landlord-services/property-management" element={<Presentation />} />
+      <Route path="/landlord-services/property-management" element={<Presentation toggleForm={toggleForm} />} />
       <Route path="/landlord-services/furnishing-solutions" element={<FurnishingPage/>} />
       <Route path="/news" element={<NewsAndAccomplishments />} />
       <Route path="/team" element={<TeamPage />} />

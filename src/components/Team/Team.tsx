@@ -1,6 +1,27 @@
-import React from "react";
+
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import PageHeader from "../Pageheader/PageHeader";
+import { useSeo } from "../../hooks/useSeo"; 
+
+ 
+const TeamSchema = ({ members }: { members: typeof TEAM_DATA }) => (
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "mainEntity": members.map(member => ({
+        "@type": "Person",
+        "name": member.name,
+        "jobTitle": member.role,
+        "description": member.description,
+        "worksFor": {
+          "@type": "LocalBusiness",
+          "name": "Capital Stay UAE"
+        }
+      }))
+    })}
+  </script>
+);
 
 const TEAM_DATA = [
   {
@@ -21,14 +42,26 @@ const TEAM_DATA = [
     name: "Abu Baker Chen",
     role: "Housekeeping Supervisor",
     description:
-      "Abu Baker leads our housekeeping operations with precision and pride. His dedication to cleanliness, quality control, and team coordination ensures each property meets Capital Stay’s premium standards. With a meticulous eye and strong work ethic, he plays a critical role in delivering spotless, comfortable, and welcoming stays for every guest.",
+      "Abu Baker leads our housekeeping operations with precision and pride. His dedication to cleanliness, quality control, and team coordination ensures each property meets Capital Stay’s premium standards. With a meticulous eye and strong work ethic, he guarantees that every home is guest-ready and maintained to perfection.",
     image: "../assets/teams/man2.jpg?text=ABU+BAKER",
   },
 ];
 
 export default function TeamPage() {
+  // 1. DYNAMIC SEO METADATA
+  // Targets "Expertise" (E-E-A-T) which is a major ranking signal for Dubai Real Estate in 2026.
+  useSeo({
+    title: "Expert Property Management Team in Dubai",
+    description: "Meet the professional team at Capital Stay UAE. DTCM-licensed specialists in guest relations, housekeeping, and high-yield property management.",
+    keywords: "Dubai property management team, professional Airbnb hosts Dubai, Capital Stay staff, guest relations specialists Dubai"
+  });
+
   return (
     <>
+      {/* 2. STRUCTURED DATA INJECTION */}
+      <TeamSchema members={TEAM_DATA} />
+
+     
       <PageHeader
         title="Meet the Team"
         description="At Capital Stay, our dedicated team works tirelessly to deliver seamless short-term rental management, exceptional guest care, and premium property standards. Get to know the professionals who make it all possible."
@@ -39,33 +72,29 @@ export default function TeamPage() {
         ]}
       />
 
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h4 className="text-blue-600 font-bold uppercase tracking-widest">
-              Our Creative Team
-            </h4>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mt-2">
-              Team Behind Capital Stay
-            </h1>
-            <p className="text-gray-500 max-w-3xl mx-auto mt-4">
-              Meet the dedicated professionals driving our success and delivering exceptional experiences for our guests and property owners.
+      <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-extrabold text-gray-900 mb-6">
+              World-Class Management, <span className="text-blue-600">Local Heart</span>
+            </h2>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              From DTCM compliance to 24/7 guest support, our team handles every detail 
+              of your holiday home with precision. Our experts are dedicated to maximizing 
+              your rental ROI while maintaining 5-star guest satisfaction.
             </p>
           </div>
 
-          {/* GRID */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {TEAM_DATA.map((member, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-3xl shadow-lg overflow-hidden relative group transition"
-              >
-                {/* IMAGE */}
-                <div className="h-[420px] w-full overflow-hidden">
+              <div key={index} className="group relative">
+                <div className="aspect-[4/5] overflow-hidden rounded-3xl shadow-lg">
                   <img
                     src={member.image}
-                    alt={member.name}
+                    // 3. IMAGE SEO: Descriptive Alt Text including Role and Location
+                    alt={`${member.name} - ${member.role} at Capital Stay Dubai`}
                     className="h-full w-full object-cover group-hover:scale-110 transition duration-700"
+                    loading="lazy"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = "https://placehold.co/600x750?text=Not+Found";
                     }}
@@ -77,6 +106,10 @@ export default function TeamPage() {
                   <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
                   <p className="text-blue-600 font-semibold mt-1">{member.role}</p>
                   
+                  {/* Bio snippet for accessibility and SEO context */}
+                  <p className="text-sm text-gray-600 mt-3 line-clamp-2">
+                    {member.description}
+                  </p>
 
                   {/* SOCIAL ICONS */}
                   <div className="flex items-center gap-4 mt-4">

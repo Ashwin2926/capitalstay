@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// --- Premium Icons ---
+// --- Premium Icons (Optimized with aria-hidden) ---
 interface IconProps {
   style?: React.CSSProperties;
   [key: string]: unknown;
@@ -46,9 +46,16 @@ export default function HeroSection() {
   const HOSTAWAY_BASE_URL = 'https://booking.capitalstayuae.com/search';
   const getTodayString = () => new Date().toISOString().split('T')[0];
 
-  // --- Date Validation Logic ---
   const isDateInvalid = checkIn && checkOut && new Date(checkOut) <= new Date(checkIn);
   const isSearchDisabled = !checkIn || !checkOut || isDateInvalid;
+
+  // 1. PRELOAD IMAGES: Prevents flickering by caching images ahead of time
+  useEffect(() => {
+    backgroundImages.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -80,7 +87,6 @@ export default function HeroSection() {
           overflow: hidden;
         }
 
-        /* BACKGROUND FIX: contained within section */
         .bg-layer { 
           position: absolute; 
           inset: 0; 
@@ -91,8 +97,12 @@ export default function HeroSection() {
         .bg-slide { 
           position: absolute; 
           inset: 0; 
-          background-size: cover; 
-          background-position: center; 
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center; 
+          z-index: 0;
+          will-change: opacity;
         }
 
         .vignette {
@@ -146,11 +156,17 @@ export default function HeroSection() {
           min-height: 54px;
           transition: all 0.2s ease;
         }
+ 
+        .input-wrapper input[type="date"] {
+          appearance: none;
+          min-width: 100%;
+          background: transparent;
+        }
 
         .input-wrapper:focus-within {
           border-color: #2563eb;
           background: white;
-          box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+          outline: 2px solid rgba(37, 99, 235, 0.2);
         }
 
         .input-wrapper.error-state { 
@@ -176,7 +192,6 @@ export default function HeroSection() {
           font-weight: 600;
         }
 
-        /* Responsive Form Layout */
         .form-grid {
           display: grid;
           grid-template-columns: 1fr;
@@ -185,16 +200,16 @@ export default function HeroSection() {
 
         .date-row {
           display: grid;
-          grid-template-columns: 1fr; /* Stacked by default for mobile */
+          grid-template-columns: 1fr;
           gap: 12px;
         }
 
         @media (min-width: 640px) {
-          .date-row { grid-template-columns: 1fr 1fr; } /* Side-by-side for tablets+ */
+          .date-row { grid-template-columns: 1fr 1fr; }
         }
 
         @media (min-width: 1024px) {
-          .form-grid { grid-template-columns: 1fr 1.4fr 0.7fr; } /* Desktop layout */
+          .form-grid { grid-template-columns: 1fr 1.4fr 0.7fr; }
           .booking-card { padding: 2.5rem; }
         }
 
@@ -285,101 +300,147 @@ export default function HeroSection() {
         .location-item:hover { background: #f1f5f9; color: #2563eb; }
       `}} />
 
-      <section className="hero-root">
-        <div className="bg-layer">
-          <AnimatePresence initial={false}>
-            <motion.div
-              key={currentIdx}
-              className="bg-slide"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.5 }}
-              style={{ backgroundImage: `url(${backgroundImages[currentIdx]})` }}
-            />
-          </AnimatePresence>
-          <div className="vignette" />
-        </div>
+    <section className="hero-root">
+      <div className="bg-layer">
+        {/* 2. REMOVED mode='wait' to allow simultaneous cross-fade overlap */}
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={currentIdx}
+            src={backgroundImages[currentIdx]}
+            alt="Dubai Luxury Accommodation"
+            fetchPriority="high" 
+            className="bg-slide"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            style={{ position: 'absolute', inset: 0 }}
+          />
+        </AnimatePresence>
+        <div className="vignette" />
+      </div>
 
-        <div className="content-container">
-          <motion.h1 
-            className="main-headline"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            Discover Your Dream Home in Dubai
-          </motion.h1>
+      <div className="content-container">
+        <motion.h1 
+          className="main-headline"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          Discover Your Dream Home in Dubai
+        </motion.h1>
 
-          <motion.div 
-            className="booking-card"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <form onSubmit={handleSearch}>
-              <div className="form-grid">
-                {/* Location Selection */}
-                <div style={{ position: 'relative' }}>
-                  <label className="label-text">Location</label>
-                  <div className="input-wrapper" onClick={() => setIsLocationOpen(!isLocationOpen)} style={{cursor: 'pointer'}}>
-                    <IconLocation style={{ color: '#ef4444' }} />
-                    <input type="text" readOnly value={location} />
-                  </div>
-                  {isLocationOpen && (
-                    <div className="location-popover">
-                      <div className="location-item" style={{ fontWeight: '800', borderBottom: '1px solid #f1f5f9' }} onClick={() => { setLocation('Any location'); setIsLocationOpen(false); }}>
-                        Any location
+        <motion.div 
+          className="booking-card"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <form onSubmit={handleSearch}>
+            <div className="form-grid">
+              <div style={{ position: 'relative' }}>
+                <label htmlFor="loc-input" className="label-text">Location</label>
+                <div 
+                  className="input-wrapper" 
+                  onClick={() => setIsLocationOpen(!isLocationOpen)} 
+                  style={{cursor: 'pointer'}}
+                >
+                  <IconLocation style={{ color: '#ef4444' }} aria-hidden="true" />
+                  <input 
+                    id="loc-input"
+                    type="text" 
+                    readOnly 
+                    value={location} 
+                    aria-haspopup="listbox"
+                    aria-expanded={isLocationOpen}
+                    placeholder="Where are you going?"
+                  />
+                </div>
+                {isLocationOpen && (
+                  <div className="location-popover" role="listbox">
+                    <div className="location-item highlight" onClick={() => { setLocation('Any location'); setIsLocationOpen(false); }}>
+                      Any location
+                    </div>
+                    {dubaiLocations.map(loc => (
+                      <div key={loc} className="location-item" onClick={() => { setLocation(loc); setIsLocationOpen(false); }}>
+                        {loc}
                       </div>
-                      {dubaiLocations.map(loc => (
-                        <div key={loc} className="location-item" onClick={() => { setLocation(loc); setIsLocationOpen(false); }}>
-                          {loc}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Date Selection */}
-                <div>
-                  <label className="label-text">Check-in & Check-out</label>
-                  <div className="date-row">
-                    <div className={`input-wrapper ${isDateInvalid ? 'error-state' : ''}`}>
-                      <input type="date" min={getTodayString()} value={checkIn} onChange={(e) => setCheckIn(e.target.value)} required />
-                    </div>
-                    <div className={`input-wrapper ${isDateInvalid ? 'error-state' : ''}`}>
-                      <input type="date" min={checkIn || getTodayString()} value={checkOut} onChange={(e) => setCheckOut(e.target.value)} required />
-                    </div>
+                    ))}
                   </div>
-                  {isDateInvalid && <div className="error-message">Check-out must be after check-in date.</div>}
-                </div>
-
-                {/* Guest Selection */}
-                <div>
-                  <label className="label-text">Guests</label>
-                  <div className="input-wrapper">
-                    <IconUsers style={{ color: '#2563eb' }} />
-                    <input type="number" min="1" value={guests} onChange={(e) => setGuests(Number(e.target.value))} />
-                  </div>
-                </div>
+                )}
               </div>
 
-              <div className="filter-section">
-                <div className="filter-row">
-                  {['Hotels', 'Villas', 'Apartments'].map(type => (
-                    <button key={type} type="button" className={`pill ${activeFilter === type ? 'active' : ''}`} onClick={() => setActiveFilter(type)}>
-                      {type}
-                    </button>
-                  ))}
+              <div>
+                <label htmlFor="check-in" className="label-text">Check-in & Check-out</label>
+                <div className="date-row">
+                  <div className={`input-wrapper ${isDateInvalid ? 'error-state' : ''}`}>
+                    <input 
+                      id="check-in"
+                      type="date" 
+                      min={getTodayString()} 
+                      value={checkIn} 
+                      onChange={(e) => setCheckIn(e.target.value)} 
+                      required 
+                    />
+                  </div>
+                  <div className={`input-wrapper ${isDateInvalid ? 'error-state' : ''}`}>
+                    <input 
+                      id="check-out"
+                      aria-label="Check-out date"
+                      type="date" 
+                      min={checkIn || getTodayString()} 
+                      value={checkOut} 
+                      onChange={(e) => setCheckOut(e.target.value)} 
+                      required 
+                    />
+                  </div>
                 </div>
-
-                <button type="submit" className="search-btn" disabled={isSearchDisabled || false}>
-                  <span>Search Properties</span> <IconSearch />
-                </button>
+                {isDateInvalid && <div className="error-message">Check-out must be after check-in date.</div>}
               </div>
-            </form>
-          </motion.div>
-        </div>
-      </section>
+
+              <div>
+                <label htmlFor="guest-count" className="label-text">Guests</label>
+                <div className="input-wrapper">
+                  <IconUsers style={{ color: '#2563eb' }} aria-hidden="true" />
+                  <input 
+                    id="guest-count"
+                    type="number" 
+                    min="1" 
+                    value={guests} 
+                    onChange={(e) => setGuests(Number(e.target.value))} 
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="filter-section">
+              <div className="filter-row" role="group" aria-label="Property type filters">
+                {['Hotels', 'Villas', 'Apartments'].map(type => (
+                  <button 
+                    key={type} 
+                    type="button" 
+                    className={`pill ${activeFilter === type ? 'active' : ''}`} 
+                    onClick={() => setActiveFilter(type)}
+                    aria-pressed={activeFilter === type}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+
+              <button 
+                type="submit" 
+                className="search-btn" 
+                // 3. BOOLEAN CASTING: Fixed the TypeScript error
+                disabled={!!isSearchDisabled} 
+              >
+                <span>Search Properties</span> 
+                <IconSearch aria-hidden="true" />
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      </div>
+    </section>
     </>
   );
 }

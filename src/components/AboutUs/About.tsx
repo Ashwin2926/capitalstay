@@ -1,4 +1,4 @@
-import React, { type FC, useEffect, useRef, memo } from "react";
+import  { type FC, useEffect, useRef, memo } from "react";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -107,7 +107,7 @@ const AboutUs: FC = () => {
   // --------------------------------------------------
   useEffect(() => {
     document.title =
-      "About Capital Stay UAE | Premier Property Management Dubai";
+      "Premier Property Management Dubai";
 
     const metaDescription = document.querySelector<HTMLMetaElement>(
       'meta[name="description"]'
@@ -225,9 +225,9 @@ useEffect(() => {
             custom={0.4}
           >
             <motion.img
-              src="/assets/about.jpg"
+              src="/assets/about.webp"
               alt="Luxury holiday homes managed by Capital Stay UAE in Dubai"
-              loading="lazy"
+              fetchPriority="high" 
               sizes="(max-width: 768px) 100vw, 50vw"
               className="w-full h-full object-cover aspect-[4/3]"
               initial={{ scale: 1.05 }}

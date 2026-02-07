@@ -1,4 +1,4 @@
-import React from 'react';
+ 
 import { motion } from 'framer-motion';
 import { Headset, Wifi, Book, Clock, Shield, Gem } from 'lucide-react';
  
