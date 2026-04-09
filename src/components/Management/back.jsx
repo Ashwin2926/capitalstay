@@ -863,7 +863,7 @@ const Presentation = () => {
       <CustomStyles /> 
 
       <PageHeader
-        title={"Premier Property Management for Dubai Landlords"}
+        title={"Premium Property Management for Dubai Landlords"}
         description={"Partner with Capital Stay for seamless, high-performance short-term rental management that maximizes your asset's value and minimizes your effort."}
         backgroundImage={"../assets/dining.webp"}
         breadcrumbs={[{ name: 'Home', href: '/' }, { name: 'Landlord Services', href: '/landlord-services' }]}

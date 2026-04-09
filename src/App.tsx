@@ -168,7 +168,7 @@ const MainContent: React.FC<{ showForm: boolean; toggleForm: () => void }> = ({
       <Route path="/team" element={<TeamPage />} />
       
       {/* Dynamic Property Route */}
-      <Route path="/:Slug" element={<PropertyDetails />} />
+     <Route path="/:propertyKey" element={<PropertyDetails />} />
       
       {/* Catch-all Redirect */}
       <Route path="*" element={<Navigate to="/" replace />} />

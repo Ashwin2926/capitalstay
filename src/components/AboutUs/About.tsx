@@ -107,7 +107,7 @@ const AboutUs: FC = () => {
   // --------------------------------------------------
   useEffect(() => {
     document.title =
-      "Premier Property Management Dubai";
+      "Premium Property Management Dubai";
 
     const metaDescription = document.querySelector<HTMLMetaElement>(
       'meta[name="description"]'
@@ -200,7 +200,7 @@ useEffect(() => {
                 to="https://booking.capitalstayuae.com/search"
                 className="text-blue-600 font-medium hover:underline"
               >
-                Dubai’s premier short-term rental expert
+                Dubai’s Premium short-term rental expert
               </Link>
               , helping property owners maximize revenue while delivering
               five-star hospitality experiences to guests worldwide.

@@ -24,10 +24,19 @@ interface RawProperty {
 }
 
 const PropertyDetails: React.FC = () => {
-    const { propertyKey } = useParams<{ propertyKey: string }>();
+const { propertyKey } = useParams<{ propertyKey: string }>();
     
-    // Retrieve data from locations.ts
-    const property = propertyKey ? (COMPLETE_PROPERTY_DATA as Record<string, RawProperty>)[propertyKey] : null;
+    // 1. Define your constant prefix
+    const CONSTANT_PREFIX = "luxury-apartments-in-";
+
+    // 2. Extract the neighborhood name from the URL
+    // This converts the URL to lowercase and removes the prefix
+    const cleanKey = propertyKey
+        ?.toLowerCase()
+        .replace(CONSTANT_PREFIX.toLowerCase(), "");
+
+    // 3. Retrieve data from locations.ts using the cleaned key
+    const property = cleanKey ? (COMPLETE_PROPERTY_DATA as Record<string, RawProperty>)[cleanKey] : null;
 
     if (!property) {
         return (
@@ -42,7 +51,7 @@ const PropertyDetails: React.FC = () => {
     const breadcrumbs = [
         { name: "Home", href: "/" },
         { name: "Locations", href: "/locations" },
-        { name: propertyKey?.replace("-", " ") || "Details", href: "#" },
+        { name: cleanKey?.replace(/-/g, " ") || "Details", href: "#" },
     ];
 
     // AI Search Schema (JSON-LD) - Dynamic for every neighborhood

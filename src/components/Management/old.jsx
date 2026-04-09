@@ -784,7 +784,7 @@ const handleClick = () => {
       <ScopedStyles /> {/* Renders the locally-scoped <style> tag */}
 
       <PageHeader
-        title={"Premier Property Management for Dubai Landlords"}
+        title={"Premium Property Management for Dubai Landlords"}
         description={
           "Partner with Capital Stay for seamless, high-performance short-term rental management that maximizes your asset's value and minimizes your effort."
         }

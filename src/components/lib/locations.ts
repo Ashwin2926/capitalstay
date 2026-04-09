@@ -1056,7 +1056,7 @@ export const COMPLETE_PROPERTY_DATA = {
     "what_to_expect": [
       {
         "title": "Spacious and Stylish Living Spaces",
-        "content": "Our apartments are designed with your comfort in mind. Each residence features open-plan layouts, high-end finishes, and stylish interiors, providing ample space for living, working, and entertaining in Dubai's premier waterfront community."
+        "content": "Our apartments are designed with your comfort in mind. Each residence features open-plan layouts, high-end finishes, and stylish interiors, providing ample space for living, working, and entertaining in Dubai's Premium waterfront community."
       },
       {
         "title": "Modern Kitchens and Smart Technology",

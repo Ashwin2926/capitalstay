@@ -16,7 +16,7 @@ import {
 import PageHeader from "../Pageheader/PageHeader";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import PropertyListingModal from "./PropertyListingModal";
+ 
 
 /* ------------------------------
  * SEO & AI SEARCH SCHEMA (JSON-LD)
@@ -257,7 +257,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
       <SchemaMetadata />
       <ScopedStyles />
       <PageHeader
-        title="Premier Property Management for Dubai Landlords"
+        title="Premium Property Management for Dubai Landlords"
         description="Partner with Capital Stay for seamless, high-performance short-term rental management that maximizes your asset's value and minimizes your effort."
         backgroundImage="../assets/dining.webp"
         breadcrumbs={[{ name: "Home", href: "/" }, { name: "Landlord Services", href: "/landlord-services" }]}
