@@ -83,14 +83,14 @@ function Lettings() {
         .lettings-container {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 4rem 1.5rem; /* Increased padding */
+          padding: 2.5rem 1.5rem;
           background: #ffffff; /* Clean white background */
           font-family: 'Inter', sans-serif;
         }
 
         /* Section Title Styling */
         .section-title {
-          font-size: 2.8rem;
+          font-size: 1.9rem;
           color: #1a2e4d; /* Deep navy */
           letter-spacing: -0.5px;
           line-height: 1.2;
@@ -99,18 +99,19 @@ function Lettings() {
 
         /* Text Styling */
         .text-lead-muted {
-          font-size: 1.15rem;
+          font-size: 0.95rem;
           color: #4b5563;
-          line-height: 1.8;
-          margin-bottom: 2rem;
+          line-height: 1.7;
+          margin-bottom: 1.5rem;
         }
 
         /* Buttons */
         .btn-premium {
-          padding: 0.9rem 2.5rem;
-          background: linear-gradient(45deg, #0d6efd, #0056b3); /* Blue gradient */
+          padding: 0.7rem 1.75rem;
+          background: linear-gradient(45deg, #2563eb, #1d4ed8); /* Blue gradient */
           color: #ffffff;
           font-weight: 700;
+          font-size: 0.9rem;
           border: none;
           border-radius: 50px; /* Fully rounded */
           box-shadow: 0 8px 20px rgba(0, 100, 255, 0.3);
@@ -119,7 +120,7 @@ function Lettings() {
         }
 
         .btn-premium:hover {
-          background: linear-gradient(45deg, #0056b3, #0d6efd);
+          background: linear-gradient(45deg, #1d4ed8, #2563eb);
           transform: translateY(-5px); /* More dramatic lift */
           box-shadow: 0 12px 30px rgba(0, 100, 255, 0.4);
         }
@@ -146,7 +147,7 @@ function Lettings() {
 
         .letting-image {
           width: 100%;
-          max-height: 450px;
+          max-height: 360px;
           object-fit: cover;
           border-radius: 16px;
           display: block;
@@ -178,7 +179,7 @@ function Lettings() {
         .gradient-divider {
           height: 1px;
           background: linear-gradient(90deg, #f0f0f0, #e0e0e0, #f0f0f0);
-          margin: 6rem 0;
+          margin: 3rem 0;
         }
 
         /* Responsive Adjustments */
@@ -206,12 +207,11 @@ function Lettings() {
         }
       `}} />
 <LettingsSchema />
-      <div className="lettings-container container">
-        
+      <div className="lettings-container">
+
         {/* Lettings Section (Short-term/long-term) */}
-        <div className="row align-items-center fade-in-section mb-5">
-          <motion.div 
-            className="col-lg-6"
+        <div className="grid lg:grid-cols-2 gap-10 items-center fade-in-section mb-5">
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -226,13 +226,12 @@ function Lettings() {
             </p>
             <button
                 onClick={handleNavigateToBooking} // <-- Added Booking Link
-              className="btn btn-premium"
+              className="btn-premium"
             >
               View Long-Term Properties
             </button>
           </motion.div>
-          <motion.div 
-            className="col-lg-6"
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -253,9 +252,9 @@ function Lettings() {
         <div className="gradient-divider"></div>
 
         {/* Stay with Us Section (Short-term/Holiday Homes) */}
-        <div className="row align-items-center fade-in-section">
-          <motion.div 
-            className="col-lg-6 order-lg-2"
+        <div className="grid lg:grid-cols-2 gap-10 items-center fade-in-section">
+          <motion.div
+            className="lg:order-2"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -269,13 +268,13 @@ function Lettings() {
             </p>
             <button
               onClick={handleNavigateToBooking}  
-              className="btn btn-premium"
+              className="btn-premium"
             >
               Book Short-Term Stay
             </button>
           </motion.div>
-          <motion.div 
-            className="col-lg-6 order-lg-1"
+          <motion.div
+            className="lg:order-1"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}

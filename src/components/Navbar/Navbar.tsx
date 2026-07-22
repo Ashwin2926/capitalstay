@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FaBars, FaTimes, FaAngleDown } from "react-icons/fa";
 
 const whiteLogo = "/assets/logo_white.webp";
-const darkLogo = "/assets/logo.webp";
 
 const HOVER_COLOR_CLASS = "text-blue-500";
 
@@ -65,18 +64,14 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
   onClick,
   isActive,
   isLast,
-  isGlassmorphic,
-  isMobile,
   link,
 }) => {
-  const textColor = isGlassmorphic ? "text-white" : "text-black";
-
   const baseClasses =
-    `block px-4 py-2 text-sm font-medium transition-colors duration-150 ${textColor} cursor-pointer no-underline hover:!no-underline focus:!no-underline active:!no-underline`;
+    "block px-4 py-2.5 text-sm font-medium transition-colors duration-150 text-white/90 cursor-pointer no-underline hover:!no-underline focus:!no-underline active:!no-underline";
 
-  const hoverBg = isGlassmorphic || isMobile ? "hover:bg-gray-100/10" : "hover:bg-gray-100";
-  const divider = isLast ? "" : "border-b border-gray-100/60";
-  const activeClass = isActive ? "font-semibold" : "";
+  const hoverBg = "hover:bg-white/10";
+  const divider = isLast ? "" : "border-b border-white/10";
+  const activeClass = isActive ? "font-semibold text-white" : "";
 
   return (
     <a
@@ -232,28 +227,23 @@ export default function Navbar({ toggleForm, isScrolled }: NavbarProps) {
 
   const isGlassmorphic = isHomePage && !isScrolled;
   const isTransparent = isHomePage && !isScrolled && !isNavOpen;
-  const logoSrc = isTransparent ? whiteLogo : darkLogo;
-  const togglerColor = isNavOpen ? "white" : isTransparent ? "white" : "black";
 
   const base = "fixed top-0 w-full z-[9999] transition-all duration-300 ease-in-out flex items-center";
-  const heightClass = isTransparent ? "h-[80px]" : "h-[60px]";
+  const heightClass = isTransparent ? "h-20" : "h-16";
   const bgClass = isTransparent
     ? "bg-transparent text-white"
-    : "bg-white/95 backdrop-blur-md text-[#333] shadow-md";
+    : "bg-slate-900/92 backdrop-blur-md text-white shadow-lg";
 
-  const linkBase = "uppercase text-sm px-3 py-2 cursor-pointer transition-all duration-200 no-underline";
-  const mobileLinkBase = "text-white py-3 text-lg uppercase transition-colors duration-200 block no-underline";
-  const mobileDropdownContainer = "w-full pl-4 mt-2 mb-4 bg-gray-900/80 backdrop-blur-sm rounded-lg";
+  const linkBase = "uppercase text-[0.7rem] tracking-[0.12em] px-2.5 py-2 cursor-pointer transition-all duration-200 no-underline";
+  const mobileLinkBase = "text-white py-3 text-lg uppercase tracking-wide transition-colors duration-200 block no-underline";
+  const mobileDropdownContainer = "w-full pl-4 mt-2 mb-4 bg-white/5 backdrop-blur-sm rounded-lg";
 
-  const desktopDropdownClass = isGlassmorphic
-    ? "absolute top-full mt-2 min-w-[240px] bg-white/10 text-white rounded-lg shadow-xl overflow-hidden backdrop-blur-lg border border-white/20"
-    : "absolute top-full mt-2 min-w-[240px] bg-white text-[#333] rounded-lg shadow-xl overflow-hidden border border-gray-100";
+  const desktopDropdownClass = "absolute top-full mt-2 min-w-[240px] bg-slate-900/95 text-white rounded-lg shadow-xl overflow-hidden backdrop-blur-lg border border-white/10";
 
   const desktopDropdownRightAligned = `${desktopDropdownClass} right-0 left-auto`;
 
   const getNavLinkClasses = (isActive: boolean) => {
-    const baseBorderColor = isTransparent ? "border-white" : "border-gray-900";
-    return `${linkBase} ${isActive ? `font-bold border-b-2 ${baseBorderColor} lg:border-blue-500` : "font-medium"} hover:${HOVER_COLOR_CLASS}`;
+    return `${linkBase} ${isActive ? "font-semibold border-b border-blue-500 text-white" : "font-medium text-white/80"} hover:${HOVER_COLOR_CLASS}`;
   };
 
   const isHomeActive = currentPath === "";
@@ -267,7 +257,7 @@ export default function Navbar({ toggleForm, isScrolled }: NavbarProps) {
 
       <div className="container mx-auto px-4 flex justify-between items-center w-full">
         <a href="/" onClick={(e) => handleLinkClick(e, "home")} aria-label="Capital Stay UAE Homepage">
-          <img src={logoSrc} alt="Capital Stay UAE Holiday Homes" className={`transition-all ${isTransparent ? "h-[70px]" : "h-[50px]"}`} />
+          <img src={whiteLogo} alt="Capital Stay UAE Holiday Homes" className={`transition-all ${isTransparent ? "h-10" : "h-8"}`} />
         </a>
 
         <button
@@ -277,7 +267,7 @@ export default function Navbar({ toggleForm, isScrolled }: NavbarProps) {
           aria-expanded={isNavOpen}
           aria-label={isNavOpen ? "Close Menu" : "Open Dubai Travel Menu"}
         >
-          {isNavOpen ? <FaTimes size={24} color={togglerColor} /> : <FaBars size={24} color={togglerColor} />}
+          {isNavOpen ? <FaTimes size={24} color="white" /> : <FaBars size={24} color="white" />}
         </button>
 
         <div

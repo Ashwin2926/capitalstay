@@ -22,15 +22,15 @@
 
 /* 1. Container & Layout */
 .contact-container {
-   
+
 
     max-width: 1400px;
     margin: 0 auto;
-    /* Added significant bottom margin to prevent footer overlap */
-    margin-bottom: clamp(100px, 15vh, 200px); 
-    padding: clamp(60px, 12vh, 140px) 2rem;
+    /* Added bottom margin to prevent footer overlap */
+    margin-bottom: clamp(60px, 8vh, 120px);
+    padding: clamp(48px, 8vh, 90px) 2rem;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    
+
     /* Optional: Soft fade transition to the next section */
     mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
@@ -38,16 +38,17 @@
 
 .contact-header-section {
     text-align: center;
-    margin-bottom: clamp(60px, 8vh, 100px);
+    margin-bottom: clamp(36px, 5vh, 60px);
 }
 
 .contact-header {
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    font-weight: 900;
+    font-family: var(--font-display, "Cormorant Garamond", serif);
+    font-size: clamp(2.1rem, 4vw, 2.75rem);
+    font-weight: 500;
     color: var(--dark-navy);
-    letter-spacing: -0.04em;
-    line-height: 1.1;
-    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin-bottom: 12px;
 }
 
 .contact-subtext {
@@ -76,15 +77,15 @@
 .contact-card {
     display: flex;
     align-items: flex-start;
-    gap: 24px;
-    padding: 32px;
+    gap: 18px;
+    padding: 22px;
     background: var(--glass-bg);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border-radius: 24px;
+    border-radius: 18px;
     border: 1px solid var(--glass-border);
     transition: all 0.4s var(--ease-out);
- 
+
 }
 
 .contact-card:hover {
@@ -96,15 +97,15 @@
 
 /* Icon Styles */
 .contact-icon {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: var(--primary-blue);
     background: #f1f5f9;
-    width: 56px;
-    height: 56px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 16px;
+    border-radius: 13px;
     flex-shrink: 0;
     transition: transform 0.3s var(--ease-standard);
 }
@@ -130,7 +131,7 @@
 }
 
 .contact-link {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--dark-navy);
     text-decoration: none;
@@ -142,7 +143,7 @@
 }
 
 .contact-address-title {
-    font-size: 1.15rem;
+    font-size: 0.98rem;
     font-weight: 700;
     color: var(--dark-navy);
     display: block;
@@ -150,7 +151,7 @@
 }
 
 .contact-address-text {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
     line-height: 1.5;
 }

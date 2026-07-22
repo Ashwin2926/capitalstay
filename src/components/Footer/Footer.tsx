@@ -54,8 +54,8 @@ export default function Footer({ toggleForm }: FooterProps) {
           background: #ffffff;
           color: #1a1a1a;
           /* If no CTA, reduce the top padding significantly */
-          padding: ${isHomePage ? "80px" : "40px"} 80px 20px;
-          margin-top: ${isHomePage ? "-60px" : "0px"};      
+          padding: ${isHomePage ? "56px" : "40px"} 60px 20px;
+          margin-top: ${isHomePage ? "-40px" : "0px"};
           position: relative;
           z-index: 2;
           border-top: 1px solid #f0f0f0;
@@ -64,16 +64,16 @@ export default function Footer({ toggleForm }: FooterProps) {
         /* ---------- CTA WITH DOTTED PATTERN ---------- */
         .cta {
           position: relative;
-          margin: -120px auto 40px;
+          margin: -90px auto 40px;
           width: 90%;
-          max-width: 1200px;
-          border-radius: 24px;
-          padding: 40px 60px;
+          max-width: 1100px;
+          border-radius: 20px;
+          padding: 28px 40px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: linear-gradient(135deg, #0b1020, #3b2aa3, #7b3cff);
-          box-shadow: 0 15px 40px rgba(59, 42, 163, 0.2);
+          background: linear-gradient(135deg, #0b1226, #1e3a8a, #2563eb);
+          box-shadow: 0 15px 40px rgba(37, 99, 235, 0.25);
           color: #fff;
           overflow: hidden;
         }
@@ -84,26 +84,27 @@ export default function Footer({ toggleForm }: FooterProps) {
           position: absolute;
           right: -20px;
           top: -20px;
-          width: 300px;
-          height: 300px;
+          width: 200px;
+          height: 200px;
           background-image: radial-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 2px);
-          background-size: 18px 18px;
+          background-size: 16px 16px;
           border-radius: 50%;
           z-index: 1;
           pointer-events: none;
         }
 
         .cta-text { position: relative; z-index: 2; }
-        .cta-text h2 { font-size: 32px; font-weight: 600; margin-bottom: 8px; }
-        .cta-text p { color: #d7d7ff; font-size: 16px; margin-bottom: 20px; }
-        
+        .cta-text h2 { font-family: var(--font-display, "Cormorant Garamond", serif); font-size: 28px; font-weight: 500; margin-bottom: 6px; }
+        .cta-text p { color: #d7d7ff; font-size: 14px; margin-bottom: 16px; }
+
         .cta button {
           position: relative; z-index: 2;
-          background: #fff; color: #3b2aa3; border: none;
-          padding: 12px 28px; border-radius: 10px; font-weight: 700;
+          background: #fff; color: #1d4ed8; border: none;
+          padding: 10px 22px; border-radius: 9px; font-weight: 700; font-size: 14px;
           cursor: pointer; transition: 0.2s ease;
         }
-          
+        .cta button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
 
         /* ---------- CONTENT GRID ---------- */
         .content { 
@@ -135,7 +136,7 @@ export default function Footer({ toggleForm }: FooterProps) {
         .links-grid h4 { font-size: 14px; font-weight: 700; margin-bottom: 20px; color: #000; text-transform: uppercase; }
         .links-grid ul { padding: 0; list-style: none; margin: 0; }
         .links-grid li { color: #666; margin-bottom: 12px; cursor: pointer; font-size: 14px; transition: color 0.2s; }
-        .links-grid li:hover { color: #3b2aa3; }
+        .links-grid li:hover { color: #2563eb; }
 
         .footer-contact-info p { color: #666; font-size: 13px; margin-bottom: 12px; line-height: 1.4; display: flex; align-items: center; gap: 8px; }
 
@@ -145,7 +146,11 @@ export default function Footer({ toggleForm }: FooterProps) {
           display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap;
         }
         .trust { display: flex; align-items: center; gap: 8px; font-size: 13px; background: #f9f9f9; padding: 6px 14px; border-radius: 50px; }
-        .bottom-bar { text-align: center; color: #999; font-size: 11px; padding-bottom: 10px; }
+        .bottom-bar {
+          display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+          text-align: center; color: #999; font-size: 11px; padding-bottom: 10px;
+        }
+        .bottom-bar-divider { color: #ddd; }
 
         /* ---------- MOBILE ---------- */
         @media (max-width: 1024px) {
@@ -156,7 +161,7 @@ export default function Footer({ toggleForm }: FooterProps) {
 
         @media (max-width: 600px) {
           .footer { padding: 40px 20px 20px; }
-          .cta { flex-direction: column; text-align: center; padding: 30px; margin-top: -100px; }
+          .cta { flex-direction: column; text-align: center; padding: 24px; margin-top: -70px; }
           .links-grid { grid-template-columns: 1fr; text-align: center; }
           .socials { justify-content: center; }
           .brand { text-align: center; }
@@ -237,17 +242,19 @@ export default function Footer({ toggleForm }: FooterProps) {
         </div>
 
         <div className="bottom-bar">
-          © {year} Capital Stay. All Rights Reserved.
-         &nbsp;  &nbsp;   &nbsp; | &nbsp;   &nbsp;  &nbsp;   &nbsp;  
-            Design & Development by{' '} 
+          <span>© {year} Capital Stay. All Rights Reserved.</span>
+          <span className="bottom-bar-divider">|</span>
+          <span>
+            Design &amp; Development by{" "}
             <a
               href="https://ashwin2926.github.io/portfolio-nextjs/"
-              className="text-sky-400 hover:underline"
+              className="text-blue-600 hover:underline"
               target="_blank"
+              rel="noopener noreferrer"
             >
               AN
             </a>
-         
+          </span>
         </div>
       </footer>
     </>

@@ -101,14 +101,14 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                 backgroundImage="../assets/listing.webp"
             />
 
-            <div className="max-w-7xl mx-auto px-6 py-16">
+            <div className="max-w-7xl mx-auto px-6 py-10">
                 <div className="grid lg:grid-cols-3 gap-12">
                     
                     {/* MAIN CONTENT */}
                     <div className="lg:col-span-2 space-y-16">
                         
                         {/* Intro Section */}
-                        <section className="bg-white p-8 md:p-10 rounded-[2rem] shadow-sm border border-gray-100">
+                        <section className="bg-white p-6 md:p-8 rounded-[1.75rem] shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3 mb-6 text-blue-600">
                                 <FaInfoCircle className="text-xl" />
                                 <span className="font-bold uppercase tracking-widest text-[10px]">Overview</span>
@@ -123,7 +123,7 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                         {/* Why Choose Section */}
                         {property.why_choose && (
                             <section>
-                                <h2 className="text-3xl font-black text-gray-900 mb-8">{property.why_choose_title}</h2>
+                                <h2 className="text-2xl font-black text-gray-900 mb-6">{property.why_choose_title}</h2>
                                 <div className="grid md:grid-cols-2 gap-6">
                                     {property.why_choose.map((item, i) => (
                                         <div key={i} className="p-8 bg-white rounded-2xl border border-gray-100 shadow-sm">
@@ -141,7 +141,7 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                         {/* What to Expect Section */}
                         {property.what_to_expect && (
                             <section className="space-y-8">
-                                <h2 className="text-3xl font-black text-gray-900 flex items-center gap-4">
+                                <h2 className="text-2xl font-black text-gray-900 flex items-center gap-3">
                                     <FaStar className="text-yellow-400" /> What to Expect
                                 </h2>
                                 <div className="grid gap-6">
@@ -181,7 +181,7 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
 
                         {/* How to Rent Section */}
                         {property.how_to_rent && (
-                            <section className="bg-blue-50 p-8 md:p-10 rounded-[2rem] border border-blue-100">
+                            <section className="bg-blue-50 p-6 md:p-8 rounded-[1.75rem] border border-blue-100">
                                 <h2 className="text-2xl font-black text-blue-900 mb-8 flex items-center gap-3">
                                     <FaKey className="text-blue-600" /> Booking Process
                                 </h2>
@@ -199,7 +199,7 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                         {/* FAQs Section */}
                         {property.faqs && (
                             <section className="space-y-8">
-                                <h2 className="text-3xl font-black text-gray-900">Neighborhood FAQs</h2>
+                                <h2 className="text-2xl font-black text-gray-900">Neighborhood FAQs</h2>
                                 <div className="space-y-4">
                                     {property.faqs.map((faq, i) => (
                                         <details key={i} className="group bg-white rounded-2xl border border-gray-200 transition-all">

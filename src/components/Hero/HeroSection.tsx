@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ShieldCheck } from "lucide-react";
 
 // --- Premium Icons (Optimized with aria-hidden) ---
 interface IconProps {
@@ -77,21 +78,21 @@ export default function HeroSection() {
       <style dangerouslySetInnerHTML={{__html: `
         .hero-root {
           position: relative;
-          min-height: 100vh;
+          min-height: 68vh;
           width: 100%;
           background: #000;
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          padding: 100px 1.25rem 60px 1.25rem;
-          overflow: hidden;
+          justify-content: flex-end;
+          padding: 88px 1.25rem 0 1.25rem;
         }
 
-        .bg-layer { 
-          position: absolute; 
-          inset: 0; 
-          z-index: 0; 
+        .bg-layer {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
           pointer-events: none;
+          overflow: hidden;
         }
 
         .bg-slide { 
@@ -108,7 +109,7 @@ export default function HeroSection() {
         .vignette {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+          background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.8) 100%);
           z-index: 1;
         }
 
@@ -118,42 +119,77 @@ export default function HeroSection() {
           width: 100%;
           max-width: 1200px;
           margin: 0 auto;
+          padding-bottom: 56px;
+        }
+
+        @media (min-width: 768px) {
+          .content-container { padding-bottom: 0; margin-bottom: -72px; }
+        }
+
+        .eyebrow {
+          color: rgba(255,255,255,0.85);
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          margin-bottom: 0.9rem;
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+        }
+
+        .eyebrow::before {
+          content: "";
+          width: 28px;
+          height: 1px;
+          background: rgba(255,255,255,0.6);
+          display: inline-block;
         }
 
         .main-headline {
           color: white;
-          font-size: clamp(2.2rem, 8vw, 4rem);
-          font-weight: 800;
+          font-family: var(--font-display, "Cormorant Garamond", serif);
+          font-size: clamp(2.4rem, 6vw, 3.75rem);
+          font-weight: 400;
           line-height: 1.1;
-          margin-bottom: 2rem;
-          text-shadow: 0 4px 15px rgba(0,0,0,0.4);
-          max-width: 800px;
+          margin-bottom: 1.5rem;
+          text-shadow: 0 4px 20px rgba(0,0,0,0.35);
+          max-width: 680px;
+          letter-spacing: -0.01em;
+        }
+
+        .main-headline em {
+          font-style: italic;
+          font-weight: 400;
         }
 
         .booking-card {
           background: white;
-          border-radius: 28px;
-          padding: 1.5rem;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+          border-radius: 18px;
+          padding: 1.25rem;
+          box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.35);
+          border: 1px solid rgba(15, 23, 42, 0.04);
           width: 100%;
         }
 
         .label-text {
           display: block;
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #1e293b;
-          margin-bottom: 0.6rem;
+          font-size: 0.68rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #64748b;
+          margin-bottom: 0.5rem;
         }
 
         .input-wrapper {
           background: #f8fafc;
           border: 1.5px solid #e2e8f0;
-          border-radius: 14px;
-          padding: 0.75rem 1rem;
+          border-radius: 12px;
+          padding: 0.6rem 0.85rem;
           display: flex;
           align-items: center;
-          min-height: 54px;
+          min-height: 44px;
           transition: all 0.2s ease;
         }
  
@@ -178,10 +214,10 @@ export default function HeroSection() {
           border: none;
           background: transparent;
           width: 100%;
-          margin-left: 0.75rem;
+          margin-left: 0.6rem;
           outline: none;
           color: #0f172a;
-          font-size: 1rem;
+          font-size: 0.9rem;
           font-family: inherit;
         }
 
@@ -195,13 +231,13 @@ export default function HeroSection() {
         .form-grid {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 1.5rem;
+          gap: 1rem;
         }
 
         .date-row {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 12px;
+          gap: 10px;
         }
 
         @media (min-width: 640px) {
@@ -210,12 +246,12 @@ export default function HeroSection() {
 
         @media (min-width: 1024px) {
           .form-grid { grid-template-columns: 1fr 1.4fr 0.7fr; }
-          .booking-card { padding: 2.5rem; }
+          .booking-card { padding: 1.75rem; }
         }
 
         .filter-section {
-          margin-top: 1.5rem;
-          padding-top: 1.5rem;
+          margin-top: 1.1rem;
+          padding-top: 1.1rem;
           border-top: 1px solid #f1f5f9;
         }
 
@@ -223,15 +259,15 @@ export default function HeroSection() {
           display: flex;
           gap: 8px;
           flex-wrap: wrap;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1.1rem;
         }
 
         .pill {
-          padding: 0.6rem 1.25rem;
+          padding: 0.5rem 1.1rem;
           border-radius: 100px;
           border: 1.5px solid #e2e8f0;
           background: white;
-          font-size: 0.85rem;
+          font-size: 0.8rem;
           font-weight: 600;
           color: #64748b;
           cursor: pointer;
@@ -245,34 +281,36 @@ export default function HeroSection() {
         }
 
         .search-btn {
-          background: #2563eb;
+          background: #1e293b;
           color: white;
           border: none;
-          border-radius: 16px;
-          padding: 1.1rem;
+          border-radius: 12px;
+          padding: 0.85rem;
           width: 100%;
-          font-weight: 700;
-          font-size: 1rem;
+          font-weight: 600;
+          font-size: 0.78rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 0.8rem;
+          gap: 0.6rem;
           cursor: pointer;
           transition: all 0.2s;
         }
 
         .search-btn:hover:not(:disabled) {
-          background: #1d4ed8;
+          background: #0f172a;
           transform: translateY(-1px);
         }
 
-        .search-btn:disabled { 
-          background: #cbd5e1; 
-          cursor: not-allowed; 
+        .search-btn:disabled {
+          background: #cbd5e1;
+          cursor: not-allowed;
         }
 
         @media (min-width: 768px) {
-          .search-btn { width: auto; padding: 1rem 3.5rem; border-radius: 100px; }
+          .search-btn { width: auto; padding: 0.85rem 2.5rem; border-radius: 100px; }
           .filter-section { display: flex; align-items: center; justify-content: space-between; }
           .filter-row { margin-bottom: 0; }
         }
@@ -320,13 +358,34 @@ export default function HeroSection() {
         <div className="vignette" />
       </div>
 
+      <motion.div
+        className="hidden md:flex items-center gap-3 absolute top-24 right-6 z-20 bg-slate-900/60 backdrop-blur-md border border-white/15 rounded-2xl px-5 py-3 text-white"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: [0, -8, 0] }}
+        transition={{ opacity: { duration: 0.8, delay: 0.6 }, y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 } }}
+      >
+        <ShieldCheck size={20} className="text-blue-400" />
+        <div className="text-left leading-tight">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-wider">DTCM Licensed</p>
+          <p className="text-[0.65rem] text-white/60">Fully compliant operator</p>
+        </div>
+      </motion.div>
+
       <div className="content-container">
-        <motion.h1 
+        <motion.p
+          className="eyebrow"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          Capital Stay — Dubai Holiday Homes
+        </motion.p>
+
+        <motion.h1
           className="main-headline"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          Discover Your Dream Home in Dubai
+          Discover your <em>dream home</em> in Dubai
         </motion.h1>
 
         <motion.div 

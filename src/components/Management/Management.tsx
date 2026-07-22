@@ -94,14 +94,14 @@ const ScopedStyles = () => (
       --cs-neutral-700: #334155;
       --cs-neutral-500: #64748b;
       --cs-page-bg: #f9fafb;
-      --cs-space-xxl: 4.5rem;
-      --cs-space-xl: 3rem;
-      --cs-space-lg: 2rem;
-      --cs-space-md: 1.25rem;
-      --cs-radius-lg: 1.5rem;
-      --cs-h1: 2.75rem;
-      --cs-h2: 1.75rem;
-      --cs-h3: 1.25rem;
+      --cs-space-xxl: 3rem;
+      --cs-space-xl: 2rem;
+      --cs-space-lg: 1.5rem;
+      --cs-space-md: 1rem;
+      --cs-radius-lg: 1.25rem;
+      --cs-h1: 2rem;
+      --cs-h2: 1.4rem;
+      --cs-h3: 1.1rem;
       background: var(--cs-page-bg);
       font-family: Inter, system-ui, sans-serif;
     }
@@ -117,9 +117,10 @@ const ScopedStyles = () => (
     .cs-p-lg { padding: var(--cs-space-xl); }
     .cs-p-md { padding: var(--cs-space-lg); }
     .cs-hero-title {
-      font-size: var(--cs-h1);
-      font-weight: 900;
-      line-height: 1.1;
+      font-family: var(--font-display, "Cormorant Garamond", serif);
+      font-size: calc(var(--cs-h1) * 1.3);
+      font-weight: 500;
+      line-height: 1.15;
       margin-bottom: 1rem;
       background: linear-gradient(90deg, var(--cs-neutral-900) 0%, var(--cs-color-primary-800) 100%);
       -webkit-background-clip: text;
@@ -128,6 +129,8 @@ const ScopedStyles = () => (
     .cs-subheading {
       font-size: var(--cs-h3);
       font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       background: linear-gradient(90deg, var(--cs-color-primary-800) 0%, var(--cs-color-primary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -279,11 +282,11 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
         {/* HERO SECTION */}
         <section className="cs-card grid lg:grid-cols-2 gap-8 items-center">
           <div className="cs-p-lg">
-            <motion.h1 className="cs-hero-title" initial="hidden" whileInView="show" viewport={{ once: true }} variants={VARIANTS.fadeUp(baseDelay)}>
+            <motion.h2 className="cs-hero-title" initial="hidden" whileInView="show" viewport={{ once: true }} variants={VARIANTS.fadeUp(baseDelay)}>
               Experience Effortless Ownership — Expert Property Care, Elevated Returns
-            </motion.h1>
+            </motion.h2>
             
-            <motion.p className="text-lg text-slate-600 leading-relaxed mb-8" initial="hidden" whileInView="show" viewport={{ once: true }} variants={VARIANTS.fadeUp(baseDelay + stagger)}>
+            <motion.p className="text-base text-slate-600 leading-relaxed mb-6" initial="hidden" whileInView="show" viewport={{ once: true }} variants={VARIANTS.fadeUp(baseDelay + stagger)}>
               We combine <span className="text-blue-600 font-semibold">local expertise</span>, premium presentation, and intelligent pricing to deliver <span className="text-blue-600 font-semibold">maximized revenue</span> and peace of mind for Dubai property owners.
             </motion.p>
 
@@ -327,7 +330,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
 
         {/* METRICS & TRACK RECORD */}
         <section className="space-y-12">
-          <motion.h2 className="text-3xl font-black text-center text-slate-900" initial="hidden" whileInView="show" variants={VARIANTS.fadeUp(baseDelay)}>
+          <motion.h2 className="text-2xl font-black text-center text-slate-900" initial="hidden" whileInView="show" variants={VARIANTS.fadeUp(baseDelay)}>
             Our Track Record — Performance You Can Trust
           </motion.h2>
 
@@ -338,7 +341,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
             <Metric icon={<FaStar />} value="5+ yrs" label="Market Expertise" delay={baseDelay + stagger * 4} />
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start mt-16">
+          <div className="grid lg:grid-cols-2 gap-8 items-start mt-10">
             <div className="space-y-8">
               <h3 className="cs-subheading">Why Property Owners Trust Capital Stay</h3>
               <ul className="space-y-6">
@@ -398,7 +401,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
           </div>
 
           <div className="cs-services cs-p-lg rounded-[2rem]">
-            <h3 className="text-2xl font-black mb-2 text-white">Comprehensive Owner Management Services</h3>
+            <h3 className="text-xl font-black mb-2 text-white">Comprehensive Owner Management Services</h3>
             <p className="text-white/70 mb-8 text-sm">Everything covered — from maximizing revenue and guest care to full legal compliance.</p>
             
             <div className="grid md:grid-cols-2 gap-4">
@@ -431,7 +434,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
 
         {/* FAQ SECTION */}
         <section className="bg-white-300 ">
-          <h2 className="text-3xl font-black text-center text-slate-900 mb-12">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-black text-center text-slate-900 mb-8">Frequently Asked Questions</h2>
           <div className="max-w-4xl mx-auto">
             <FAQItem q="What is your standard management fee?" a="A competitive management fee is deducted from gross rental income. This covers global marketing, 24/7 guest support, DTCM compliance, and professional maintenance coordination." delay={0.1} />
             <FAQItem q="How is occupancy rate managed and optimized?" a="We use AI-driven dynamic pricing, targeted marketing, and high-fidelity photography to ensure consistent occupancy and higher Average Daily Rates (ADR)." delay={0.2} />
@@ -447,17 +450,17 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
           whileInView="show"
           viewport={{ once: true }}
           variants={VARIANTS.fadeUp(0.2)}
-          className="relative overflow-hidden rounded-[2.5rem] px-12 py-20 text-center
+          className="relative overflow-hidden rounded-[2rem] px-8 py-12 text-center
                      bg-[radial-gradient(circle_at_top,_#2563eb_0%,_#1e40af_40%,_#0f172a_85%)]
                      shadow-[0_40px_100px_rgba(37,99,235,0.35)]"
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.15)_0%,_transparent_55%)]" />
 
-          <h3 className="relative z-10 text-3xl md:text-4xl font-black tracking-tight text-white mb-5">
+          <h3 className="relative z-10 text-2xl md:text-3xl font-black tracking-tight text-white mb-4">
             Ready to Maximize Your Property's Potential?
           </h3>
 
-          <p className="relative z-10 text-blue-100 mb-12 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="relative z-10 text-blue-100 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
             Speak to our team for a tailored revenue projection plan — premium presentation,
             smarter pricing, and full-service hosting.
           </p>

@@ -1,16 +1,17 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Zap, Award, Globe, Heart, Building2, UserCheck, ChevronRight } from 'lucide-react';
-import PageHeader from "../Pageheader/PageHeader"; 
+import PageHeader from "../Pageheader/PageHeader";
 
 // --- Theme Tokens ---
 const tokens = {
     color: {
-        primary: '#007bff', 
+        primary: '#2563eb', 
         bgLight: '#FFFFFF',
         bgSecondary: '#F5F5F5', 
         textDark: '#111111',
         textMuted: '#555555',
-        shadowPrimary: 'rgba(0, 123, 255, 0.3)',
+        shadowPrimary: 'rgba(37, 99, 235, 0.3)',
     },
     spacing: {
         maxWidth: '1200px',
@@ -146,6 +147,25 @@ const NewsCard: React.FC<NewsCardProps> = ({ item, index }) => {
 // --- Main Page Component ---
 const NewsAndAccomplishments = () => (
     <div className="news-page-wrapper">
+        <Helmet>
+            <title>News & Accomplishments | Capital Stay UAE</title>
+            <meta name="description" content="The latest awards, portfolio expansions, and service milestones from Capital Stay UAE, Dubai's leading luxury holiday home management company." />
+            <script type="application/ld+json">
+                {JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "CollectionPage",
+                    "name": "Capital Stay News & Accomplishments",
+                    "description": "Latest portfolio additions, awards, key partnerships, and service enhancements from Capital Stay UAE.",
+                    "hasPart": NEWS_FEED.map((item) => ({
+                        "@type": "Article",
+                        "headline": item.title,
+                        "description": item.content,
+                        "image": item.image,
+                        "datePublished": item.date,
+                    })),
+                })}
+            </script>
+        </Helmet>
         <style>{`
             /* --- KEYFRAMES --- */
             @keyframes fadeInSlideUp {
@@ -154,9 +174,9 @@ const NewsAndAccomplishments = () => (
             }
             
             @keyframes pulseShadow {
-                0% { box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1); }
-                50% { box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3); }
-                100% { box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1); }
+                0% { box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1); }
+                50% { box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3); }
+                100% { box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1); }
             }
 
             /* --- Base & Wrapper --- */
@@ -209,7 +229,7 @@ const NewsAndAccomplishments = () => (
             .news-card:hover {
                 transform: translateY(-8px);
                 border-color: ${tokens.color.primary};
-                box-shadow: 0 15px 35px rgba(0, 123, 255, 0.25);
+                box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
             }
             
             /* Image Container */

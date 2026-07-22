@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.capitalstayuae.com/sitemap.xml
+Sitemap: https://capitalstayuae.com/sitemap.xml

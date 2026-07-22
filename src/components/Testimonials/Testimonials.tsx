@@ -75,11 +75,11 @@ const testimonialsData: Testimonial[] = [
 
 
 const StarRating: React.FC<{ stars: number }> = ({ stars }) => (
-  <div className="flex gap-1 mt-2" aria-label={`${stars} out of 5 stars`}>
+  <div className="flex gap-1 mt-1" aria-label={`${stars} out of 5 stars`}>
     {[...Array(5)].map((_, i) => (
       <span
         key={i}
-        className={`text-xl ${i < stars ? "text-yellow-400" : "text-gray-300"}`}
+        className={`text-base ${i < stars ? "text-yellow-400" : "text-gray-300"}`}
       >
         ★
       </span>
@@ -93,43 +93,43 @@ const TestimonialCard: React.FC<{
 }> = ({ testimonial, onClick }) => (
   <article
     className="
-      relative max-w-3xl mx-auto cursor-pointer p-8 sm:p-10 rounded-3xl 
-      bg-white border border-gray-100 shadow-xl
-      hover:shadow-2xl hover:scale-[1.01] transition-all duration-500
+      relative max-w-2xl mx-auto cursor-pointer p-6 sm:p-7 rounded-2xl
+      bg-white border border-gray-100 shadow-lg
+      hover:shadow-xl hover:scale-[1.01] transition-all duration-500
     "
     onClick={() => onClick(testimonial.link)}
   >
-    <div className="flex flex-col sm:flex-row gap-8 items-center sm:items-start text-center sm:text-left">
+    <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start text-center sm:text-left">
       {/* Profile Image Section */}
       <div className="relative shrink-0">
         <img
           src={testimonial.image}
           alt={`${testimonial.name}'s profile`}
-          className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md"
+          className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md"
           loading="lazy"
         />
         <img
           src={AIRBNB_LOGO}
           alt="Verified Airbnb Review"
-          className="absolute bottom-0 right-[-5px] w-8 h-8 rounded-full shadow-lg"
+          className="absolute bottom-0 right-[-4px] w-6 h-6 rounded-full shadow-lg"
         />
       </div>
 
       {/* Content Section */}
       <div className="flex-1">
-        <div className="text-5xl text-red-500 font-serif leading-none mb-2 opacity-30">
+        <div className="font-display text-4xl text-blue-600 leading-none mb-1 opacity-30">
           “
         </div>
-        <p className="text-lg sm:text-xl text-gray-700 font-light tracking-wide italic mb-4 leading-relaxed">
+        <p className="text-base text-gray-700 font-light tracking-wide italic mb-3 leading-relaxed">
           {testimonial.text}
         </p>
 
-        <div className="mt-4">
+        <div className="mt-2">
           <StarRating stars={testimonial.stars} />
-          <h4 className="mt-3 text-xl font-bold text-gray-900 uppercase tracking-tight">
+          <h4 className="mt-2 text-base font-bold text-gray-900 uppercase tracking-tight">
             {testimonial.name}
           </h4>
-          <time dateTime={testimonial.date} className="text-sm text-gray-500">
+          <time dateTime={testimonial.date} className="text-xs text-gray-500">
             {new Date(testimonial.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
           </time>
         </div>
@@ -177,7 +177,7 @@ const Testimonials: React.FC = () => {
   }, []);
 
   return (
-    <section className="bg-gray-50 py-20 px-6 overflow-hidden">
+    <section className="bg-gray-50 py-14 px-6 overflow-hidden">
       {/* Inject Schema for AI Search Engines */}
       <script
         type="application/ld+json"
@@ -185,11 +185,11 @@ const Testimonials: React.FC = () => {
       />
 
       <div className="container mx-auto">
-        <header className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-gray-900 mb-4 uppercase">
-            What Our <span className="text-red-500">Guests Say</span>
+        <header className="text-center mb-10">
+          <p className="text-blue-600 uppercase tracking-[0.2em] text-xs font-semibold mb-3">Reviews</p>
+          <h2 className="font-display text-3xl md:text-4xl font-medium tracking-tight text-gray-900">
+            What our <em className="italic text-blue-600">guests say</em>
           </h2>
-          <div className="w-20 h-1.5 bg-red-500 mx-auto rounded-full"></div>
         </header>
 
         <Swiper
@@ -207,18 +207,18 @@ const Testimonials: React.FC = () => {
           ))}
         </Swiper>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-8">
           <button
             onClick={() => openLink(AIRBNB_PROFILE_LINK)}
             className="
-              bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-12 
-              rounded-full shadow-xl hover:shadow-2xl transition-all duration-300
-              hover:scale-105 active:scale-95 text-lg uppercase tracking-wider
+              bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8
+              rounded-full shadow-lg hover:shadow-xl transition-all duration-300
+              hover:scale-105 active:scale-95 text-sm uppercase tracking-wider
             "
           >
             Leave Your Review on Airbnb ✨
           </button>
-          <p className="text-gray-400 text-sm mt-4 font-medium uppercase tracking-widest">
+          <p className="text-gray-400 text-xs mt-3 font-medium uppercase tracking-widest">
             Verified Airbnb Host Since 2020
           </p>
         </div>

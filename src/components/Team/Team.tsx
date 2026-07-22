@@ -72,20 +72,20 @@ export default function TeamPage() {
         ]}
       />
 
-      <section className="py-24 bg-gray-50">
+      <section className="py-14 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-20 max-w-3xl mx-auto">
-            <h2 className="text-4xl font-extrabold text-gray-900 mb-6">
-              World-Class Management, <span className="text-blue-600">Local Heart</span>
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <h2 className="font-display text-3xl md:text-4xl font-medium text-gray-900 mb-4">
+              World-class management, <em className="italic text-blue-600">local heart</em>
             </h2>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              From DTCM compliance to 24/7 guest support, our team handles every detail 
-              of your holiday home with precision. Our experts are dedicated to maximizing 
+            <p className="text-base text-gray-600 leading-relaxed">
+              From DTCM compliance to 24/7 guest support, our team handles every detail
+              of your holiday home with precision. Our experts are dedicated to maximizing
               your rental ROI while maintaining 5-star guest satisfaction.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {TEAM_DATA.map((member, index) => (
               <div key={index} className="group relative">
                 <div className="aspect-[4/5] overflow-hidden rounded-3xl shadow-lg">

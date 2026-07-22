@@ -96,10 +96,10 @@ const PropertyListingModal: React.FC<PropertyListingModalProps> = ({ isOpen, onC
         .form-container {
           background: white;
           width: 100%;
-          max-width: 650px;
+          max-width: 580px;
           max-height: 90vh;
-          border-radius: 1.5rem;
-          padding: 2rem;
+          border-radius: 1.25rem;
+          padding: 1.75rem;
           position: relative;
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
           overflow-y: auto;
@@ -108,7 +108,7 @@ const PropertyListingModal: React.FC<PropertyListingModalProps> = ({ isOpen, onC
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1.1rem;
         }
         .sleek-input {
           width: 100%;
@@ -154,38 +154,42 @@ const PropertyListingModal: React.FC<PropertyListingModalProps> = ({ isOpen, onC
       <div className="form-overlay" onClick={onClose}>
         <div className="form-container" onClick={(e) => e.stopPropagation()}>
           <div className="form-header">
-            <h3 className="fw-bold text-slate-900 m-0">Request a Free Quote</h3>
-            <button type="button" className="btn-close" onClick={onClose} aria-label="Close"></button>
+            <h3 className="font-bold text-slate-900 text-xl m-0">Request a Free Quote</h3>
+            <button type="button" onClick={onClose} aria-label="Close" className="w-9 h-9 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition text-xl leading-none">
+              &times;
+            </button>
           </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="row g-3">
-              <div className="col-md-6">
-                <label className="form-label small fw-bold">First Name*</label>
+          <form onSubmit={handleSubmit} className="space-y-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label className="block text-sm font-bold mb-1.5">First Name*</label>
                 <input type="text" name="firstName" className="sleek-input" required value={formData.firstName} onChange={handleChange} />
               </div>
-              <div className="col-md-6">
-                <label className="form-label small fw-bold">Last Name*</label>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Last Name*</label>
                 <input type="text" name="lastName" className="sleek-input" required value={formData.lastName} onChange={handleChange} />
               </div>
-              <div className="col-12">
-                <label className="form-label small fw-bold">Phone Number*</label>
-                <input type="tel" name="phone" className="sleek-input" required value={formData.phone} onChange={handleChange} placeholder="+971..." />
-              </div>
-              <div className="col-12">
-                <label className="form-label small fw-bold">Your Email*</label>
-                <input type="email" name="email" className="sleek-input" required value={formData.email} onChange={handleChange} />
-              </div>
-              <div className="col-md-6">
-                <label className="form-label small fw-bold">Property Type</label>
+            </div>
+            <div>
+              <label className="block text-sm font-bold mb-1.5">Phone Number*</label>
+              <input type="tel" name="phone" className="sleek-input" required value={formData.phone} onChange={handleChange} placeholder="+971..." />
+            </div>
+            <div>
+              <label className="block text-sm font-bold mb-1.5">Your Email*</label>
+              <input type="email" name="email" className="sleek-input" required value={formData.email} onChange={handleChange} />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Property Type</label>
                 <select name="propertyType" className="sleek-input" value={formData.propertyType} onChange={handleChange}>
                   <option>Apartment</option>
                   <option>Villa/House</option>
                   <option>Penthouse</option>
                 </select>
               </div>
-              <div className="col-md-6">
-                <label className="form-label small fw-bold">Unit Type</label>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Unit Type</label>
                 <select name="unitType" className="sleek-input" value={formData.unitType} onChange={handleChange}>
                   <option>Studio</option>
                   <option>1 Bedroom</option>
@@ -193,31 +197,33 @@ const PropertyListingModal: React.FC<PropertyListingModalProps> = ({ isOpen, onC
                   <option>3+ Bedrooms</option>
                 </select>
               </div>
-              <div className="col-md-6">
-                <label className="form-label small fw-bold">Location*</label>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Location*</label>
                 <input type="text" name="city" className="sleek-input" required value={formData.city} onChange={handleChange} placeholder="e.g. Dubai Marina" />
               </div>
-              <div className="col-md-6">
-                <label className="form-label small fw-bold">Size (sqft)</label>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Size (sqft)</label>
                 <input type="text" name="size" className="sleek-input" value={formData.size} onChange={handleChange} />
               </div>
-              <div className="col-12">
-                <label className="form-label small fw-bold">Additional Notes</label>
-                <textarea name="notes" rows={2} className="sleek-input" value={formData.notes} onChange={handleChange} placeholder="Property details..." />
-              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-bold mb-1.5">Additional Notes</label>
+              <textarea name="notes" rows={2} className="sleek-input" value={formData.notes} onChange={handleChange} placeholder="Property details..." />
             </div>
 
             {successMessage && (
-              <div className={`alert mt-3 py-2 ${successMessage.startsWith("Error") ? "alert-danger" : "alert-success"}`}>
+              <div className={`rounded-lg py-2 px-3 text-sm font-medium ${successMessage.startsWith("Error") ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
                 {successMessage}
               </div>
             )}
 
-            <button type="submit" className="btn-form-submit mt-4" disabled={isSubmitting || !isEmailReady}>
+            <button type="submit" className="btn-form-submit" disabled={isSubmitting || !isEmailReady}>
               {isSubmitting ? "Sending..." : "Submit Property Details"}
             </button>
-            
-            <p className="text-center mt-3 text-muted mb-0" style={{ fontSize: '0.75rem' }}>
+
+            <p className="text-center text-slate-500 mb-0" style={{ fontSize: '0.75rem' }}>
               By submitting, you agree to our <a href="https://booking.capitalstayuae.com/terms-and-conditions" className="internal-link-small">Terms</a> and <a href="https://booking.capitalstayuae.com/privacy-policy" className="internal-link-small">Privacy Policy</a>.
             </p>
           </form>

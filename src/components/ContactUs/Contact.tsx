@@ -1,17 +1,11 @@
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from "react-icons/fa";
-import { Helmet } from 'react-helmet-async';
 import "./Contact.css";
 
 const ContactUs = () => {
   return (
     <div id="contact" className="contact-container">
-      <Helmet>
-        <title>Contact Capital Stay | Holiday Home Management Dubai</title>
-        <meta name="description" content="Contact our 24/7 guest support for luxury rentals in Dubai. Located in Deira, serving Downtown, Marina, and Palm Jumeirah." />
-      </Helmet>
-
       <div className="contact-header-section">
-        <h1 className="contact-header">Connect with Capital Stay</h1>
+        <h2 className="contact-header">Connect with Capital Stay</h2>
         <p className="contact-subtext">
           Expert holiday home management and premium short-term stays in the UAE's most desirable neighborhoods.
         </p>

@@ -1,6 +1,7 @@
 import  { type FC, useEffect, useRef, memo } from "react";
 import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ShieldCheck } from "lucide-react";
 
 // ------------------------------------------------------
 // Types
@@ -77,17 +78,15 @@ const AnimatedCount = memo<AnimatedCountProps>(
 
     return (
       <motion.div
-        className="relative pt-6"
+        className="relative rounded-2xl border border-gray-100 bg-white p-4 shadow-[0_2px_20px_-8px_rgba(15,23,42,0.12)]"
         variants={fadeInUp}
         custom={delay}
       >
-        <span className="absolute top-0 left-0 w-10 h-1 bg-blue-600/20 rounded-full" />
-
-        <div className="text-4xl md:text-5xl font-extrabold text-blue-600 leading-none">
+        <div className="text-2xl md:text-[1.75rem] font-extrabold text-blue-600 leading-none">
           {rawNumber !== null ? <motion.span>{formatted}</motion.span> : value}
         </div>
 
-        <p className="mt-2 text-sm text-gray-500 tracking-wide">
+        <p className="mt-1.5 text-xs text-gray-500 tracking-wide leading-snug">
           {label}
         </p>
       </motion.div>
@@ -101,29 +100,6 @@ const AnimatedCount = memo<AnimatedCountProps>(
 const AboutUs: FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.25 });
-
-  // --------------------------------------------------
-  // Native SEO
-  // --------------------------------------------------
-  useEffect(() => {
-    document.title =
-      "Premium Property Management Dubai";
-
-    const metaDescription = document.querySelector<HTMLMetaElement>(
-      'meta[name="description"]'
-    );
-    if (metaDescription) {
-      metaDescription.content =
-        "Capital Stay UAE is Dubai’s leading luxury short-term rental and holiday home management company, delivering five-star guest experiences and maximum ROI for property owners.";
-    }
-
-    const canonical = document.querySelector<HTMLLinkElement>(
-      'link[rel="canonical"]'
-    );
-    if (canonical) {
-      canonical.href = "https://capitalstayuae.com/#about-us";
-    }
-  }, []);
 
   // --------------------------------------------------
   // AI / LLM Structured Data
@@ -159,39 +135,44 @@ useEffect(() => {
     <section
       id="about-us"
       ref={sectionRef}
-      className="bg-white font-sans py-20"
+      className="relative bg-white font-sans pt-24 pb-16 md:pt-28 overflow-hidden"
       aria-labelledby="about-heading"
     >
+      {/* Ambient background accent — anchors the section instead of a flat white void */}
+      <div className="pointer-events-none absolute -top-24 -left-32 w-[420px] h-[420px] rounded-full bg-blue-50 blur-3xl opacity-70" />
+      <div className="pointer-events-none absolute bottom-0 right-0 w-[320px] h-[320px] rounded-full bg-amber-50 blur-3xl opacity-60" />
+
       <motion.div
-        className="max-w-7xl mx-auto px-4"
+        className="relative max-w-7xl mx-auto px-4"
         variants={sectionFade}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* LEFT CONTENT */}
           <div>
             <motion.p
-              className="text-gray-500 uppercase tracking-widest text-sm mb-3"
+              className="flex items-center gap-2 text-blue-600 uppercase tracking-widest text-xs font-semibold mb-3"
               variants={fadeInUp}
               custom={0.1}
             >
+              <span className="w-6 h-px bg-blue-600" />
               About Capital Stay
             </motion.p>
 
             <motion.h2
               id="about-heading"
-              className="text-4xl md:text-5xl font-extrabold tracking-tight mb-5"
+              className="font-display text-4xl md:text-5xl font-medium tracking-tight text-gray-900 mb-4 leading-[1.15]"
               variants={fadeInUp}
               custom={0.2}
             >
-              Our Commitment to{" "}
-              <span className="text-blue-600">Luxury Rentals</span>
+              Our commitment to{" "}
+              <em className="italic text-blue-600">luxury rentals</em>
             </motion.h2>
 
             <motion.p
-              className="text-lg leading-relaxed text-gray-600 mb-10"
+              className="text-base leading-relaxed text-gray-600 mb-8 max-w-lg"
               variants={fadeInUp}
               custom={0.3}
             >
@@ -206,7 +187,7 @@ useEffect(() => {
               five-star hospitality experiences to guests worldwide.
             </motion.p>
 
-            <div className="grid grid-cols-2 gap-x-12 gap-y-10 border-t border-gray-200 pt-8">
+            <div className="grid grid-cols-2 gap-4">
               {metricsData.map((metric, index) => (
                 <AnimatedCount
                   key={metric.label}
@@ -220,22 +201,39 @@ useEffect(() => {
 
           {/* RIGHT IMAGE */}
           <motion.div
-            className="relative overflow-hidden rounded-2xl"
+            className="relative"
             variants={fadeInUp}
             custom={0.4}
           >
-            <motion.img
-              src="/assets/about.webp"
-              alt="Luxury holiday homes managed by Capital Stay UAE in Dubai"
-              fetchPriority="high" 
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="w-full h-full object-cover aspect-[4/3]"
-              initial={{ scale: 1.05 }}
-              animate={inView ? { scale: 1 } : {}}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-            />
+            <div className="relative overflow-hidden rounded-[2rem] shadow-[0_30px_60px_-15px_rgba(15,23,42,0.25)] ring-1 ring-black/5">
+              <motion.img
+                src="/assets/dining.webp"
+                alt="Furnished luxury living room managed by Capital Stay UAE in Dubai"
+                fetchPriority="high"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="w-full h-full object-cover aspect-[4/3]"
+                initial={{ scale: 1.05 }}
+                animate={inView ? { scale: 1 } : {}}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-transparent pointer-events-none" />
+            </div>
 
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/5 to-transparent pointer-events-none" />
+            {/* Floating trust badge — reuses the site's existing DTCM-licensed claim, not a fabricated stat */}
+            <motion.div
+              className="absolute -bottom-6 -left-6 hidden sm:flex items-center gap-3 bg-white rounded-2xl shadow-[0_20px_40px_-12px_rgba(15,23,42,0.25)] border border-gray-100 px-5 py-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.8 }}
+            >
+              <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+                <ShieldCheck size={20} />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900 leading-none">DTCM Licensed</p>
+                <p className="text-xs text-gray-500 mt-1">Fully compliant holiday home operator</p>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </motion.div>

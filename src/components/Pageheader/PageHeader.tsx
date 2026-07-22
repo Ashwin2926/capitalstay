@@ -25,13 +25,13 @@ const tokens = {
     bodyFade: '#F9FAFB',
   },
   spacing: {
-    paddingTop: '120px',
-    paddingBottom: '100px',
+    paddingTop: '88px',
+    paddingBottom: '56px',
     maxWidth: '80rem',
     defaultPaddingX: '1.5rem',
     lgPaddingX: '2.5rem',
-    mobilePaddingTop: '80px',
-    mobilePaddingBottom: '60px',
+    mobilePaddingTop: '68px',
+    mobilePaddingBottom: '44px',
   },
 };
 
@@ -86,19 +86,20 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   };
 
   const titleStyle: React.CSSProperties = {
-    marginTop: '1.5rem',
-    fontSize: windowWidth >= 1024 ? '3rem' : windowWidth >= 640 ? '1.75rem' : '1.5rem',
-    fontWeight: 600,
-    lineHeight: 1.1,
+    marginTop: '1rem',
+    fontFamily: 'var(--font-display, "Cormorant Garamond", serif)',
+    fontSize: windowWidth >= 1024 ? '3rem' : windowWidth >= 640 ? '2.1rem' : '1.8rem',
+    fontWeight: 500,
+    lineHeight: 1.15,
     color: tokens.colors.white,
     textShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
-    letterSpacing: '-0.025em',
+    letterSpacing: '-0.01em',
   };
 
   const descriptionStyle: React.CSSProperties = {
-    marginTop: '1rem',
-    maxWidth: '48rem',
-    fontSize: windowWidth >= 640 ? '1.25rem' : '1.125rem',
+    marginTop: '0.75rem',
+    maxWidth: '42rem',
+    fontSize: windowWidth >= 640 ? '1rem' : '0.95rem',
     color: tokens.colors.lightGray,
     lineHeight: 1.6,
     fontWeight: 300,

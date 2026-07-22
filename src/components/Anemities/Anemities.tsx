@@ -6,7 +6,7 @@ import { Headset, Wifi, Book, Clock, Shield, Gem } from 'lucide-react';
 const BackgroundImage = '/assets/background3.webp';  
 const tokens = {
     color: {
-        primary: '#007bff',      // Accent Blue
+        primary: '#2563eb',      // Accent Blue
         textLight: '#FFFFFF',
         textMuted: 'rgba(255, 255, 255, 0.7)',
         bgOverlay: 'rgba(0, 0, 0, 0.65)', // Stronger dark overlay
@@ -39,7 +39,7 @@ const Amenities = () => {
                 background-size: cover;
                 background-position: center;
                 color: ${tokens.color.textLight};
-                padding: 6rem 0;
+                padding: 4rem 0;
                 overflow: hidden;
             }
 
@@ -61,45 +61,46 @@ const Amenities = () => {
 
             /* Typography */
             .title {
+                font-family: var(--font-display, "Cormorant Garamond", serif);
                 font-size: 2.5rem;
-                font-weight: 800;
-                margin-bottom: 0.75rem;
+                font-weight: 500;
+                margin-bottom: 0.6rem;
             }
 
             .subtitle {
-                font-size: 1.25rem;
+                font-size: 1rem;
                 color: ${tokens.color.textMuted};
-                max-width: 600px;
-                margin: 0 auto 4rem;
+                max-width: 560px;
+                margin: 0 auto 2.75rem;
             }
 
             /* Grid Layout (3 columns on desktop, 2 on tablet, 1 on mobile) */
             .amenities-grid {
                 display: grid;
                 grid-template-columns: repeat(1, 1fr);
-                gap: 2rem;
+                gap: 1.25rem;
             }
 
             @media (min-width: 768px) {
                 .amenities-grid {
                     grid-template-columns: repeat(2, 1fr);
-                    gap: 2.5rem 1.5rem;
+                    gap: 1.5rem 1.25rem;
                 }
             }
-            
+
             @media (min-width: 1024px) {
                 .amenities-grid {
                     /* Main requirement: 3 columns (2 rows of 3 items = 6 items total) */
                     grid-template-columns: repeat(3, 1fr);
-                    gap: 3rem 2rem;
+                    gap: 1.5rem;
                 }
             }
 
             /* Card Styling */
             .amenity-card {
                 background: ${tokens.color.cardBg};
-                padding: 2rem;
-                border-radius: 1rem;
+                padding: 1.5rem;
+                border-radius: 0.9rem;
                 box-shadow: 0 10px 30px ${tokens.color.shadow};
                 border: 1px solid rgba(255, 255, 255, 0.15);
                 text-align: left;
@@ -107,33 +108,33 @@ const Amenities = () => {
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
-                min-height: 180px; /* Ensure visual consistency */
+                min-height: 150px; /* Ensure visual consistency */
             }
-            
+
             /* Icon Styling */
             .icon {
                 color: ${tokens.color.primary};
-                margin-bottom: 1rem;
-                padding: 10px;
-                background: rgba(0, 123, 255, 0.1);
+                margin-bottom: 0.75rem;
+                padding: 8px;
+                background: rgba(37, 99, 235, 0.1);
                 border-radius: 50%;
                 transition: background 0.3s ease;
             }
-            
+
             .amenity-card:hover .icon {
                 background: ${tokens.color.primary};
                 color: ${tokens.color.textLight};
             }
 
             .amenity-title {
-                font-size: 1.35rem;
+                font-size: 1.1rem;
                 font-weight: 700;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.4rem;
                 color: ${tokens.color.textLight};
             }
 
             .amenity-desc {
-                font-size: 1rem;
+                font-size: 0.875rem;
                 color: ${tokens.color.textMuted};
             }
         `}</style>

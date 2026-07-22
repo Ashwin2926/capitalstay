@@ -105,10 +105,10 @@ const FurnishingPage = () => {
 
       <div className="max-w-7xl mx-auto px-5 lg:px-8">
         {/* INTRO */}
-        <section className="text-center mt-20 mb-24">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
-            <span className="text-blue-600">Capital Stay</span> Furnishing Service
-          </h1>
+        <section className="text-center mt-12 mb-14">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight mb-6">
+            <em className="italic text-blue-600">Capital Stay</em> Furnishing Service
+          </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
             Our furnishing service transforms properties into high-performing luxury rentals.
             Many clients combine this with our{" "}
@@ -123,22 +123,22 @@ const FurnishingPage = () => {
         </section>
 
         {/* HERO IMAGE */}
-        <section className="relative h-[340px] md:h-[480px] rounded-3xl overflow-hidden mb-28 group">
+        <section className="relative h-[340px] md:h-[480px] rounded-3xl overflow-hidden mb-16 group">
           <img
             src="../assets/furniture.webp"
             alt="Luxury furnished interior"
             className="w-full h-full object-cover brightness-75 scale-100 group-hover:scale-105 transition-transform duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-10">
-            <h2 className="text-white text-4xl md:text-6xl font-bold uppercase tracking-wide">
+            <h2 className="text-white text-2xl md:text-4xl font-bold uppercase tracking-wide">
               Designed for Higher Returns
             </h2>
           </div>
         </section>
 
         {/* WHO IT’S FOR */}
-        <section className="mb-28">
-          <h2 className="text-3xl font-bold mb-12 text-center">
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-8 text-center">
             Who This Service Is For
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -161,8 +161,8 @@ const FurnishingPage = () => {
         </section>
 
         {/* PROCESS */}
-        <section className="mb-28">
-          <h2 className="text-3xl font-bold mb-14 text-center">
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-8 text-center">
             Our Furnishing Process
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
@@ -181,7 +181,7 @@ const FurnishingPage = () => {
         </section>
 
         {/* FEATURES */}
-        <section className="mb-28">
+        <section className="mb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {FEATURES.map((item, index) => (
               <div
@@ -202,8 +202,8 @@ const FurnishingPage = () => {
         </section>
 
         {/* INTEGRATED SERVICES */}
-        <section className="mb-28 bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-[2.5rem] p-14">
-          <h2 className="text-3xl font-bold mb-6 text-center">
+        <section className="mb-16 bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-[2rem] p-8">
+          <h2 className="text-2xl font-bold mb-4 text-center">
             Integrated Landlord Services
           </h2>
           <p className="text-gray-600 max-w-3xl mx-auto text-center mb-12">
@@ -229,9 +229,9 @@ const FurnishingPage = () => {
         </section>
 
         {/* ROI */}
-        <section className="mb-28 text-center">
-          <h2 className="text-3xl font-bold mb-14">Why Furnishing Matters</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <section className="mb-16 text-center">
+          <h2 className="text-2xl font-bold mb-8">Why Furnishing Matters</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
               "Higher Nightly Rates",
               "Faster Bookings",
@@ -247,8 +247,8 @@ const FurnishingPage = () => {
         </section>
 
         {/* CTA */}
-        <section className="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-[2.5rem] p-16 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+        <section className="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-[2.5rem] p-8 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
             Ready to Furnish Your Property?
           </h2>
           <p className="text-gray-600 max-w-3xl mx-auto mb-12">

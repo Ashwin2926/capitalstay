@@ -25,14 +25,14 @@ const ScopedStyles = () => (
   <style>{`
     .cta-container {
       position: relative;
-      padding: 100px 0;
+      padding: 64px 0;
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 450px;
+      min-height: 320px;
     }
     .cta-container::before {
       content: "";
@@ -41,19 +41,19 @@ const ScopedStyles = () => (
       background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(30, 58, 138, 0.7));
       z-index: 1;
     }
-    .cta-container .container { position: relative; z-index: 2; }
-    
+    .cta-container > div { position: relative; z-index: 2; }
+
     .btn-cta-premium {
       background: #2563eb;
       color: white;
-      padding: 1rem 2.5rem;
+      padding: 0.8rem 2rem;
       border-radius: 999px;
       font-weight: 800;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
       border: none;
       transition: all 0.3s ease;
       box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
-      margin-top: 1.5rem;
+      margin-top: 1rem;
     }
     .btn-cta-premium:hover {
       background: #1d4ed8;
@@ -77,9 +77,11 @@ const ScopedStyles = () => (
     .form-container {
       background: white;
       width: 100%;
-      max-width: 650px;
-      border-radius: 1.5rem;
-      padding: 2.5rem;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 1.25rem;
+      padding: 1.75rem;
       position: relative;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
@@ -87,7 +89,7 @@ const ScopedStyles = () => (
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
     }
     .sleek-input {
       width: 100%;
@@ -242,18 +244,18 @@ const CallToAction: React.FC<CallToActionProps> = ({ showForm, toggleForm }) => 
       <ScopedStyles />
 
       <section
-        className="cta-container container-fluid"
+        className="cta-container"
         style={{ backgroundImage: `url(${image})` }}
       >
-        <div className="container text-center text-white">
-          <h2 className="display-5 font-black mb-3">
-            Rent Your Property Confidently with Capital Stay
+        <div className="max-w-2xl mx-auto px-4 text-center text-white">
+          <h2 className="font-display text-3xl md:text-4xl font-medium mb-2.5">
+            Rent your property confidently with Capital Stay
           </h2>
-          <p className="lead mb-4 opacity-90">
-            Professional <Link to="/management" className="text-white fw-bold">property management</Link> with 24/7 support and higher returns.
+          <p className="text-sm md:text-base mb-4 opacity-90">
+            Professional <Link to="/management" className="text-white font-bold underline underline-offset-2">property management</Link> with 24/7 support and higher returns.
           </p>
           <button
-            className="btn btn-cta-premium"
+            className="btn-cta-premium"
             onClick={toggleForm}
           >
             List Your Property
@@ -265,43 +267,45 @@ const CallToAction: React.FC<CallToActionProps> = ({ showForm, toggleForm }) => 
         <div className="form-overlay" role="dialog" onClick={toggleForm}>
           <div className="form-container" onClick={(e) => e.stopPropagation()}>
             <div className="form-header">
-              <h3 className="fw-bold text-slate-900">Request a Free Quote</h3>
-              <button type="button" className="btn-close" onClick={toggleForm} />
+              <h3 className="font-bold text-slate-900 text-xl">Request a Free Quote</h3>
+              <button type="button" onClick={toggleForm} aria-label="Close" className="w-9 h-9 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition text-xl leading-none">
+                &times;
+              </button>
             </div>
 
-            <form onSubmit={handleSubmit}>
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label small fw-bold">First Name*</label>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold mb-1.5">First Name*</label>
                   <input type="text" name="firstName" className="sleek-input" required value={formData.firstName} onChange={handleChange} />
                 </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label small fw-bold">Last Name*</label>
+                <div>
+                  <label className="block text-sm font-bold mb-1.5">Last Name*</label>
                   <input type="text" name="lastName" className="sleek-input" required value={formData.lastName} onChange={handleChange} />
                 </div>
               </div>
 
-              <div className="mb-3">
-                <label className="form-label small fw-bold">Phone Number*</label>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Phone Number*</label>
                 <input type="tel" name="phone" className="sleek-input" required value={formData.phone} onChange={handleChange} placeholder="+971..." />
               </div>
 
-              <div className="mb-3">
-                <label className="form-label small fw-bold">Your Email*</label>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Your Email*</label>
                 <input type="email" name="email" className="sleek-input" required value={formData.email} onChange={handleChange} />
               </div>
 
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label small fw-bold">Property Type</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold mb-1.5">Property Type</label>
                   <select name="propertyType" className="sleek-input" value={formData.propertyType} onChange={handleChange}>
                     <option>Apartment</option>
                     <option>Villa/House</option>
                     <option>Penthouse</option>
                   </select>
                 </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label small fw-bold">Unit Type</label>
+                <div>
+                  <label className="block text-sm font-bold mb-1.5">Unit Type</label>
                   <select name="unitType" className="sleek-input" value={formData.unitType} onChange={handleChange}>
                     <option>Studio</option>
                     <option>1 Bedroom</option>
@@ -311,33 +315,33 @@ const CallToAction: React.FC<CallToActionProps> = ({ showForm, toggleForm }) => 
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label small fw-bold">Location (Area/City)*</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold mb-1.5">Location (Area/City)*</label>
                   <input type="text" name="city" className="sleek-input" required value={formData.city} onChange={handleChange} placeholder="e.g. Dubai Marina" />
                 </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label small fw-bold">Approx. Size (sqft)</label>
+                <div>
+                  <label className="block text-sm font-bold mb-1.5">Approx. Size (sqft)</label>
                   <input type="text" name="size" className="sleek-input" value={formData.size} onChange={handleChange} />
                 </div>
               </div>
 
-              <div className="mb-4">
-                <label className="form-label small fw-bold">Additional Notes</label>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Additional Notes</label>
                 <textarea name="notes" rows={3} className="sleek-input" value={formData.notes} onChange={handleChange} placeholder="Tell us about your property..." />
               </div>
 
               {successMessage && (
-                <div className={`alert py-2 ${successMessage.startsWith("Error") ? "alert-danger" : "alert-success"}`}>
+                <div className={`rounded-lg py-2 px-3 text-sm font-medium ${successMessage.startsWith("Error") ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
                   {successMessage}
                 </div>
               )}
 
-              <button type="submit" className="btn btn-form-submit w-100" disabled={isSubmitting || !isEmailJSApiReady}>
+              <button type="submit" className="btn-form-submit w-full" disabled={isSubmitting || !isEmailJSApiReady}>
                 {isSubmitting ? "Sending..." : "Submit"}
               </button>
-              
-              <p className="text-center mt-3 text-muted" style={{ fontSize: '0.75rem' }}>
+
+              <p className="text-center text-slate-500" style={{ fontSize: '0.75rem' }}>
                 By submitting, you agree to our <a href="https://booking.capitalstayuae.com/terms-and-conditions" className="internal-link-small">Terms</a> and <a href="https://booking.capitalstayuae.com/privacy-policy" className="internal-link-small">Privacy Policy</a>.
               </p>
             </form>

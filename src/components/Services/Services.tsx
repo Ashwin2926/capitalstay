@@ -195,8 +195,8 @@ const ServicesPage = () => {
       <div className="services-page-wrapper">
          <style>{`
         :root {
-          --primary-blue: #007BFF;
-          --accent-blue: #0056B3;
+          --primary-blue: #2563eb;
+          --accent-blue: #1d4ed8;
           --bg: #ffffff;
           --card-bg: #f8f8fb;
           --muted: #6b7280;
@@ -211,32 +211,33 @@ const ServicesPage = () => {
           background: var(--bg);
           color: var(--text);
           font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-          padding: 4.25rem 1rem;
+          padding: 2.75rem 1rem;
         }
 
         .page-header {
           text-align: center;
-          margin-bottom: 3.5rem;
+          margin-bottom: 2.25rem;
           max-width: 90rem;
           margin-left: auto;
           margin-right: auto;
         }
 
         .header-main-title {
-          font-size: 2.75rem;
-          line-height: 1.02;
-          font-weight: 800;
+          font-family: var(--font-display, "Cormorant Garamond", serif);
+          font-size: 2.5rem;
+          line-height: 1.15;
+          font-weight: 500;
           margin: 0;
           background: linear-gradient(90deg, #002a5f 0%, var(--primary-blue) 100%);
           -webkit-background-clip: text;
           color: transparent;
-          letter-spacing: -0.02em;
+          letter-spacing: -0.01em;
         }
 
         .header-subtitle {
-          margin-top: 0.75rem;
+          margin-top: 0.6rem;
           color: var(--muted);
-          font-size: 1.05rem;
+          font-size: 0.95rem;
           max-width: 56rem;
           margin-left: auto;
           margin-right: auto;
@@ -301,7 +302,7 @@ const ServicesPage = () => {
         }
 
         .accordion-header-btn.is-open {
-          background: linear-gradient(90deg, rgba(0, 123, 255, 0.06), rgba(0, 86, 179, 0.03));
+          background: linear-gradient(90deg, rgba(37, 99, 235, 0.06), rgba(29, 78, 216, 0.03));
           box-shadow: inset 3px 0 0 var(--primary-blue);
         }
 
@@ -387,13 +388,13 @@ const ServicesPage = () => {
           border: none;
           font-weight: 700;
           cursor: pointer;
-          box-shadow: 0 8px 20px rgba(0, 123, 255, 0.14);
+          box-shadow: 0 8px 20px rgba(37, 99, 235, 0.14);
           transition: transform 0.18s ease, box-shadow 0.18s ease;
         }
 
         .request-service-btn:hover {
           transform: translateY(-3px);
-          box-shadow: 0 12px 30px rgba(0, 123, 255, 0.22);
+          box-shadow: 0 12px 30px rgba(37, 99, 235, 0.22);
         }
 
         .content-image-wrapper {
@@ -509,7 +510,7 @@ const ServicesPage = () => {
       `}</style>
         
         <header className="page-header">
-          <h1 className="header-main-title">Explore Services we offer</h1>
+          <h2 className="header-main-title">Explore Services we offer</h2>
           <p className="header-subtitle">Tailored lifestyle solutions for the modern traveler in Dubai.</p>
         </header>
 
