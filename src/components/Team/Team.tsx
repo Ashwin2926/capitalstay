@@ -40,7 +40,7 @@ const TEAM_DATA: TeamMember[] = [
     image: "/assets/teams/jibran.webp",
   },
   {
-    name: "Abu Baker Chen",
+    name: "Abu Baker",
     role: "Housekeeping Supervisor",
     description:
       "Abu Baker leads our housekeeping operations with precision and pride. His dedication to cleanliness, quality control, and team coordination ensures each property meets Capital Stay’s premium standards. With a meticulous eye and strong work ethic, he guarantees that every home is guest-ready and maintained to perfection.",
