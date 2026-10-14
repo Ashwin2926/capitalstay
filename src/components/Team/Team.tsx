@@ -85,7 +85,7 @@ export default function TeamPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 items-start sm:items-stretch gap-3 sm:gap-4 md:gap-6">
             {TEAM_DATA.map((member) => (
               <TeamCard key={member.name} member={member} />
             ))}
@@ -101,9 +101,9 @@ function TeamCard({ member }: { member: TeamMember }) {
   const bioId = `bio-${member.name.replace(/\s+/g, "-").toLowerCase()}`;
 
   return (
-    <article className="group flex overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
-      {/* PHOTO: portrait column beside the bio */}
-      <div className="relative w-28 sm:w-44 md:w-52 shrink-0 overflow-hidden bg-gray-100">
+    <article className="group flex flex-col lg:flex-row overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
+      {/* PHOTO: portrait on top on phones, column beside the bio from lg up */}
+      <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-auto lg:w-52 shrink-0 overflow-hidden bg-gray-100">
         <img
           src={member.image}
           // 3. IMAGE SEO: Descriptive Alt Text including Role and Location
@@ -115,27 +115,27 @@ function TeamCard({ member }: { member: TeamMember }) {
       </div>
 
       {/* DETAILS */}
-      <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-6">
-        <p className="text-xs font-semibold uppercase tracking-wider text-blue-600">
+      <div className="flex min-w-0 flex-1 flex-col p-3 sm:p-5 lg:p-6">
+        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-blue-600 leading-snug">
           {member.role}
         </p>
-        <h3 className="mt-1 font-display text-xl sm:text-2xl font-medium text-gray-900">
+        <h3 className="mt-1 font-display text-lg sm:text-2xl font-medium leading-tight text-gray-900">
           {member.name}
         </h3>
-        <span aria-hidden="true" className="mt-3 h-px w-10 bg-blue-600/40" />
+        <span aria-hidden="true" className="mt-2 sm:mt-3 h-px w-8 sm:w-10 bg-blue-600/40" />
         <p
           id={bioId}
-          className={`mt-3 text-sm leading-relaxed text-gray-600 ${expanded ? "" : "line-clamp-4 sm:line-clamp-none"}`}
+          className={`mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed text-gray-600 ${expanded ? "" : "line-clamp-3 sm:line-clamp-none"}`}
         >
           {member.description}
         </p>
-        {/* Bio is clamped on small phones only */}
+        {/* Bio is clamped on phones only */}
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
           aria-expanded={expanded}
           aria-controls={bioId}
-          className="mt-2 self-start rounded text-sm font-medium text-blue-600 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:hidden"
+          className="mt-1.5 self-start rounded py-1 text-xs sm:text-sm font-medium text-blue-600 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:hidden"
         >
           {expanded ? "Show less" : "Read more"}
         </button>
