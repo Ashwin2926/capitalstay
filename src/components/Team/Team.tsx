@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import PageHeader from "../Pageheader/PageHeader";
+import TeamSpotlight from "./TeamSpotlight";
 import { useSeo } from "../../hooks/useSeo"; 
 
  
@@ -85,7 +86,12 @@ export default function TeamPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 items-start sm:items-stretch gap-3 sm:gap-4 md:gap-6">
+          {/* Phones: story-style spotlight */}
+          <div className="sm:hidden">
+            <TeamSpotlight members={TEAM_DATA} />
+          </div>
+
+          <div className="hidden sm:grid grid-cols-2 items-stretch gap-4 md:gap-6">
             {TEAM_DATA.map((member) => (
               <TeamCard key={member.name} member={member} />
             ))}
