@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { COMPLETE_PROPERTY_DATA } from "../lib/locations"; 
 import { FaMapMarkerAlt, FaCheckCircle, FaMoneyBillWave, FaChevronDown, FaInfoCircle, FaStar, FaKey, FaCompass } from "react-icons/fa";
 import PageHeader from "../Pageheader/PageHeader";
+import MobileRail from "../ui/MobileRail";
+import ReadMore from "../ui/ReadMore";
+import NotFound from "../NotFound";
 import { Helmet } from "react-helmet-async";
 
 // --- Interfaces for Type Safety ---
@@ -39,12 +42,7 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
     const property = cleanKey ? (COMPLETE_PROPERTY_DATA as Record<string, RawProperty>)[cleanKey] : null;
 
     if (!property) {
-        return (
-            <div className="py-20 text-center">
-                <h2 className="text-2xl font-bold text-gray-800">Location not found.</h2>
-                <p className="text-gray-500 mt-2">Please return to the explore page to select a valid neighborhood.</p>
-            </div>
-        );
+        return <NotFound />;
     }
 
     // Original Logic for Breadcrumbs
@@ -101,11 +99,11 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                 backgroundImage="../assets/listing.webp"
             />
 
-            <div className="max-w-7xl mx-auto px-6 py-10">
-                <div className="grid lg:grid-cols-3 gap-12">
+            <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     
                     {/* MAIN CONTENT */}
-                    <div className="lg:col-span-2 space-y-16">
+                    <div className="lg:col-span-2 min-w-0 space-y-12 md:space-y-16">
                         
                         {/* Intro Section */}
                         <section className="bg-white p-6 md:p-8 rounded-[1.75rem] shadow-sm border border-gray-100">
@@ -113,28 +111,32 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                                 <FaInfoCircle className="text-xl" />
                                 <span className="font-bold uppercase tracking-widest text-[10px]">Overview</span>
                             </div>
-                            {property.intro?.map((para, i) => (
-                                <p key={i} className="text-gray-600 text-lg leading-relaxed mb-6 last:mb-0">
-                                    {para}
-                                </p>
-                            ))}
+                            <ReadMore collapsedHeight={170}>
+                                {property.intro?.map((para, i) => (
+                                    <p key={i} className="text-gray-600 text-base md:text-lg leading-relaxed mb-6 last:mb-0">
+                                        {para}
+                                    </p>
+                                ))}
+                            </ReadMore>
                         </section>
 
                         {/* Why Choose Section */}
                         {property.why_choose && (
                             <section>
                                 <h2 className="text-2xl font-black text-gray-900 mb-6">{property.why_choose_title}</h2>
-                                <div className="grid md:grid-cols-2 gap-6">
+                                <MobileRail label={property.why_choose_title ?? "Why choose"} desktopClassName="md:grid-cols-2 md:gap-6" slideClassName="w-[80%] sm:w-[46%]">
                                     {property.why_choose.map((item, i) => (
-                                        <div key={i} className="p-8 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                                        <div key={i} className="p-6 md:p-8 bg-white rounded-2xl border border-gray-100 shadow-sm">
                                             <div className="flex items-center gap-3 mb-4">
                                                 <FaCheckCircle className="text-blue-600" />
                                                 <h3 className="font-bold text-gray-800 text-lg">{item.title}</h3>
                                             </div>
-                                            <p className="text-gray-600 text-sm leading-relaxed">{item.content}</p>
+                                            <ReadMore collapsedHeight={112}>
+                                                <p className="text-gray-600 text-sm leading-relaxed">{item.content}</p>
+                                            </ReadMore>
                                         </div>
                                     ))}
-                                </div>
+                                </MobileRail>
                             </section>
                         )}
 
@@ -144,32 +146,32 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                                 <h2 className="text-2xl font-black text-gray-900 flex items-center gap-3">
                                     <FaStar className="text-yellow-400" /> What to Expect
                                 </h2>
-                                <div className="grid gap-6">
+                                <MobileRail label="What to expect" desktopClassName="md:grid-cols-1 md:gap-6" slideClassName="w-[80%] sm:w-[46%]">
                                     {property.what_to_expect.map((item, i) => (
-                                        <div key={i} className="flex gap-6 items-start bg-gray-50 p-6 rounded-2xl">
+                                        <div key={i} className="flex gap-6 items-start bg-gray-50 p-6 rounded-2xl max-md:flex-col max-md:gap-4">
                                             <div className="h-10 w-10 flex items-center justify-center bg-blue-600 text-white rounded-full flex-shrink-0 font-bold">
                                                 {i + 1}
                                             </div>
                                             <div>
-                                                <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
-                                                <p className="text-gray-600 leading-relaxed">{item.content}</p>
+                                                <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
+                                                <p className="text-gray-600 leading-relaxed max-md:text-sm">{item.content}</p>
                                             </div>
                                         </div>
                                     ))}
-                                </div>
+                                </MobileRail>
                             </section>
                         )}
 
                         {/* Costs Section */}
                         {property.costs && (
-                            <section className="bg-slate-900 rounded-[2.5rem] p-10 text-white relative overflow-hidden shadow-2xl">
+                            <section className="bg-slate-900 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-10 text-white relative overflow-hidden shadow-2xl">
                                 <div className="relative z-10">
-                                    <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
+                                    <h2 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 flex items-center gap-3">
                                         <FaMoneyBillWave className="text-blue-400" /> Market Rates & Estimates
                                     </h2>
-                                    <div className="grid sm:grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-2 gap-2.5 md:gap-4">
                                         {property.costs.map((cost, i) => (
-                                            <div key={i} className="p-5 bg-white/5 border border-white/10 rounded-xl backdrop-blur-md font-medium text-blue-50">
+                                            <div key={i} className="p-3.5 md:p-5 bg-white/5 border border-white/10 rounded-xl backdrop-blur-md font-medium text-blue-50 text-[13px] leading-snug md:text-base">
                                                 {cost}
                                             </div>
                                         ))}
@@ -181,18 +183,18 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
 
                         {/* How to Rent Section */}
                         {property.how_to_rent && (
-                            <section className="bg-blue-50 p-6 md:p-8 rounded-[1.75rem] border border-blue-100">
-                                <h2 className="text-2xl font-black text-blue-900 mb-8 flex items-center gap-3">
+                            <section className="bg-blue-50 p-5 md:p-8 rounded-[1.75rem] border border-blue-100 overflow-hidden">
+                                <h2 className="text-2xl font-black text-blue-900 mb-6 md:mb-8 flex items-center gap-3">
                                     <FaKey className="text-blue-600" /> Booking Process
                                 </h2>
-                                <div className="space-y-4">
+                                <MobileRail label="Booking process" desktopClassName="md:grid-cols-1 md:gap-4" slideClassName="w-[72%] sm:w-[46%]">
                                     {property.how_to_rent.map((step, i) => (
-                                        <div key={i} className="flex items-center gap-4 bg-white p-5 rounded-xl shadow-sm border border-blue-50">
-                                            <span className="text-blue-600 font-black">0{i + 1}</span>
-                                            <p className="text-gray-700 font-semibold">{step}</p>
+                                        <div key={i} className="flex items-center gap-4 bg-white p-5 rounded-xl shadow-sm border border-blue-50 max-md:flex-col max-md:items-start max-md:gap-2">
+                                            <span className="text-blue-600 font-black max-md:font-display max-md:text-3xl max-md:font-medium">0{i + 1}</span>
+                                            <p className="text-gray-700 font-semibold max-md:text-sm">{step}</p>
                                         </div>
                                     ))}
-                                </div>
+                                </MobileRail>
                             </section>
                         )}
 
@@ -222,7 +224,7 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                     </div>
 
                     {/* SIDEBAR */}
-                    <aside className="lg:col-span-1 space-y-8">
+                    <aside className="lg:col-span-1 min-w-0 space-y-8">
                         {/* Discover / Insights */}
                         {property.discover && (
                             <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">

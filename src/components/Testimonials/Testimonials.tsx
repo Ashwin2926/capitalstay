@@ -218,7 +218,7 @@ const Testimonials: React.FC = () => {
           >
             Leave Your Review on Airbnb ✨
           </button>
-          <p className="text-gray-400 text-xs mt-3 font-medium uppercase tracking-widest">
+          <p className="text-gray-500 text-xs mt-3 font-medium uppercase tracking-widest">
             Verified Airbnb Host Since 2020
           </p>
         </div>

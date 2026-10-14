@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 
 // --- Premium Icons (Optimized with aria-hidden) ---
@@ -37,25 +37,65 @@ const dubaiLocations = ["Dubai", "Fujairah", "Ras Al-Khaimah", "Sharjah"];
 
 export default function HeroSection() {
   const [currentIdx, setCurrentIdx] = useState(0);
+  const reduceMotion = useReducedMotion();
   const [location, setLocation] = useState('Any location');
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(1);
-  const [activeFilter, setActiveFilter] = useState('Hotels');
+  const locationRef = useRef<HTMLDivElement>(null);
+  const checkInRef = useRef<HTMLInputElement>(null);
+  const checkOutRef = useRef<HTMLInputElement>(null);
 
   const HOSTAWAY_BASE_URL = 'https://booking.capitalstayuae.com/search';
   const getTodayString = () => new Date().toISOString().split('T')[0];
 
   const isDateInvalid = checkIn && checkOut && new Date(checkOut) <= new Date(checkIn);
-  const isSearchDisabled = !checkIn || !checkOut || isDateInvalid;
+  const nights = checkIn && checkOut && !isDateInvalid
+    ? Math.round((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / 86400000)
+    : 0;
 
-  // 1. PRELOAD IMAGES: Prevents flickering by caching images ahead of time
+  const formatDate = (value: string) =>
+    value
+      ? new Date(`${value}T00:00:00`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
+      : '';
+
+  const openPicker = (input: HTMLInputElement | null) => {
+    if (!input) return;
+    input.focus();
+    try { input.showPicker?.(); } catch { /* older browsers open on focus/tap */ }
+  };
+
+  // Close the location menu on outside click or Escape
   useEffect(() => {
-    backgroundImages.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
+    if (!isLocationOpen) return;
+    const onPointer = (e: MouseEvent) => {
+      if (locationRef.current && !locationRef.current.contains(e.target as Node)) setIsLocationOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsLocationOpen(false); };
+    document.addEventListener('mousedown', onPointer);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onPointer);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [isLocationOpen]);
+
+  // Fetch the other slides only after the page has finished loading,
+  // so they never compete with the first paint.
+  useEffect(() => {
+    const preloadRest = () => {
+      backgroundImages.slice(1).forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+    if (document.readyState === 'complete') {
+      const t = window.setTimeout(preloadRest, 1500);
+      return () => window.clearTimeout(t);
+    }
+    window.addEventListener('load', preloadRest, { once: true });
+    return () => window.removeEventListener('load', preloadRest);
   }, []);
 
   useEffect(() => {
@@ -67,7 +107,9 @@ export default function HeroSection() {
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    if (isSearchDisabled) return;
+    if (!checkIn) return openPicker(checkInRef.current);
+    if (!checkOut) return openPicker(checkOutRef.current);
+    if (isDateInvalid) return;
     let url: string = `${HOSTAWAY_BASE_URL}?start=${checkIn}&end=${checkOut}&numberOfGuests=${guests}`;
     if (location !== 'Any location') url += `&city=${encodeURIComponent(location)}`;
     window.open(url, '_blank');
@@ -164,178 +206,33 @@ export default function HeroSection() {
         }
 
         .booking-card {
-          background: white;
-          border-radius: 18px;
-          padding: 1.25rem;
-          box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.35);
-          border: 1px solid rgba(15, 23, 42, 0.04);
           width: 100%;
+          background: rgba(255, 255, 255, 0.97);
+          border-radius: 24px;
+          padding: 14px;
+          box-shadow: 0 40px 80px -30px rgba(2, 6, 23, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
         }
-
-        .label-text {
-          display: block;
-          font-size: 0.68rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: #64748b;
-          margin-bottom: 0.5rem;
-        }
-
-        .input-wrapper {
-          background: #f8fafc;
-          border: 1.5px solid #e2e8f0;
-          border-radius: 12px;
-          padding: 0.6rem 0.85rem;
-          display: flex;
-          align-items: center;
-          min-height: 44px;
-          transition: all 0.2s ease;
-        }
- 
-        .input-wrapper input[type="date"] {
-          appearance: none;
-          min-width: 100%;
-          background: transparent;
-        }
-
-        .input-wrapper:focus-within {
-          border-color: #2563eb;
-          background: white;
-          outline: 2px solid rgba(37, 99, 235, 0.2);
-        }
-
-        .input-wrapper.error-state { 
-          border-color: #ef4444; 
-          background: #fef2f2; 
-        }
-
-        .input-wrapper input {
-          border: none;
-          background: transparent;
-          width: 100%;
-          margin-left: 0.6rem;
-          outline: none;
-          color: #0f172a;
-          font-size: 0.9rem;
-          font-family: inherit;
-        }
-
-        .error-message {
-          color: #ef4444;
-          font-size: 0.8rem;
-          margin-top: 6px;
-          font-weight: 600;
-        }
-
-        .form-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1rem;
-        }
-
-        .date-row {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 10px;
-        }
-
-        @media (min-width: 640px) {
-          .date-row { grid-template-columns: 1fr 1fr; }
-        }
-
         @media (min-width: 1024px) {
-          .form-grid { grid-template-columns: 1fr 1.4fr 0.7fr; }
-          .booking-card { padding: 1.75rem; }
+          .booking-card { padding: 10px; border-radius: 999px; }
         }
-
-        .filter-section {
-          margin-top: 1.1rem;
-          padding-top: 1.1rem;
-          border-top: 1px solid #f1f5f9;
-        }
-
-        .filter-row {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-          margin-bottom: 1.1rem;
-        }
-
-        .pill {
-          padding: 0.5rem 1.1rem;
-          border-radius: 100px;
-          border: 1.5px solid #e2e8f0;
-          background: white;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #64748b;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .pill.active { 
-          background: #2563eb; 
-          color: white; 
-          border-color: #2563eb; 
-        }
-
-        .search-btn {
-          background: #1e293b;
-          color: white;
-          border: none;
-          border-radius: 12px;
-          padding: 0.85rem;
-          width: 100%;
-          font-weight: 600;
-          font-size: 0.78rem;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.6rem;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .search-btn:hover:not(:disabled) {
-          background: #0f172a;
-          transform: translateY(-1px);
-        }
-
-        .search-btn:disabled {
-          background: #cbd5e1;
-          cursor: not-allowed;
-        }
-
-        @media (min-width: 768px) {
-          .search-btn { width: auto; padding: 0.85rem 2.5rem; border-radius: 100px; }
-          .filter-section { display: flex; align-items: center; justify-content: space-between; }
-          .filter-row { margin-bottom: 0; }
-        }
-
-        .location-popover {
+        /* Native date input sits invisibly over the styled field */
+        .date-native {
           position: absolute;
-          top: 105%;
-          left: 0;
-          right: 0;
-          background: white;
-          z-index: 100;
-          border-radius: 16px;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-          border: 1px solid #e2e8f0;
-          overflow: hidden;
-        }
-
-        .location-item {
-          padding: 14px 18px;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
           cursor: pointer;
-          transition: background 0.2s;
-          font-weight: 500;
-          color: #475569;
         }
-        .location-item:hover { background: #f1f5f9; color: #2563eb; }
+        .date-native::-webkit-calendar-picker-indicator {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+        }
       `}} />
 
     <section className="hero-root">
@@ -348,10 +245,10 @@ export default function HeroSection() {
             alt="Dubai Luxury Accommodation"
             fetchPriority="high" 
             className="bg-slide"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, scale: reduceMotion ? 1 : 1.08 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ opacity: { duration: 1.5, ease: "easeInOut" }, scale: { duration: 7.5, ease: "linear" } }}
             style={{ position: 'absolute', inset: 0 }}
           />
         </AnimatePresence>
@@ -394,108 +291,126 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <form onSubmit={handleSearch}>
-            <div className="form-grid">
-              <div style={{ position: 'relative' }}>
-                <label htmlFor="loc-input" className="label-text">Location</label>
-                <div 
-                  className="input-wrapper" 
-                  onClick={() => setIsLocationOpen(!isLocationOpen)} 
-                  style={{cursor: 'pointer'}}
+          <form onSubmit={handleSearch} aria-label="Search stays">
+            <div className="grid grid-cols-2 gap-2 lg:flex lg:items-center lg:gap-0">
+              {/* WHERE */}
+              <div ref={locationRef} className="relative col-span-2 lg:flex-[1.25]">
+                <button
+                  type="button"
+                  onClick={() => setIsLocationOpen(o => !o)}
+                  aria-haspopup="listbox"
+                  aria-expanded={isLocationOpen}
+                  className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-3 text-left transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 lg:rounded-full lg:border-0 lg:bg-transparent lg:py-2.5 lg:pl-6 lg:hover:bg-slate-100"
                 >
-                  <IconLocation style={{ color: '#ef4444' }} aria-hidden="true" />
-                  <input 
-                    id="loc-input"
-                    type="text" 
-                    readOnly 
-                    value={location} 
-                    aria-haspopup="listbox"
-                    aria-expanded={isLocationOpen}
-                    placeholder="Where are you going?"
-                  />
-                </div>
+                  <IconLocation style={{ color: '#2563eb' }} aria-hidden="true" />
+                  <span className="min-w-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">Where</span>
+                    <span className={`block truncate text-[15px] font-medium ${location === 'Any location' ? 'text-slate-500' : 'text-slate-900'}`}>
+                      {location === 'Any location' ? 'Any destination' : location}
+                    </span>
+                  </span>
+                </button>
                 {isLocationOpen && (
-                  <div className="location-popover" role="listbox">
-                    <div className="location-item highlight" onClick={() => { setLocation('Any location'); setIsLocationOpen(false); }}>
-                      Any location
-                    </div>
-                    {dubaiLocations.map(loc => (
-                      <div key={loc} className="location-item" onClick={() => { setLocation(loc); setIsLocationOpen(false); }}>
-                        {loc}
-                      </div>
+                  <ul role="listbox" aria-label="Destination" className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1.5 shadow-2xl lg:min-w-[260px]">
+                    {['Any location', ...dubaiLocations].map(loc => (
+                      <li key={loc} role="option" aria-selected={location === loc}>
+                        <button
+                          type="button"
+                          onClick={() => { setLocation(loc); setIsLocationOpen(false); }}
+                          className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-medium transition hover:bg-slate-50 ${location === loc ? 'text-blue-600' : 'text-slate-700'}`}
+                        >
+                          {loc === 'Any location' ? 'Any destination' : loc}
+                          {location === loc && <span aria-hidden="true">✓</span>}
+                        </button>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 )}
               </div>
 
-              <div>
-                <label htmlFor="check-in" className="label-text">Check-in & Check-out</label>
-                <div className="date-row">
-                  <div className={`input-wrapper ${isDateInvalid ? 'error-state' : ''}`}>
-                    <input 
-                      id="check-in"
-                      type="date" 
-                      min={getTodayString()} 
-                      value={checkIn} 
-                      onChange={(e) => setCheckIn(e.target.value)} 
-                      required 
-                    />
-                  </div>
-                  <div className={`input-wrapper ${isDateInvalid ? 'error-state' : ''}`}>
-                    <input 
-                      id="check-out"
-                      aria-label="Check-out date"
-                      type="date" 
-                      min={checkIn || getTodayString()} 
-                      value={checkOut} 
-                      onChange={(e) => setCheckOut(e.target.value)} 
-                      required 
-                    />
+              <span aria-hidden="true" className="hidden h-8 w-px bg-slate-200 lg:block" />
+
+              {/* CHECK-IN */}
+              <div className={`relative rounded-2xl border px-4 py-3 transition focus-within:ring-2 focus-within:ring-blue-500 lg:flex-1 lg:rounded-full lg:border-0 lg:py-2.5 lg:pl-6 lg:hover:bg-slate-100 ${isDateInvalid ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50/70 hover:bg-white lg:bg-transparent'}`}>
+                <label htmlFor="check-in" className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">Check-in</label>
+                <span className={`block truncate text-[15px] font-medium ${checkIn ? 'text-slate-900' : 'text-slate-500'}`}>{formatDate(checkIn) || 'Add date'}</span>
+                <input
+                  ref={checkInRef}
+                  id="check-in"
+                  type="date"
+                  className="date-native"
+                  min={getTodayString()}
+                  value={checkIn}
+                  onChange={(e) => setCheckIn(e.target.value)}
+                  onClick={(e) => openPicker(e.currentTarget)}
+                />
+              </div>
+
+              <span aria-hidden="true" className="hidden h-8 w-px bg-slate-200 lg:block" />
+
+              {/* CHECK-OUT */}
+              <div className={`relative rounded-2xl border px-4 py-3 transition focus-within:ring-2 focus-within:ring-blue-500 lg:flex-1 lg:rounded-full lg:border-0 lg:py-2.5 lg:pl-6 lg:hover:bg-slate-100 ${isDateInvalid ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50/70 hover:bg-white lg:bg-transparent'}`}>
+                <label htmlFor="check-out" className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Check-out{nights > 0 && <span className="normal-case tracking-normal text-blue-600"> · {nights} night{nights > 1 ? 's' : ''}</span>}
+                </label>
+                <span className={`block truncate text-[15px] font-medium ${checkOut ? 'text-slate-900' : 'text-slate-500'}`}>{formatDate(checkOut) || 'Add date'}</span>
+                <input
+                  ref={checkOutRef}
+                  id="check-out"
+                  type="date"
+                  className="date-native"
+                  min={checkIn || getTodayString()}
+                  value={checkOut}
+                  onChange={(e) => setCheckOut(e.target.value)}
+                  onClick={(e) => openPicker(e.currentTarget)}
+                />
+              </div>
+
+              <span aria-hidden="true" className="hidden h-8 w-px bg-slate-200 lg:block" />
+
+              {/* GUESTS */}
+              <div className="col-span-2 flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-2.5 lg:flex-[0.9] lg:rounded-full lg:border-0 lg:bg-transparent lg:pl-6 lg:pr-3">
+                <div className="flex items-center gap-3">
+                  <IconUsers style={{ color: '#2563eb' }} aria-hidden="true" className="lg:hidden" />
+                  <div>
+                    <span id="guest-label" className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">Guests</span>
+                    <span className="block text-[15px] font-medium text-slate-900" aria-live="polite">
+                      {guests} guest{guests > 1 ? 's' : ''}
+                    </span>
                   </div>
                 </div>
-                {isDateInvalid && <div className="error-message">Check-out must be after check-in date.</div>}
-              </div>
-
-              <div>
-                <label htmlFor="guest-count" className="label-text">Guests</label>
-                <div className="input-wrapper">
-                  <IconUsers style={{ color: '#2563eb' }} aria-hidden="true" />
-                  <input 
-                    id="guest-count"
-                    type="number" 
-                    min="1" 
-                    value={guests} 
-                    onChange={(e) => setGuests(Number(e.target.value))} 
-                  />
+                <div className="flex items-center gap-1.5" role="group" aria-labelledby="guest-label">
+                  <button
+                    type="button"
+                    onClick={() => setGuests(g => Math.max(1, g - 1))}
+                    disabled={guests <= 1}
+                    aria-label="Remove a guest"
+                    className="flex size-9 items-center justify-center rounded-full border border-slate-300 text-lg leading-none text-slate-700 transition hover:border-slate-900 disabled:opacity-30 lg:size-8"
+                  >−</button>
+                  <button
+                    type="button"
+                    onClick={() => setGuests(g => Math.min(16, g + 1))}
+                    disabled={guests >= 16}
+                    aria-label="Add a guest"
+                    className="flex size-9 items-center justify-center rounded-full border border-slate-300 text-lg leading-none text-slate-700 transition hover:border-slate-900 disabled:opacity-30 lg:size-8"
+                  >+</button>
                 </div>
               </div>
-            </div>
 
-            <div className="filter-section">
-              <div className="filter-row" role="group" aria-label="Property type filters">
-                {['Hotels', 'Villas', 'Apartments'].map(type => (
-                  <button 
-                    key={type} 
-                    type="button" 
-                    className={`pill ${activeFilter === type ? 'active' : ''}`} 
-                    onClick={() => setActiveFilter(type)}
-                    aria-pressed={activeFilter === type}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
-
-              <button 
-                type="submit" 
-                className="search-btn" 
-                // 3. BOOLEAN CASTING: Fixed the TypeScript error
-                disabled={!!isSearchDisabled} 
+              {/* SEARCH */}
+              <button
+                type="submit"
+                disabled={!!isDateInvalid}
+                className="col-span-2 mt-1 flex h-14 items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-blue-900 px-7 text-sm font-semibold uppercase tracking-[0.16em] text-white shadow-lg shadow-slate-900/25 transition hover:to-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 lg:mt-0 lg:ml-2 lg:h-14 lg:rounded-full"
               >
-                <span>Search Properties</span> 
                 <IconSearch aria-hidden="true" />
+                <span>Search</span>
               </button>
             </div>
+
+            {isDateInvalid && (
+              <p role="alert" className="mt-2 px-2 text-xs font-semibold text-red-600 lg:px-6">Check-out must be after check-in.</p>
+            )}
           </form>
         </motion.div>
       </div>

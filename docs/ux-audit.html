@@ -1,0 +1,323 @@
+<title>Capital Stay UX Audit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  /* Layout: single reading column, findings as ruled rows grouped by priority */
+  :root {
+    --ink: #0f1a2e;
+    --ink-soft: #46536a;
+    --paper: #fbfaf7;
+    --panel: #ffffff;
+    --rule: #e3e1da;
+    --accent: #1f4fd1;
+    --p1: #b42318;
+    --p1-bg: #fdecea;
+    --p2: #a15c07;
+    --p2-bg: #fdf3e2;
+    --p3: #3a5a8c;
+    --p3-bg: #eaf0f8;
+    --ok: #17703f;
+    --ok-bg: #e7f5ec;
+    --display: "Cormorant Garamond", "Times New Roman", serif;
+    --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #e8ecf4; --ink-soft: #a7b1c4; --paper: #0e1420; --panel: #151d2c; --rule: #263146;
+      --accent: #7ea2ff; --p1: #ff8a7a; --p1-bg: #3a1714; --p2: #f2b65c; --p2-bg: #35260d;
+      --p3: #9db8e6; --p3-bg: #1a2638; --ok: #6fd39b; --ok-bg: #12301f; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e8ecf4; --ink-soft: #a7b1c4; --paper: #0e1420; --panel: #151d2c; --rule: #263146;
+    --accent: #7ea2ff; --p1: #ff8a7a; --p1-bg: #3a1714; --p2: #f2b65c; --p2-bg: #35260d;
+    --p3: #9db8e6; --p3-bg: #1a2638; --ok: #6fd39b; --ok-bg: #12301f; color-scheme: dark;
+  }
+
+  body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15.5px; line-height: 1.6; }
+  .wrap { max-width: 860px; margin: 0 auto; padding-block: 48px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  h1, h2 { font-family: var(--display); font-weight: 500; text-wrap: balance; letter-spacing: -0.005em; }
+  h1 { font-size: clamp(2.3rem, 6vw, 3.4rem); line-height: 1.05; margin: 8px 0 16px; }
+  h1 em { font-style: italic; color: var(--accent); }
+  h2 { font-size: 1.9rem; line-height: 1.15; margin: 56px 0 6px; }
+  h3 { font-size: 1rem; font-weight: 600; margin: 0; line-height: 1.4; }
+  p { margin: 0; }
+  .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); }
+  .lede { color: var(--ink-soft); max-width: 62ch; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px; font-size: 0.82rem; color: var(--ink-soft); }
+  .meta b { color: var(--ink); font-weight: 600; }
+  .section-note { color: var(--ink-soft); font-size: 0.92rem; max-width: 64ch; }
+
+  .figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin-top: 32px; }
+  .fig { background: var(--panel); padding: 16px 18px; min-width: 0; }
+  .fig .num { font-family: var(--display); font-size: 2.1rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+  .fig .num small { font-size: 1rem; font-weight: 500; }
+  .fig p { font-size: 0.82rem; color: var(--ink-soft); margin-top: 6px; }
+
+  .fixed { margin-top: 18px; display: grid; gap: 8px; padding: 0; list-style: none; }
+  .fixed li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: baseline; font-size: 0.93rem; }
+  .tick { color: var(--ok); font-weight: 600; }
+
+  .group-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+  .chip.p1 { color: var(--p1); background: var(--p1-bg); }
+  .chip.p2 { color: var(--p2); background: var(--p2-bg); }
+  .chip.p3 { color: var(--p3); background: var(--p3-bg); }
+  .chip.area { color: var(--ink-soft); background: transparent; border: 1px solid var(--rule); }
+
+  .findings { list-style: none; padding: 0; margin: 18px 0 0; border-top: 1px solid var(--rule); }
+  .finding { display: grid; grid-template-columns: 2.4rem 1fr; gap: 4px 14px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+  .finding .n { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-soft); padding-top: 2px; font-variant-numeric: tabular-nums; }
+  .finding .body { min-width: 0; display: grid; gap: 8px; }
+  .finding .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .finding p { font-size: 0.93rem; }
+  .finding .fix { color: var(--ink); }
+  .finding .fix::before { content: "Fix  "; font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.04em; }
+  .finding .why { color: var(--ink-soft); }
+  code { font-family: var(--mono); font-size: 0.84em; background: var(--p3-bg); color: var(--ink); padding: 1px 5px; border-radius: 3px; overflow-wrap: anywhere; }
+
+  .table-wrap { overflow-x: auto; margin-top: 16px; border: 1px solid var(--rule); border-radius: 10px; background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.86rem; min-width: 520px; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  tr:last-child td { border-bottom: 0; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  ol.plan { padding-left: 1.2rem; display: grid; gap: 10px; margin-top: 16px; }
+  ol.plan li { padding-left: 4px; }
+  ol.plan b { font-weight: 600; }
+  .limits { margin-top: 48px; padding: 16px 18px; border: 1px dashed var(--rule); border-radius: 10px; font-size: 0.88rem; color: var(--ink-soft); }
+  .limits h3 { color: var(--ink); margin-bottom: 6px; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">capitalstayuae.com · UI/UX review</p>
+    <h1>Capital Stay <em>UX audit</em></h1>
+    <p class="lede">A review of every page type on the site at phone (390px) and desktop (1400px) widths, covering usability, accessibility (WCAG 2.1 AA), speed, content and visual consistency. Findings are ranked by how much they cost guests and owners today.</p>
+    <div class="meta">
+      <span><b>Date</b> 14 Oct 2026</span>
+      <span><b>Pages</b> Home, Guest Services, Property Management, Furnishing, News, Team, Location (Downtown Dubai)</span>
+      <span><b>Method</b> Screenshots, axe-core 4.10 scan, production build measurements, code review</span>
+    </div>
+  </header>
+
+  <section class="figures" aria-label="Headline numbers">
+    <div class="fig"><div class="num">2.5<small> s</small></div><p>Full-screen loader shown on every page before any content, waiting for home slideshow photos</p></div>
+    <div class="fig"><div class="num">4.8<small> MB</small></div><p>Home page first-view download on a phone; 3.9 MB of it is images</p></div>
+    <div class="fig"><div class="num">8.1<small> MB</small></div><p>Property Management first view; one background PNG alone is 2.6 MB</p></div>
+    <div class="fig"><div class="num">12</div><p>Accessibility rule types failing, 2 of them critical, across every page</p></div>
+  </section>
+
+  <h2>Already fixed in this round</h2>
+  <p class="section-note">These changes are on branch <code>claude/dreamy-franklin-p8t027</code> and go live when it is merged into main.</p>
+  <ul class="fixed">
+    <li><span class="tick">✓</span><span>Mobile layouts no longer stack into one long column: swipeable rows with a counter for destinations, services, news and location highlights; two-column grids for amenities, contact, footer links and rates. Page heights on phones dropped 35–40%.</span></li>
+    <li><span class="tick">✓</span><span>Home page scrolled sideways on phones (26px too wide) because of the long email address. Fixed.</span></li>
+    <li><span class="tick">✓</span><span>Long text on phones now collapses behind “Read more” (location intros, guest service descriptions, lettings copy).</span></li>
+    <li><span class="tick">✓</span><span>Hero search rebuilt: one-bar layout on desktop, app-style card on phones, readable dates with night count, guest stepper, keyboard-friendly destination menu.</span></li>
+    <li><span class="tick">✓</span><span>Team page: real photos, compact side-by-side cards, dead social buttons removed.</span></li>
+    <li><span class="tick">✓</span><span>Second round: findings 01, 02, 05, 06, 07, 08, 09, 10, 11, 12 and 13 below are fixed. The loader is gone, images dropped from 31 MB to 14 MB, the main code file from 883 KB to 652 KB, and failing accessibility rule types from 12 to 2 (none critical). The footer's Terms and Privacy links, which were broken, now work.</span></li>
+    <li><span class="tick">✓</span><span>Added restrained motion: a slow hero zoom, a scroll progress line, page fades and destination card hover detail. All of it switches off for visitors who prefer reduced motion.</span></li>
+  </ul>
+  <p class="section-note" style="margin-top:14px">04 is also fixed: the property-type filter was removed. Still open: 03 needs your content, and 14 to 17 are polish.</p>
+
+  <h2>Fix now</h2>
+  <p class="section-note">Problems guests or owners hit on every visit, or that break trust.</p>
+  <ol class="findings">
+    <li class="finding">
+      <span class="n">01</span>
+      <div class="body">
+        <div class="tags"><span class="chip p1">P1 · speed</span><span class="chip area">All pages</span></div>
+        <h3>A full-screen loader hides every page for up to 2.5 seconds</h3>
+        <p class="why">The app waits for all four home slideshow photos (about 3.6 MB) before showing anything, even on pages that never use them, such as Team or a location page. On mobile data most visitors see the loader for the full 2.5 seconds, and some leave.</p>
+        <p class="fix">Remove the global loader. Render the page immediately and load only the first hero photo up front on the home page; fetch the rest after the page is visible.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">02</span>
+      <div class="body">
+        <div class="tags"><span class="chip p1">P1 · speed</span><span class="chip area">Services, Management, Home</span></div>
+        <h3>Images are far larger than they are displayed</h3>
+        <p class="why">Guest Services and Property Management each download about 7 MB of images on first view. The worst files are listed below. A hero needs about 1,920px wide at roughly 250 KB; a card needs about 800px at under 100 KB.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>File</th><th>Size</th><th>Used on</th></tr></thead>
+            <tbody>
+              <tr><td><code>services/Owner_bg.png</code></td><td class="num">2,662 KB</td><td>Property Management</td></tr>
+              <tr><td><code>data/businessbay.jpg</code></td><td class="num">2,235 KB</td><td>Location pages</td></tr>
+              <tr><td><code>services/guest_services_banner.webp</code></td><td class="num">1,767 KB</td><td>Guest Services</td></tr>
+              <tr><td><code>background5.webp</code></td><td class="num">1,643 KB</td><td>Hero</td></tr>
+              <tr><td><code>background.webp</code></td><td class="num">1,574 KB</td><td>Home hero (loaded on every page)</td></tr>
+              <tr><td><code>services/maid.webp</code></td><td class="num">1,047 KB</td><td>Guest Services</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fix">Re-export images at display size (WebP or AVIF, quality 75–80), add <code>srcset</code> so phones get smaller versions, and keep <code>loading="lazy"</code> for everything below the first screen.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">03</span>
+      <div class="body">
+        <div class="tags"><span class="chip p1">P1 · trust</span><span class="chip area">Footer, News</span></div>
+        <h3>Placeholder content is live</h3>
+        <p class="why">The Facebook, LinkedIn and TikTok icons in the footer open those sites' home pages, not Capital Stay's profiles. News cards link to <code>#</code> and use stock Unsplash photos, and “Subscribe to Newsletter” opens <code>example.com</code>. Visitors who click any of these conclude the site is unfinished.</p>
+        <p class="fix">Add the real profile URLs or remove those icons. Give each news story a real page or remove the “View Details” link, use your own photos, and connect or remove the newsletter button. Check that every award and figure on the News page is accurate before it stays public.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">04</span>
+      <div class="body">
+        <div class="tags"><span class="chip p1">P1 · usability</span><span class="chip area">Home search</span></div>
+        <h3>The Hotels / Villas / Apartments filter does nothing</h3>
+        <p class="why">The selected type is never added to the booking search link, so guests who pick “Villas” still see every property type.</p>
+        <p class="fix">Pass the type to the Hostaway search if the booking engine supports a type filter; otherwise remove the control.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">05</span>
+      <div class="body">
+        <div class="tags"><span class="chip p1">P1 · accessibility</span><span class="chip area">Footer, all pages</span></div>
+        <h3>Footer links can't be reached by keyboard or opened in a new tab</h3>
+        <p class="why">The footer links are clickable list items, not real links. Keyboard and screen-reader users skip them entirely, nobody can open them in a new tab, and search engines don't follow them.</p>
+        <p class="fix">Replace each one with a router <code>&lt;Link&gt;</code>, or an <code>&lt;a&gt;</code> for external pages.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">06</span>
+      <div class="body">
+        <div class="tags"><span class="chip p1">P1 · accessibility</span><span class="chip area">All pages, listing form</span></div>
+        <h3>Unnamed controls and unlinked form labels</h3>
+        <p class="why">Screen readers announce the back-to-top button, the six social icons and the payment logos with no name (axe: <code>button-name</code>, <code>link-name</code>, <code>svg-img-alt</code>). In the “List your property” form the labels aren't connected to their fields, so fields are read without names and tapping a label doesn't focus its field.</p>
+        <p class="fix">Add <code>aria-label</code>s (for example “Back to top”, “Capital Stay on Instagram”) and give each form label an <code>htmlFor</code> that matches its input's <code>id</code>.</p>
+      </div>
+    </li>
+  </ol>
+
+  <h2>Fix next</h2>
+  <p class="section-note">Real issues with a smaller or less frequent impact.</p>
+  <ol class="findings" start="7">
+    <li class="finding">
+      <span class="n">07</span>
+      <div class="body">
+        <div class="tags"><span class="chip p2">P2 · accessibility</span><span class="chip area">Several pages</span></div>
+        <h3>Low-contrast text</h3>
+        <p class="why">These fail the 4.5:1 minimum: the cookie banner's Accept (2.8:1, white on green) and Decline (3.7:1) buttons, the footer copyright line (2.8:1), the News category labels (gold “Award” is 1.4:1, green 2.3:1, orange 2.8:1) and “Verified Airbnb Host Since 2020” (2.5:1). Links inside FAQ answers are distinguished by colour alone. Some faint text on Property Management was caught mid-fade-in by the scanner and is fine at rest.</p>
+        <p class="fix">Darken those colours to at least 4.5:1 and underline links that sit inside paragraphs.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">08</span>
+      <div class="body">
+        <div class="tags"><span class="chip p2">P2 · usability</span><span class="chip area">All pages, phones</span></div>
+        <h3>The cookie banner takes over the first screen on phones</h3>
+        <p class="why">Its text alone is 176px tall, and Decline is styled as a red warning button, which reads as an error and pressures visitors to accept.</p>
+        <p class="fix">Shorten the copy to one or two lines with a “Learn more” link, keep the banner under about 120px, and give both choices equal visual weight.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">09</span>
+      <div class="body">
+        <div class="tags"><span class="chip p2">P2 · accessibility</span><span class="chip area">Navigation</span></div>
+        <h3>Desktop menu uses the wrong ARIA pattern</h3>
+        <p class="why">The menu is marked as an application-style <code>menubar</code> but contains plain list items, which axe rates critical (<code>aria-required-children</code>, <code>listitem</code>). Screen readers announce it inconsistently.</p>
+        <p class="fix">Use a plain <code>&lt;nav&gt;&lt;ul&gt;</code> of links, with a disclosure button (<code>aria-expanded</code>) for each dropdown.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">10</span>
+      <div class="body">
+        <div class="tags"><span class="chip p2">P2 · speed</span><span class="chip area">All pages</span></div>
+        <h3>Every page downloads the code for every other page</h3>
+        <p class="why">The site ships as one 883 KB JavaScript file (243 KB compressed).</p>
+        <p class="fix">Lazy-load each route with <code>React.lazy</code> so each page loads only its own code.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">11</span>
+      <div class="body">
+        <div class="tags"><span class="chip p2">P2 · SEO risk</span><span class="chip area">Site-wide structured data</span></div>
+        <h3>Hard-coded review rating in the search markup</h3>
+        <p class="why">The site tells Google it has a 4.9 rating from 120 reviews in its own markup. Google's rules don't allow businesses to mark up reviews about themselves on their own site, and violations can lead to a manual penalty.</p>
+        <p class="fix">Remove <code>aggregateRating</code> from the organisation schema, or replace it with an approved review widget's markup.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">12</span>
+      <div class="body">
+        <div class="tags"><span class="chip p2">P2 · usability</span><span class="chip area">Routing</span></div>
+        <h3>No real “page not found” page</h3>
+        <p class="why">Any one-word address, for example a typo like <code>/servcies</code>, shows only “Location not found.” with no way forward.</p>
+        <p class="fix">Show a branded not-found page with search and links to the main locations and home.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">13</span>
+      <div class="body">
+        <div class="tags"><span class="chip p2">P2 · accessibility</span><span class="chip area">Page structure</span></div>
+        <h3>Missing main region and skipped heading levels</h3>
+        <p class="why">Five page types have no <code>&lt;main&gt;</code> region, Guest Services has two site headers, and some headings skip levels (for example amenity titles are <code>h6</code> directly under an <code>h2</code>). Screen-reader users rely on these to jump around a page.</p>
+        <p class="fix">Wrap page content in <code>&lt;main&gt;</code>, keep a single site header, and step headings down one level at a time.</p>
+      </div>
+    </li>
+  </ol>
+
+  <h2>Polish</h2>
+  <p class="section-note">Consistency work that makes the brand feel more premium.</p>
+  <ol class="findings" start="14">
+    <li class="finding">
+      <span class="n">14</span>
+      <div class="body">
+        <div class="tags"><span class="chip p3">P3 · visual</span><span class="chip area">Management, Furnishing, Location</span></div>
+        <h3>Two competing heading styles</h3>
+        <p class="why">The home page and hero use the elegant Cormorant serif, while Property Management, Furnishing and the location pages switch to heavy black sans-serif headings. The site feels like two brands.</p>
+        <p class="fix">Use Cormorant for page and section headings everywhere and the sans-serif at semibold for card titles.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">15</span>
+      <div class="body">
+        <div class="tags"><span class="chip p3">P3 · visual</span><span class="chip area">Site-wide</span></div>
+        <h3>Buttons and card corners vary page to page</h3>
+        <p class="why">Buttons come in at least four styles (blue pill, navy rounded, white outline, uppercase versus sentence case), and card corners range from 14px to 40px.</p>
+        <p class="fix">Define one primary and one secondary button and two corner sizes, then reuse them everywhere.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">16</span>
+      <div class="body">
+        <div class="tags"><span class="chip p3">P3 · code health</span><span class="chip area">Developers</span></div>
+        <h3>Shared class names can clash</h3>
+        <p class="why">Several components inject global CSS with generic class names (<code>.content-wrapper</code>, <code>.title</code>, <code>.icon</code>), which can override each other when two of those components appear on the same page. There's also an existing lint error in <code>Services.tsx</code>, plus unused files (<code>old.jsx</code>, <code>back.jsx</code>).</p>
+        <p class="fix">Move component styles to Tailwind classes or CSS modules, fix the lint error, and delete the unused files.</p>
+      </div>
+    </li>
+    <li class="finding">
+      <span class="n">17</span>
+      <div class="body">
+        <div class="tags"><span class="chip p3">P3 · usability</span><span class="chip area">Home search, Key Destinations</span></div>
+        <h3>Booking opens in a new tab</h3>
+        <p class="why">Search and destination cards open the booking site in a new tab, so on phones guests end up with several tabs open and lose track of capitalstayuae.com.</p>
+        <p class="fix">Open the booking site in the same tab for now; the planned Hostaway integration (in <code>docs/TODO.md</code>) keeps guests on your own site until payment.</p>
+      </div>
+    </li>
+  </ol>
+
+  <h2>Suggested order</h2>
+  <ol class="plan">
+    <li><b>One session, code only:</b> remove the global loader (01), real footer links and labels (05, 06), contrast fixes (07), menu pattern (09), route lazy-loading (10), schema rating (11), 404 page (12) and main regions (13).</li>
+    <li><b>Image pass:</b> re-export and resize the heavy images (02). This alone should cut first-view downloads by more than half.</li>
+    <li><b>Needs your input:</b> real social profile URLs, news stories and photos, the newsletter tool, and a decision on the property-type filter (03, 04).</li>
+    <li><b>Design consistency:</b> heading, button and corner standards (14, 15), applied page by page.</li>
+  </ol>
+
+  <aside class="limits">
+    <h3>Limits of this audit</h3>
+    <p>Tested in Chromium on a local production build; the live site, real phones and Safari were not tested. Google Maps, the booking site and stock photos were blocked in the test environment, so those areas were not reviewed visually. Load sizes were measured, but timings on real mobile networks were not.</p>
+  </aside>
+</div>

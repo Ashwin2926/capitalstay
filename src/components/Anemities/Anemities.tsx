@@ -77,8 +77,8 @@ const Amenities = () => {
             /* Grid Layout (3 columns on desktop, 2 on tablet, 1 on mobile) */
             .amenities-grid {
                 display: grid;
-                grid-template-columns: repeat(1, 1fr);
-                gap: 1.25rem;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.625rem;
             }
 
             @media (min-width: 768px) {
@@ -137,6 +137,25 @@ const Amenities = () => {
                 font-size: 0.875rem;
                 color: ${tokens.color.textMuted};
             }
+            /* Phones: compact app-style tiles, two per row */
+            @media (max-width: 767px) {
+                .content-wrapper { padding: 0 16px; }
+                .title { font-size: 2rem; line-height: 1.15; }
+                .subtitle { font-size: 0.9rem; margin-bottom: 2rem; }
+                .amenity-card {
+                    padding: 1rem;
+                    min-height: 0;
+                    border-radius: 1rem;
+                    box-shadow: none;
+                    background: rgba(255, 255, 255, 0.07);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                }
+                .amenity-card .icon { padding: 7px; margin-bottom: 0.65rem; }
+                .amenity-card .icon svg { width: 22px; height: 22px; }
+                .amenity-title { font-size: 0.875rem; line-height: 1.25; margin-bottom: 0.3rem; }
+                .amenity-desc { font-size: 0.75rem; line-height: 1.45; }
+            }
         `}</style>
 
         <section
@@ -178,7 +197,7 @@ const Amenities = () => {
                   viewport={{ once: true }}
                 >
                   <div className="icon">{icon}</div>  
-                  <h6 className="amenity-title">{title}</h6>  
+                  <h3 className="amenity-title">{title}</h3>  
                   <p className="amenity-desc">{desc}</p>  
                 </motion.div>
               ))}

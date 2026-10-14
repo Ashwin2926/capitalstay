@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import PageHeader from "../Pageheader/PageHeader";
+import MobileRail from "../ui/MobileRail";
 import { Helmet } from "react-helmet-async";
 
 // -------------------- DATA --------------------
@@ -141,7 +142,7 @@ const FurnishingPage = () => {
           <h2 className="text-2xl font-bold mb-8 text-center">
             Who This Service Is For
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <MobileRail label="Who this service is for" desktopClassName="md:grid-cols-3 md:gap-8" slideClassName="w-[72%] sm:w-[46%]">
             {[
               "Short-Term Rental Owners",
               "Property Investors",
@@ -149,7 +150,7 @@ const FurnishingPage = () => {
             ].map((item, i) => (
               <div
                 key={i}
-                className="group p-10 bg-gray-50 border border-gray-200 rounded-3xl text-center transition-all duration-300 hover:bg-white hover:border-blue-600 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-200/40"
+                className="group p-6 md:p-10 bg-gray-50 border border-gray-200 rounded-3xl text-center transition-all duration-300 hover:bg-white hover:border-blue-600 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-200/40"
               >
                 <h3 className="font-bold text-xl mb-4">{item}</h3>
                 <p className="text-gray-600 text-sm">
@@ -157,7 +158,7 @@ const FurnishingPage = () => {
                 </p>
               </div>
             ))}
-          </div>
+          </MobileRail>
         </section>
 
         {/* PROCESS */}
@@ -165,28 +166,28 @@ const FurnishingPage = () => {
           <h2 className="text-2xl font-bold mb-8 text-center">
             Our Furnishing Process
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+          <MobileRail label="Furnishing process steps" desktopClassName="md:grid-cols-5 md:gap-6 md:pt-5" slideClassName="w-[42%] sm:w-[30%]">
             {PROCESS.map((step, i) => (
               <div
                 key={i}
-                className="relative bg-white border border-gray-200 rounded-2xl p-6 text-center transition hover:border-blue-600 hover:shadow-lg"
+                className="relative bg-white border border-gray-200 rounded-2xl p-4 md:p-6 text-center transition hover:border-blue-600 hover:shadow-lg"
               >
-                <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center">
+                <div className="mx-auto md:absolute md:-top-5 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center">
                   {i + 1}
                 </div>
-                <p className="mt-6 text-sm font-semibold">{step}</p>
+                <p className="mt-3 md:mt-6 text-sm font-semibold">{step}</p>
               </div>
             ))}
-          </div>
+          </MobileRail>
         </section>
 
         {/* FEATURES */}
         <section className="mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <MobileRail label="Furnishing services" desktopClassName="md:grid-cols-2 lg:grid-cols-4 md:gap-8" slideClassName="w-[78%] sm:w-[46%]">
             {FEATURES.map((item, index) => (
               <div
                 key={index}
-                className="group bg-gray-50 p-8 rounded-3xl border border-gray-200 transition-all duration-300 hover:bg-white hover:border-blue-600 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-200/40"
+                className="group bg-gray-50 p-6 md:p-8 rounded-3xl border border-gray-200 transition-all duration-300 hover:bg-white hover:border-blue-600 hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-200/40"
               >
                 <item.icon
                   size={40}
@@ -198,19 +199,19 @@ const FurnishingPage = () => {
                 </p>
               </div>
             ))}
-          </div>
+          </MobileRail>
         </section>
 
         {/* INTEGRATED SERVICES */}
-        <section className="mb-16 bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-[2rem] p-8">
+        <section className="mb-16 bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-[2rem] p-5 md:p-8">
           <h2 className="text-2xl font-bold mb-4 text-center">
             Integrated Landlord Services
           </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto text-center mb-12">
+          <p className="text-gray-600 max-w-3xl mx-auto text-center mb-6 md:mb-12">
             Furnishing performs best when integrated into a complete property ecosystem.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-2 md:gap-8">
             {[
               { name: "Property Management", link: "/landlord-services/property-management" },
               { name: "Short-Term Rental Setup", link: "https://booking.capitalstayuae.com/" },
@@ -219,10 +220,10 @@ const FurnishingPage = () => {
               <Link
                 key={i}
                 to={service.link}
-                className="group bg-white border border-gray-200 rounded-2xl p-8 text-center font-semibold transition hover:border-blue-600 hover:-translate-y-1 hover:shadow-lg"
+                className="group flex flex-col items-center justify-between bg-white border border-gray-200 rounded-2xl p-3 md:p-8 text-center text-xs md:text-base font-semibold transition hover:border-blue-600 hover:-translate-y-1 hover:shadow-lg"
               >
                 {service.name}
-                <ArrowRight className="mx-auto mt-4 text-blue-600 opacity-0 group-hover:opacity-100 transition" />
+                <ArrowRight className="mx-auto mt-2 md:mt-4 size-4 md:size-6 text-blue-600 md:opacity-0 group-hover:opacity-100 transition" />
               </Link>
             ))}
           </div>
@@ -231,16 +232,16 @@ const FurnishingPage = () => {
         {/* ROI */}
         <section className="mb-16 text-center">
           <h2 className="text-2xl font-bold mb-8">Why Furnishing Matters</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8">
             {[
               "Higher Nightly Rates",
               "Faster Bookings",
               "Stronger Guest Reviews",
               "Premium Brand Perception",
             ].map((item, i) => (
-              <div key={i} className="p-6">
-                <CheckCircle className="mx-auto text-blue-600 mb-4" size={40} />
-                <p className="font-semibold">{item}</p>
+              <div key={i} className="rounded-2xl border border-gray-100 bg-gray-50/60 p-4 md:border-0 md:bg-transparent md:p-6">
+                <CheckCircle className="mx-auto text-blue-600 mb-3 md:mb-4 size-8 md:size-10" />
+                <p className="text-sm md:text-base font-semibold">{item}</p>
               </div>
             ))}
           </div>

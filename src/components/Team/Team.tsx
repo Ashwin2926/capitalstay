@@ -1,5 +1,5 @@
 
-import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
+import { useState } from "react";
 import PageHeader from "../Pageheader/PageHeader";
 import { useSeo } from "../../hooks/useSeo"; 
 
@@ -23,27 +23,27 @@ const TeamSchema = ({ members }: { members: typeof TEAM_DATA }) => (
   </script>
 );
 
-const TEAM_DATA = [
-  {
-    name: "Shehla",
-    role: "PRO | Guest Relations",
-    description:
-      "As our Public Relations and Guest Relations specialist, Shehla is the warm, welcoming face of Capital Stay. Her exceptional communication skills, cultural awareness, and hospitality expertise ensure every guest feels valued from the moment they book to the moment they depart. Her approachable nature and professionalism strengthen client trust and enhance the guest experience.",
-    image: "../assets/teams/woman.jpg?text=SHEHLA",
-  },
+type TeamMember = {
+  name: string;
+  role: string;
+  description: string;
+  image: string;
+};
+
+const TEAM_DATA: TeamMember[] = [
   {
     name: "Jibran",
     role: "Guest Relations Manager",
     description:
       "With a strong background in guest experience and operations management, Jibran oversees every interaction to ensure guests receive the highest standard of care. Known for his attention to detail, fast problem-solving, and commitment to excellence, he ensures every stay runs smoothly. His leadership keeps our service levels consistent, reliable, and memorable.",
-    image: "../assets/teams/man1.jpg?text=JIBRAN",
+    image: "/assets/teams/jibran.webp",
   },
   {
     name: "Abu Baker Chen",
     role: "Housekeeping Supervisor",
     description:
       "Abu Baker leads our housekeeping operations with precision and pride. His dedication to cleanliness, quality control, and team coordination ensures each property meets Capital Stay’s premium standards. With a meticulous eye and strong work ethic, he guarantees that every home is guest-ready and maintained to perfection.",
-    image: "../assets/teams/man2.jpg?text=ABU+BAKER",
+    image: "/assets/teams/abu.webp",
   },
 ];
 
@@ -72,64 +72,74 @@ export default function TeamPage() {
         ]}
       />
 
-      <section className="py-14 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 max-w-3xl mx-auto">
-            <h2 className="font-display text-3xl md:text-4xl font-medium text-gray-900 mb-4">
+      <section className="py-10 md:py-14 bg-gray-50">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="text-center mb-8 md:mb-10 max-w-2xl mx-auto">
+            <h2 className="font-display text-2xl md:text-3xl font-medium text-gray-900 mb-3">
               World-class management, <em className="italic text-blue-600">local heart</em>
             </h2>
-            <p className="text-base text-gray-600 leading-relaxed">
+            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
               From DTCM compliance to 24/7 guest support, our team handles every detail
               of your holiday home with precision. Our experts are dedicated to maximizing
               your rental ROI while maintaining 5-star guest satisfaction.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {TEAM_DATA.map((member, index) => (
-              <div key={index} className="group relative">
-                <div className="aspect-[4/5] overflow-hidden rounded-3xl shadow-lg">
-                  <img
-                    src={member.image}
-                    // 3. IMAGE SEO: Descriptive Alt Text including Role and Location
-                    alt={`${member.name} - ${member.role} at Capital Stay Dubai`}
-                    className="h-full w-full object-cover group-hover:scale-110 transition duration-700"
-                    loading="lazy"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = "https://placehold.co/600x750?text=Not+Found";
-                    }}
-                  />
-                </div>
-
-                {/* OVERLAY CARD */}
-                <div className="-mt-20 relative z-10 mx-4 p-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200">
-                  <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
-                  <p className="text-blue-600 font-semibold mt-1">{member.role}</p>
-                  
-                  {/* Bio snippet for accessibility and SEO context */}
-                  <p className="text-sm text-gray-600 mt-3 line-clamp-2">
-                    {member.description}
-                  </p>
-
-                  {/* SOCIAL ICONS */}
-                  <div className="flex items-center gap-4 mt-4">
-                    {[FaFacebookF, FaLinkedinIn].map(
-                      (Icon, i) => (
-                        <button
-                          key={i}
-                          className="h-9 w-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-blue-500 hover:text-white transition"
-                        >
-                          <Icon size={15} />
-                        </button>
-                      )
-                    )}
-                  </div>
-                </div>
-              </div>
+          <div className="grid grid-cols-2 items-start sm:items-stretch gap-3 sm:gap-4 md:gap-6">
+            {TEAM_DATA.map((member) => (
+              <TeamCard key={member.name} member={member} />
             ))}
           </div>
         </div>
       </section>
     </>
+  );
+}
+
+function TeamCard({ member }: { member: TeamMember }) {
+  const [expanded, setExpanded] = useState(false);
+  const bioId = `bio-${member.name.replace(/\s+/g, "-").toLowerCase()}`;
+
+  return (
+    <article className="group flex flex-col lg:flex-row overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
+      {/* PHOTO: portrait on top on phones, column beside the bio from lg up */}
+      <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-auto lg:w-52 shrink-0 overflow-hidden bg-gray-100">
+        <img
+          src={member.image}
+          // 3. IMAGE SEO: Descriptive Alt Text including Role and Location
+          alt={`${member.name} - ${member.role} at Capital Stay Dubai`}
+          className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      {/* DETAILS */}
+      <div className="flex min-w-0 flex-1 flex-col p-3 sm:p-5 lg:p-6">
+        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-blue-600 leading-snug">
+          {member.role}
+        </p>
+        <h3 className="mt-1 font-display text-lg sm:text-2xl font-medium leading-tight text-gray-900">
+          {member.name}
+        </h3>
+        <span aria-hidden="true" className="mt-2 sm:mt-3 h-px w-8 sm:w-10 bg-blue-600/40" />
+        <p
+          id={bioId}
+          className={`mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed text-gray-600 ${expanded ? "" : "line-clamp-3 sm:line-clamp-none"}`}
+        >
+          {member.description}
+        </p>
+        {/* Bio is clamped on phones only */}
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          aria-expanded={expanded}
+          aria-controls={bioId}
+          className="mt-1.5 self-start rounded py-1 text-xs sm:text-sm font-medium text-blue-600 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:hidden"
+        >
+          {expanded ? "Show less" : "Read more"}
+        </button>
+      </div>
+    </article>
   );
 }

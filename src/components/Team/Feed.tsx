@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Zap, Award, Globe, Heart, Building2, UserCheck, ChevronRight } from 'lucide-react';
 import PageHeader from "../Pageheader/PageHeader";
+import MobileRail from "../ui/MobileRail";
 
 // --- Theme Tokens ---
 const tokens = {
@@ -97,12 +98,12 @@ type NewsType =
 
 const getIconColor = (type: NewsType): string => {
     switch (type) {
-        case 'Award': return '#FFD700'; 
+        case 'Award': return '#B45309'; 
         case 'Portfolio': return tokens.color.primary; 
-        case 'Service': return '#22C55E'; 
-        case 'Guest Story': return '#EF4444'; 
-        case 'Partnership': return '#8B5CF6'; 
-        case 'Innovation': return '#F97316'; 
+        case 'Service': return '#15803D'; 
+        case 'Guest Story': return '#DC2626'; 
+        case 'Partnership': return '#7C3AED'; 
+        case 'Innovation': return '#C2410C'; 
         default: return tokens.color.primary;
     }
 };
@@ -195,19 +196,6 @@ const NewsAndAccomplishments = () => (
             }
 
             /* --- Grid Layout --- */
-            .news-grid {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 40px;
-                margin-top: -60px; 
-            }
-
-            @media (min-width: 768px) {
-                .news-grid {
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 50px 30px;
-                }
-            }
 
             /* --- News Card Styling & Animation --- */
             .news-card {
@@ -329,7 +317,7 @@ const NewsAndAccomplishments = () => (
             .cta-section p {
                 max-width: 700px;
                 margin: 0 auto 30px auto;
-                color: rgba(255, 255, 255, 0.85);
+                color: #ffffff;
                 line-height: 1.6;
             }
 
@@ -362,8 +350,8 @@ const NewsAndAccomplishments = () => (
             }
             
             @media (max-width: 640px) {
-                .news-grid {
-                    gap: 30px;
+                .content-wrapper {
+                    padding: 0 16px;
                 }
                 .news-title {
                     font-size: 1.2rem;
@@ -395,11 +383,16 @@ const NewsAndAccomplishments = () => (
         <div className="content-wrapper">
 
             {/* NEWS GRID */}
-            <div className="news-grid">
+            <MobileRail
+                label="News and accomplishments"
+                className="mt-8 md:-mt-[60px]"
+                desktopClassName="md:grid-cols-2 md:gap-x-[30px] md:gap-y-[50px]"
+                slideClassName="w-[84%] sm:w-[46%]"
+            >
                 {NEWS_FEED.map((item, index) => (
                     <NewsCard key={item.id} item={item} index={index} />
                 ))}
-            </div>
+            </MobileRail>
 
             {/* CTA */}
             <div className="cta-section">

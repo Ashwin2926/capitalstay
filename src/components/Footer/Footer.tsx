@@ -11,7 +11,7 @@ import {
   SiVisa,
   SiMastercard,
   SiAmericanexpress,
-  SiTrustpilot,
+  SiAirbnb,
 } from "react-icons/si";
 
 const darkLogo = "/assets/logo.webp";
@@ -19,6 +19,33 @@ const darkLogo = "/assets/logo.webp";
 interface FooterProps {
   toggleForm: () => void;
 }
+
+// Real links (keyboard, new tab, crawlable) that keep the smooth in-app navigation on a plain click
+const FooterLink = ({
+  to,
+  children,
+  external = false,
+  onNavigate,
+}: {
+  to: string;
+  children: React.ReactNode;
+  external?: boolean;
+  onNavigate: (path: string) => void;
+}) => (
+  <li>
+    <a
+      href={to}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      onClick={(e) => {
+        if (external || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        onNavigate(to);
+      }}
+    >
+      {children}
+    </a>
+  </li>
+);
 
 export default function Footer({ toggleForm }: FooterProps) {
   const navigate = useNavigate();
@@ -137,6 +164,8 @@ export default function Footer({ toggleForm }: FooterProps) {
         .links-grid ul { padding: 0; list-style: none; margin: 0; }
         .links-grid li { color: #666; margin-bottom: 12px; cursor: pointer; font-size: 14px; transition: color 0.2s; }
         .links-grid li:hover { color: #2563eb; }
+        .links-grid a, .links-grid button { color: inherit; text-decoration: none; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; text-align: inherit; }
+        .links-grid a:focus-visible, .links-grid button:focus-visible { outline: 2px solid #2563eb; outline-offset: 3px; border-radius: 2px; }
 
         .footer-contact-info p { color: #666; font-size: 13px; margin-bottom: 12px; line-height: 1.4; display: flex; align-items: center; gap: 8px; }
 
@@ -145,10 +174,11 @@ export default function Footer({ toggleForm }: FooterProps) {
           margin-top: 30px; padding: 20px 0; border-top: 1px solid #eee;
           display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap;
         }
-        .trust { display: flex; align-items: center; gap: 8px; font-size: 13px; background: #f9f9f9; padding: 6px 14px; border-radius: 50px; }
+        .trust { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #1f2937; text-decoration: none; background: #f9f9f9; padding: 6px 14px; border-radius: 50px; border: 1px solid transparent; transition: border-color 0.2s; }
+        .trust:hover { border-color: #E00B41; }
         .bottom-bar {
           display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
-          text-align: center; color: #999; font-size: 11px; padding-bottom: 10px;
+          text-align: center; color: #6b7280; font-size: 11px; padding-bottom: 10px;
         }
         .bottom-bar-divider { color: #ddd; }
 
@@ -162,7 +192,11 @@ export default function Footer({ toggleForm }: FooterProps) {
         @media (max-width: 600px) {
           .footer { padding: 40px 20px 20px; }
           .cta { flex-direction: column; text-align: center; padding: 24px; margin-top: -70px; }
-          .links-grid { grid-template-columns: 1fr; text-align: center; }
+          .links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; text-align: left; }
+          .links-grid h4 { font-size: 11px; letter-spacing: 0.14em; margin-bottom: 14px; color: #0f172a; }
+          .links-grid li { font-size: 13px; margin-bottom: 10px; }
+          .footer-contact-info { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid #eee; }
+          .footer-contact-info p { overflow-wrap: anywhere; }
           .socials { justify-content: center; }
           .brand { text-align: center; }
           .brand img { margin: 0 auto 15px; }
@@ -186,12 +220,12 @@ export default function Footer({ toggleForm }: FooterProps) {
             <img src={darkLogo} alt="Capital Stay" />
             <p>Providing premium comfort and hospitality for the modern traveler across Dubai's most iconic locations.</p>
             <div className="socials">
-              <a href="https://facebook.com" target="_blank" className="fb"><FaFacebookF /></a>
-              <a href="https://instagram.com/capitalstaydubai" target="_blank" className="ig"><FaInstagram /></a>
-              <a href="mailto:hellodubai@capitalstayuae.com" className="em"><FaEnvelope /></a>
-              <a href="https://linkedin.com" target="_blank" className="li"><FaLinkedinIn /></a>
-              <a href="https://tiktok.com" target="_blank" className="tt"><FaTiktok /></a>
-              <a href="https://wa.me/971547047913" target="_blank" className="wa"><FaWhatsapp /></a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Capital Stay on Facebook" className="fb"><FaFacebookF /></a>
+              <a href="https://instagram.com/capitalstaydubai" target="_blank" rel="noopener noreferrer" aria-label="Capital Stay on Instagram" className="ig"><FaInstagram /></a>
+              <a href="mailto:hellodubai@capitalstayuae.com" aria-label="Email Capital Stay" className="em"><FaEnvelope /></a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="Capital Stay on LinkedIn" className="li"><FaLinkedinIn /></a>
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="Capital Stay on TikTok" className="tt"><FaTiktok /></a>
+              <a href="https://wa.me/971547047913" target="_blank" rel="noopener noreferrer" aria-label="Chat with Capital Stay on WhatsApp" className="wa"><FaWhatsapp /></a>
             </div>
           </div>
 
@@ -199,26 +233,26 @@ export default function Footer({ toggleForm }: FooterProps) {
             <div>
               <h4>Explore</h4>
               <ul>
-                <li onClick={() => handleNav("/#about-us")}>Our Story</li>
-                <li onClick={() => handleNav("/#testimonials")}>Client Reviews</li>
-                <li onClick={() => handleNav("/team")}>Meet the Team</li>
-                <li onClick={() => handleNav("https://booking.capitalstayuae.com", true)}>Book Now</li>
+                <FooterLink onNavigate={handleNav} to="/#about-us">Our Story</FooterLink>
+                <FooterLink onNavigate={handleNav} to="/#testimonials">Client Reviews</FooterLink>
+                <FooterLink onNavigate={handleNav} to="/team">Meet the Team</FooterLink>
+                <FooterLink onNavigate={handleNav} to="https://booking.capitalstayuae.com" external>Book Now</FooterLink>
               </ul>
             </div>
             <div>
               <h4>Support</h4>
               <ul>
-                <li onClick={() => handleNav("/landlord-services/property-management")}>Property Management</li>
-                <li onClick={() => handleNav("/services")}>Guest Services</li>
-                <li onClick={() => toggleForm()}>List Your Property</li>
-                <li onClick={() => handleNav("/#faq")}>FAQs</li>
+                <FooterLink onNavigate={handleNav} to="/landlord-services/property-management">Property Management</FooterLink>
+                <FooterLink onNavigate={handleNav} to="/services">Guest Services</FooterLink>
+                <li><button type="button" onClick={() => toggleForm()}>List Your Property</button></li>
+                <FooterLink onNavigate={handleNav} to="/#faq">FAQs</FooterLink>
               </ul>
             </div>
             <div>
               <h4>Legal</h4>
               <ul>
-                <li onClick={() => handleNav("https://booking.capitalstayuae.com/terms-and-conditions")}>Terms & Conditions</li>
-                <li onClick={() => handleNav("https://booking.capitalstayuae.com/privacy-policy")}>Privacy Policy</li>
+                <FooterLink onNavigate={handleNav} to="https://booking.capitalstayuae.com/terms-and-conditions" external>Terms & Conditions</FooterLink>
+                <FooterLink onNavigate={handleNav} to="https://booking.capitalstayuae.com/privacy-policy" external>Privacy Policy</FooterLink>
                 {/* <li onClick={() => handleNav("/refund")}>Refund Policy</li> */}
               </ul>
             </div>
@@ -232,13 +266,18 @@ export default function Footer({ toggleForm }: FooterProps) {
         </div>
 
         <div className="payments">
-          <SiVisa size={32} color="#1A1F71" />
-          <SiMastercard size={32} color="#EB001B" />
-          <SiAmericanexpress size={32} color="#007BC1" />
-          <div className="trust">
-            <SiTrustpilot color="#00B67A" size={18} />
-            TrustScore <strong>4.9</strong>
-          </div>
+          <SiVisa size={32} color="#1A1F71" role="img" aria-label="Visa" />
+          <SiMastercard size={32} color="#EB001B" role="img" aria-label="Mastercard" />
+          <SiAmericanexpress size={32} color="#007BC1" role="img" aria-label="American Express" />
+          <a
+            className="trust"
+            href="https://www.airbnb.ae/users/show/551099812"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <SiAirbnb color="#E00B41" size={18} aria-hidden="true" />
+            <span>Read our <strong>Airbnb reviews</strong></span>
+          </a>
         </div>
 
         <div className="bottom-bar">
@@ -248,7 +287,7 @@ export default function Footer({ toggleForm }: FooterProps) {
             Design &amp; Development by{" "}
             <a
               href="https://ashwin2926.github.io/portfolio-nextjs/"
-              className="text-blue-600 hover:underline"
+              className="text-blue-700 underline underline-offset-2"
               target="_blank"
               rel="noopener noreferrer"
             >

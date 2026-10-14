@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import MobileRail from "../ui/MobileRail";
 
 // --- Minimalist Styled Arrow ---
 const ArrowRightLong = () => (
@@ -61,38 +62,17 @@ function ExploreOptionsPage() {
       </Helmet>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .journal-section { padding: 56px 5%; background-color: #f9f9f9; }
+        .journal-section { padding: 56px 16px; background-color: #f9f9f9; }
         .journal-header { margin-bottom: 32px; text-align: center; }
         .journal-main-title { font-family: var(--font-display, "Cormorant Garamond", serif); font-size: 2.5rem; font-weight: 500; color: #1A1A1A; }
-        .journal-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          grid-auto-rows: 260px;
-          grid-auto-flow: dense;
-          gap: 22px;
-        }
         .journal-item {
           cursor: pointer;
           position: relative;
+          display: block;
           overflow: hidden;
           border-radius: 14px;
           background: #fff;
           box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-          grid-column: span 2;
-          grid-row: span 1;
-        }
-        .journal-item.is-featured {
-          grid-column: span 2;
-          grid-row: span 2;
-        }
-        @media (max-width: 900px) {
-          .journal-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 220px; }
-          .journal-item { grid-column: span 2; }
-          .journal-item.is-featured { grid-row: span 2; }
-        }
-        @media (max-width: 560px) {
-          .journal-grid { grid-template-columns: 1fr; grid-auto-rows: 260px; }
-          .journal-item, .journal-item.is-featured { grid-column: span 1; grid-row: span 1; }
         }
         .journal-img-wrapper { position: relative; width: 100%; height: 100%; overflow: hidden; }
         .journal-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
@@ -108,6 +88,12 @@ function ExploreOptionsPage() {
         .journal-item.is-featured .card-title { font-size: 2rem; }
         .card-desc { font-size: 0.85rem; opacity: 0.8; margin-bottom: 14px; line-height: 1.5; max-width: 32rem; }
         .explore-link { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; display: flex; align-items: center; gap: 10px; }
+        .explore-link svg { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+        .journal-item:hover .explore-link svg, .journal-item:focus-visible .explore-link svg { transform: translateX(8px); }
+        .card-overlay { transition: background 0.6s ease; }
+        .journal-item:hover .card-overlay { background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 70%); }
+        .journal-item:focus-visible { outline: 2px solid #2563eb; outline-offset: 3px; }
+        @media (prefers-reduced-motion: reduce) { .journal-item img, .explore-link svg { transition: none !important; } }
       `}} />
 
       <section className="journal-section">
@@ -115,7 +101,13 @@ function ExploreOptionsPage() {
           <h2 className="journal-main-title">Key Destinations</h2>
         </div>
 
-        <div className="journal-grid">
+        <MobileRail
+          label="Key destinations"
+          className="mx-auto max-w-7xl"
+          slideClassName="w-[80%] h-[420px] sm:w-[46%]"
+          desktopClassName="md:grid-cols-4 md:auto-rows-[260px] md:gap-[22px] md:h-auto"
+          getSlideClassName={(i) => (locations[i]?.isFeatured ? "md:col-span-2 md:row-span-2 md:h-auto" : "md:col-span-2 md:h-auto")}
+        >
           {locations.map((loc, idx) => (
             <motion.a
               key={idx}
@@ -141,7 +133,7 @@ function ExploreOptionsPage() {
               </div>
             </motion.a>
           ))}
-        </div>
+        </MobileRail>
       </section>
     </>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect } from "react";
 import { motion, easeInOut } from "framer-motion";
+import MobileRail from "../ui/MobileRail";
 import {
   FaMapMarkerAlt,
   FaHome,
@@ -139,7 +140,7 @@ const ScopedStyles = () => (
     .cs-services {
       position: relative;
       z-index: 1;
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('../assets/services/Owner_bg.png');
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('/assets/services/Owner_bg.webp');
       background-size: cover;
       background-position: center;
       color: white;
@@ -196,7 +197,7 @@ const Metric = ({ icon, value, label, delay }: { icon: React.ReactNode; value: s
 );
 
 const WhyItem = ({ icon, title, description, delay }: { icon: React.ReactNode; title: string; description: string; delay: number }) => (
-  <MotionBox delay={delay} className="flex gap-4">
+  <MotionBox delay={delay} className="flex gap-4 max-md:flex-col max-md:gap-3 max-md:rounded-2xl max-md:border max-md:border-blue-100 max-md:bg-white max-md:p-5 max-md:shadow-[0_10px_30px_-18px_rgba(15,23,42,0.25)]">
     <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
       {icon}
     </div>
@@ -278,7 +279,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
         </div>
       </PageHeader>
 
-      <main className="cs-container">
+      <div className="cs-container">
         {/* HERO SECTION */}
         <section className="cs-card grid lg:grid-cols-2 gap-8 items-center">
           <div className="cs-p-lg">
@@ -306,7 +307,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
                   <p className="text-xl font-black text-slate-900">Asset Growth</p>
                 </div>
                 <div className="statBoxSecondary">
-                  <p className="text-[0.65rem] font-black uppercase text-slate-500 tracking-tighter">Transparency</p>
+                  <p className="text-[0.65rem] font-black uppercase text-slate-600 tracking-tighter">Transparency</p>
                   <p className="text-xl font-black text-slate-900">Owner Portal Access</p>
                 </div>
               </div>
@@ -369,10 +370,10 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
 
         {/* SPLIT: FULL SERVICE PANEL + DARK SERVICE GRID */}
         <section className="grid lg:grid-cols-[1fr_1.6fr] gap-8">
-          <div className="bg-gradient-to-b from-blue-50 to-white p-10 rounded-[2rem] border border-blue-100">
+          <div className="bg-gradient-to-b from-blue-50 to-white p-6 md:p-10 rounded-[2rem] border border-blue-100 overflow-hidden">
             <h3 className="cs-subheading">A Truly Seamless, Full-Service Experience</h3>
-            <p className="text-slate-600 mb-10 text-sm leading-relaxed">Everything handled with precision—from bespoke furnishing to strategic marketing.</p>
-            <div className="space-y-8">
+            <p className="text-slate-600 mb-6 md:mb-10 text-sm leading-relaxed">Everything handled with precision—from bespoke furnishing to strategic marketing.</p>
+            <MobileRail label="Full-service experience" desktopClassName="md:grid-cols-1 md:gap-8" slideClassName="w-[82%] sm:w-[46%]">
               <WhyItem 
                 icon={<FaWarehouse />} 
                 title="Meticulous Property Maintenance" 
@@ -397,21 +398,21 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
                 description="We combine local expertise, premium presentation, and intelligent pricing to deliver maximized revenue and peace of mind." 
                 delay={baseDelay + stagger * 6} 
               />
-            </div>
+            </MobileRail>
           </div>
 
-          <div className="cs-services cs-p-lg rounded-[2rem]">
+          <div className="cs-services cs-p-lg rounded-[2rem] overflow-hidden">
             <h3 className="text-xl font-black mb-2 text-white">Comprehensive Owner Management Services</h3>
             <p className="text-white/70 mb-8 text-sm">Everything covered — from maximizing revenue and guest care to full legal compliance.</p>
             
-            <div className="grid md:grid-cols-2 gap-4">
+            <MobileRail label="Owner management services" tone="dark" desktopClassName="md:grid-cols-2 md:gap-4" slideClassName="w-[78%] sm:w-[46%]">
               {[
                 { i: <FaShieldAlt />, t: "Legal Compliance & Licensing", d: "Full DTCM compliance and licensing support to operate worry-free." },
                 { i: <FaChartLine />, t: "Financial Reporting & Payouts", d: "Clear monthly statements with automated, reliable payouts." },
                 { i: <FaHome />, t: "Proactive Maintenance & Cleaning", d: "Regular inspections and professional housekeeping services." },
                 { i: <FaStar />, t: "Marketing & Channel Management", d: "Optimized listings across global platforms to maximize visibility." }
               ].map((s, i) => (
-                <div key={i} className="cs-glass-card p-6 rounded-2xl flex gap-4">
+                <div key={i} className="cs-glass-card p-6 rounded-2xl flex gap-4 max-md:flex-col max-md:p-5">
                   <div className="w-10 h-10 bg-white text-blue-900 rounded-full flex items-center justify-center flex-shrink-0">{s.i}</div>
                   <div>
                     <h4 className="font-bold text-white text-sm">{s.t}</h4>
@@ -419,14 +420,14 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
                   </div>
                 </div>
               ))}
-            </div>
+            </MobileRail>
 
             <div className="mt-8 bg-black/40 border border-white/10 p-6 rounded-2xl">
               <p className="text-[0.6rem] uppercase font-black tracking-widest text-white/50 mb-4">Owner Portal Highlights</p>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="flex items-center gap-2 text-md font-bold text-white"><FaChartLine className="text-blue-400"/> Revenue Tracking</div>
-                <div className="flex items-center gap-2 text-md font-bold text-white"><FaHandshake className="text-blue-400"/> Auto-Payouts</div>
-                <div className="flex items-center gap-2 text-md font-bold text-white"><FaWarehouse className="text-blue-400"/> Maintenance Logs</div>
+              <div className="grid grid-cols-3 gap-3 md:gap-4">
+                <div className="flex items-center gap-2 text-md font-bold text-white max-md:flex-col max-md:text-center max-md:text-xs max-md:gap-1.5"><FaChartLine className="text-blue-400"/> Revenue Tracking</div>
+                <div className="flex items-center gap-2 text-md font-bold text-white max-md:flex-col max-md:text-center max-md:text-xs max-md:gap-1.5"><FaHandshake className="text-blue-400"/> Auto-Payouts</div>
+                <div className="flex items-center gap-2 text-md font-bold text-white max-md:flex-col max-md:text-center max-md:text-xs max-md:gap-1.5"><FaWarehouse className="text-blue-400"/> Maintenance Logs</div>
               </div>
             </div>
           </div>
@@ -484,7 +485,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
             </motion.button>
           </div>
         </motion.section>
-      </main>
+      </div>
     </div>
   );
 };

@@ -78,8 +78,6 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
       href={link}
       onClick={onClick}
       className={`${baseClasses} ${hoverBg} ${divider} ${activeClass}`}
-      role="menuitem"
-      tabIndex={0}
       aria-current={isActive ? "page" : undefined}
     >
       {children}
@@ -274,13 +272,13 @@ export default function Navbar({ toggleForm, isScrolled }: NavbarProps) {
           ref={navRef}
           className={`lg:flex lg:items-center lg:w-auto ${isNavOpen ? "fixed top-0 right-0 w-[85%] max-w-sm h-screen pt-24 pb-8 px-6 overflow-y-auto bg-black/90 backdrop-blur-md flex flex-col items-start text-white" : "hidden"}`}
         >
-          <ul className="lg:flex lg:space-x-1 lg:items-center w-full lg:w-auto" role="menubar">
+          <ul className="lg:flex lg:space-x-1 lg:items-center w-full lg:w-auto">
             <li>
               <button className={getNavLinkClasses(isHomeActive)} onClick={(e) => handleLinkClick(e, "home")}>Home</button>
             </li>
 
             <li className="relative w-full lg:w-auto" ref={landlordDropdownRef}>
-              <button className={`${isNavOpen ? mobileLinkBase : getNavLinkClasses(isLandlordActive)} flex items-center`} onClick={() => toggleDropdown("landlord")}>
+              <button className={`${isNavOpen ? mobileLinkBase : getNavLinkClasses(isLandlordActive)} flex items-center`} onClick={() => toggleDropdown("landlord")} aria-expanded={openDropdown === "landlord"}>
                 Landlord Services <FaAngleDown className={`ml-1 ${openDropdown === "landlord" ? "rotate-180" : ""}`} />
               </button>
               {openDropdown === "landlord" && (
@@ -306,7 +304,7 @@ export default function Navbar({ toggleForm, isScrolled }: NavbarProps) {
             </li>
 
             <li className="relative w-full lg:w-auto" ref={guestDropdownRef}>
-              <button className={`${isNavOpen ? mobileLinkBase : getNavLinkClasses(isGuestActive)} flex items-center`} onClick={() => toggleDropdown("guest")}>
+              <button className={`${isNavOpen ? mobileLinkBase : getNavLinkClasses(isGuestActive)} flex items-center`} onClick={() => toggleDropdown("guest")} aria-expanded={openDropdown === "guest"}>
                 Guest Services <FaAngleDown className={`ml-1 ${openDropdown === "guest" ? "rotate-180" : ""}`} />
               </button>
               {openDropdown === "guest" && (
@@ -321,7 +319,7 @@ export default function Navbar({ toggleForm, isScrolled }: NavbarProps) {
             </li>
 
             <li className="relative w-full lg:w-auto" ref={aboutDropdownRef}>
-              <button className={`${isNavOpen ? mobileLinkBase : getNavLinkClasses(isAboutActive)} flex items-center`} onClick={() => toggleDropdown("more")}>
+              <button className={`${isNavOpen ? mobileLinkBase : getNavLinkClasses(isAboutActive)} flex items-center`} onClick={() => toggleDropdown("more")} aria-expanded={openDropdown === "more"}>
                 About <FaAngleDown className={`ml-1 ${openDropdown === "more" ? "rotate-180" : ""}`} />
               </button>
               {openDropdown === "more" && (

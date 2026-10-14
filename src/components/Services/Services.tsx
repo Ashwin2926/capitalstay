@@ -6,6 +6,7 @@ import { ChevronDown, Plane, Car, Home, Utensils, Sailboat } from 'lucide-react'
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import PageHeader from '../Pageheader/PageHeader';
+import ReadMore from '../ui/ReadMore';
 
 /* ----------------------------- SERVICE DATA (SEO FLOODED) -------------------------------- */
 const SERVICE_ITEMS = [
@@ -90,7 +91,9 @@ const AccordionItem = ({ id, title, description, image, icon: Icon, isOpen, onCl
       >
         <div className="content-inner-grid">
           <div className="content-text-area">
-            <p className="content-description">{description}</p>
+            <ReadMore collapsedHeight={150}>
+              <p className="content-description">{description}</p>
+            </ReadMore>
           </div>
 
           {image && (
@@ -514,7 +517,7 @@ const ServicesPage = () => {
           <p className="header-subtitle">Tailored lifestyle solutions for the modern traveler in Dubai.</p>
         </header>
 
-        <main className="main-grid" role="main">
+        <div className="main-grid">
           <section className="accordion-list" aria-label="Services list">
             {SERVICE_ITEMS.map((item, idx) => (
               <AccordionItem
@@ -531,7 +534,7 @@ const ServicesPage = () => {
           </section>
 
           <RightImagePanel />
-        </main>
+        </div>
       </div>
     </>
   );
