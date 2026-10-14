@@ -1,5 +1,5 @@
 
-import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
+import { useState } from "react";
 import PageHeader from "../Pageheader/PageHeader";
 import { useSeo } from "../../hooks/useSeo"; 
 
@@ -27,24 +27,10 @@ type TeamMember = {
   name: string;
   role: string;
   description: string;
-  image?: string;
+  image: string;
 };
 
-const getInitials = (name: string) =>
-  name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0].toUpperCase())
-    .join("");
-
 const TEAM_DATA: TeamMember[] = [
-  {
-    name: "Shehla",
-    role: "PRO | Guest Relations",
-    description:
-      "As our Public Relations and Guest Relations specialist, Shehla is the warm, welcoming face of Capital Stay. Her exceptional communication skills, cultural awareness, and hospitality expertise ensure every guest feels valued from the moment they book to the moment they depart. Her approachable nature and professionalism strengthen client trust and enhance the guest experience.",
-  },
   {
     name: "Jibran",
     role: "Guest Relations Manager",
@@ -86,74 +72,74 @@ export default function TeamPage() {
         ]}
       />
 
-      <section className="py-14 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 max-w-3xl mx-auto">
-            <h2 className="font-display text-3xl md:text-4xl font-medium text-gray-900 mb-4">
+      <section className="py-10 md:py-14 bg-gray-50">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="text-center mb-8 md:mb-10 max-w-2xl mx-auto">
+            <h2 className="font-display text-2xl md:text-3xl font-medium text-gray-900 mb-3">
               World-class management, <em className="italic text-blue-600">local heart</em>
             </h2>
-            <p className="text-base text-gray-600 leading-relaxed">
+            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
               From DTCM compliance to 24/7 guest support, our team handles every detail
               of your holiday home with precision. Our experts are dedicated to maximizing
               your rental ROI while maintaining 5-star guest satisfaction.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {TEAM_DATA.map((member, index) => (
-              <div key={index} className="group relative">
-                <div className="aspect-[4/5] overflow-hidden rounded-3xl shadow-lg">
-                  {member.image ? (
-                    <img
-                      src={member.image}
-                      // 3. IMAGE SEO: Descriptive Alt Text including Role and Location
-                      alt={`${member.name} - ${member.role} at Capital Stay Dubai`}
-                      className="h-full w-full object-cover object-top group-hover:scale-110 transition duration-700"
-                      loading="lazy"
-                    />
-                  ) : (
-                    // Initials avatar for members without a photo
-                    <div
-                      role="img"
-                      aria-label={`${member.name} - ${member.role} at Capital Stay Dubai`}
-                      className="h-full w-full flex items-start justify-center pt-[22%] bg-gradient-to-br from-blue-600 via-blue-700 to-slate-900"
-                    >
-                      <span className="flex h-36 w-36 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/30 backdrop-blur-sm font-display text-6xl font-medium tracking-wide text-white group-hover:scale-105 transition duration-700">
-                        {getInitials(member.name)}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* OVERLAY CARD */}
-                <div className="-mt-20 relative z-10 mx-4 p-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200">
-                  <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
-                  <p className="text-blue-600 font-semibold mt-1">{member.role}</p>
-                  
-                  {/* Bio snippet for accessibility and SEO context */}
-                  <p className="text-sm text-gray-600 mt-3 line-clamp-2">
-                    {member.description}
-                  </p>
-
-                  {/* SOCIAL ICONS */}
-                  <div className="flex items-center gap-4 mt-4">
-                    {[FaFacebookF, FaLinkedinIn].map(
-                      (Icon, i) => (
-                        <button
-                          key={i}
-                          className="h-9 w-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-blue-500 hover:text-white transition"
-                        >
-                          <Icon size={15} />
-                        </button>
-                      )
-                    )}
-                  </div>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+            {TEAM_DATA.map((member) => (
+              <TeamCard key={member.name} member={member} />
             ))}
           </div>
         </div>
       </section>
     </>
+  );
+}
+
+function TeamCard({ member }: { member: TeamMember }) {
+  const [expanded, setExpanded] = useState(false);
+  const bioId = `bio-${member.name.replace(/\s+/g, "-").toLowerCase()}`;
+
+  return (
+    <article className="group flex overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
+      {/* PHOTO: portrait column beside the bio */}
+      <div className="relative w-28 sm:w-44 md:w-52 shrink-0 overflow-hidden bg-gray-100">
+        <img
+          src={member.image}
+          // 3. IMAGE SEO: Descriptive Alt Text including Role and Location
+          alt={`${member.name} - ${member.role} at Capital Stay Dubai`}
+          className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      {/* DETAILS */}
+      <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-blue-600">
+          {member.role}
+        </p>
+        <h3 className="mt-1 font-display text-xl sm:text-2xl font-medium text-gray-900">
+          {member.name}
+        </h3>
+        <span aria-hidden="true" className="mt-3 h-px w-10 bg-blue-600/40" />
+        <p
+          id={bioId}
+          className={`mt-3 text-sm leading-relaxed text-gray-600 ${expanded ? "" : "line-clamp-4 sm:line-clamp-none"}`}
+        >
+          {member.description}
+        </p>
+        {/* Bio is clamped on small phones only */}
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          aria-expanded={expanded}
+          aria-controls={bioId}
+          className="mt-2 self-start rounded text-sm font-medium text-blue-600 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:hidden"
+        >
+          {expanded ? "Show less" : "Read more"}
+        </button>
+      </div>
+    </article>
   );
 }
