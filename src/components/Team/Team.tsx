@@ -23,27 +23,41 @@ const TeamSchema = ({ members }: { members: typeof TEAM_DATA }) => (
   </script>
 );
 
-const TEAM_DATA = [
+type TeamMember = {
+  name: string;
+  role: string;
+  description: string;
+  image?: string;
+};
+
+const getInitials = (name: string) =>
+  name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join("");
+
+const TEAM_DATA: TeamMember[] = [
   {
     name: "Shehla",
     role: "PRO | Guest Relations",
     description:
       "As our Public Relations and Guest Relations specialist, Shehla is the warm, welcoming face of Capital Stay. Her exceptional communication skills, cultural awareness, and hospitality expertise ensure every guest feels valued from the moment they book to the moment they depart. Her approachable nature and professionalism strengthen client trust and enhance the guest experience.",
-    image: "../assets/teams/woman.jpg?text=SHEHLA",
   },
   {
     name: "Jibran",
     role: "Guest Relations Manager",
     description:
       "With a strong background in guest experience and operations management, Jibran oversees every interaction to ensure guests receive the highest standard of care. Known for his attention to detail, fast problem-solving, and commitment to excellence, he ensures every stay runs smoothly. His leadership keeps our service levels consistent, reliable, and memorable.",
-    image: "../assets/teams/man1.jpg?text=JIBRAN",
+    image: "/assets/teams/jibran.webp",
   },
   {
     name: "Abu Baker Chen",
     role: "Housekeeping Supervisor",
     description:
       "Abu Baker leads our housekeeping operations with precision and pride. His dedication to cleanliness, quality control, and team coordination ensures each property meets Capital Stay’s premium standards. With a meticulous eye and strong work ethic, he guarantees that every home is guest-ready and maintained to perfection.",
-    image: "../assets/teams/man2.jpg?text=ABU+BAKER",
+    image: "/assets/teams/abu.webp",
   },
 ];
 
@@ -89,16 +103,26 @@ export default function TeamPage() {
             {TEAM_DATA.map((member, index) => (
               <div key={index} className="group relative">
                 <div className="aspect-[4/5] overflow-hidden rounded-3xl shadow-lg">
-                  <img
-                    src={member.image}
-                    // 3. IMAGE SEO: Descriptive Alt Text including Role and Location
-                    alt={`${member.name} - ${member.role} at Capital Stay Dubai`}
-                    className="h-full w-full object-cover group-hover:scale-110 transition duration-700"
-                    loading="lazy"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = "https://placehold.co/600x750?text=Not+Found";
-                    }}
-                  />
+                  {member.image ? (
+                    <img
+                      src={member.image}
+                      // 3. IMAGE SEO: Descriptive Alt Text including Role and Location
+                      alt={`${member.name} - ${member.role} at Capital Stay Dubai`}
+                      className="h-full w-full object-cover object-top group-hover:scale-110 transition duration-700"
+                      loading="lazy"
+                    />
+                  ) : (
+                    // Initials avatar for members without a photo
+                    <div
+                      role="img"
+                      aria-label={`${member.name} - ${member.role} at Capital Stay Dubai`}
+                      className="h-full w-full flex items-start justify-center pt-[22%] bg-gradient-to-br from-blue-600 via-blue-700 to-slate-900"
+                    >
+                      <span className="flex h-36 w-36 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/30 backdrop-blur-sm font-display text-6xl font-medium tracking-wide text-white group-hover:scale-105 transition duration-700">
+                        {getInitials(member.name)}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* OVERLAY CARD */}
