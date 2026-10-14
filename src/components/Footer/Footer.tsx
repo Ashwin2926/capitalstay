@@ -274,10 +274,9 @@ export default function Footer({ toggleForm }: FooterProps) {
             href="https://www.airbnb.ae/users/show/551099812"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Rated 4.9 on Airbnb. View our Airbnb profile"
           >
             <SiAirbnb color="#E00B41" size={18} aria-hidden="true" />
-            <span><strong>4.9</strong> on Airbnb</span>
+            <span>Read our <strong>Airbnb reviews</strong></span>
           </a>
         </div>
 
