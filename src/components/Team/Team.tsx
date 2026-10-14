@@ -2,8 +2,6 @@
 import { useState } from "react";
 import PageHeader from "../Pageheader/PageHeader";
 import TeamSpotlight from "./TeamSpotlight";
-import TeamArches from "./TeamArches";
-import TeamDuo from "./TeamDuo";
 import { useSeo } from "../../hooks/useSeo"; 
 
  
@@ -90,13 +88,7 @@ export default function TeamPage() {
 
           {/* Phones: story-style spotlight */}
           <div className="sm:hidden">
-            {/* PREVIEW SWITCH: remove once a design is chosen */}
-            {(() => {
-              const v = new URLSearchParams(window.location.search).get("v");
-              if (v === "arch") return <TeamArches members={TEAM_DATA} />;
-              if (v === "duo") return <TeamDuo members={TEAM_DATA} />;
-              return <TeamSpotlight members={TEAM_DATA} />;
-            })()}
+            <TeamSpotlight members={TEAM_DATA} />
           </div>
 
           <div className="hidden sm:grid grid-cols-2 items-stretch gap-4 md:gap-6">

@@ -13,8 +13,8 @@ const DURATION = 6500;
 
 /**
  * Phone layout for the team: one portrait at a time, story-style.
- * Progress segments fill and advance on their own while on screen; tap the
- * left/right half of the photo, swipe, or pick a name to move between people.
+ * Progress segments fill and advance on their own while on screen; the arrows
+ * at the top corners or a swipe move between people.
  */
 export default function TeamSpotlight({ members }: { members: SpotlightMember[] }) {
   const reduceMotion = useReducedMotion();
@@ -53,28 +53,6 @@ export default function TeamSpotlight({ members }: { members: SpotlightMember[] 
 
   return (
     <div ref={rootRef} aria-roledescription="carousel" aria-label="Our team">
-      {/* Name chips */}
-      <div className="no-scrollbar -mx-4 mb-4 flex gap-2 overflow-x-auto px-4" role="tablist" aria-label="Team members">
-        {members.map((m, i) => (
-          <button
-            key={m.name}
-            type="button"
-            role="tab"
-            aria-selected={i === index}
-            onClick={() => {
-              go(i);
-              setPaused(true);
-            }}
-            className={`flex shrink-0 items-center gap-2 rounded-full border py-1 pl-1 pr-4 text-sm font-medium transition ${
-              i === index ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-700"
-            }`}
-          >
-            <img src={m.image} alt="" className="size-8 rounded-full object-cover object-top" />
-            {m.name.split(" ")[0]}
-          </button>
-        ))}
-      </div>
-
       <article className="overflow-hidden rounded-[28px] bg-slate-950 text-white shadow-[0_30px_60px_-30px_rgba(2,6,23,0.7)]">
         {/* Portrait */}
         <div className="relative aspect-[4/5] overflow-hidden">
@@ -121,28 +99,29 @@ export default function TeamSpotlight({ members }: { members: SpotlightMember[] 
             </div>
           )}
 
-          {/* Tap zones */}
+          {/* Navigation arrows at the top corners */}
           {members.length > 1 && (
-            <>
-              <button
-                type="button"
-                aria-label="Previous team member"
-                onClick={() => {
-                  go(index - 1);
-                  setPaused(true);
-                }}
-                className="absolute inset-y-0 left-0 w-1/3 focus-visible:outline-none"
-              />
-              <button
-                type="button"
-                aria-label="Next team member"
-                onClick={() => {
-                  go(index + 1);
-                  setPaused(true);
-                }}
-                className="absolute inset-y-0 right-0 w-1/3 focus-visible:outline-none"
-              />
-            </>
+            <div className="absolute inset-x-3 top-9 flex justify-between">
+              {[
+                { label: "Previous team member", step: -1, path: "M7.5 2L3.5 6l4 4" },
+                { label: "Next team member", step: 1, path: "M4.5 2l4 4-4 4" },
+              ].map(({ label, step, path }) => (
+                <button
+                  key={label}
+                  type="button"
+                  aria-label={label}
+                  onClick={() => {
+                    go(index + step);
+                    setPaused(true);
+                  }}
+                  className="flex size-10 items-center justify-center rounded-full border border-white/25 bg-slate-950/35 text-white backdrop-blur-md transition active:scale-95 hover:bg-slate-950/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                >
+                  <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12">
+                    <path d={path} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              ))}
+            </div>
           )}
 
           {/* Name over the photo */}
