@@ -43,7 +43,6 @@ export default function HeroSection() {
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(1);
-  const [activeFilter, setActiveFilter] = useState('Hotels');
   const locationRef = useRef<HTMLDivElement>(null);
   const checkInRef = useRef<HTMLInputElement>(null);
   const checkOutRef = useRef<HTMLInputElement>(null);
@@ -286,22 +285,6 @@ export default function HeroSection() {
           Discover your <em>dream home</em> in Dubai
         </motion.h1>
 
-        <div className="mb-3 hidden gap-2 lg:flex" role="group" aria-label="Property type">
-          {['Hotels', 'Villas', 'Apartments'].map(type => (
-            <button
-              key={type}
-              type="button"
-              onClick={() => setActiveFilter(type)}
-              aria-pressed={activeFilter === type}
-              className={`rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide backdrop-blur-md transition ${
-                activeFilter === type ? 'border-white bg-white text-slate-900' : 'border-white/30 bg-white/10 text-white hover:bg-white/20'
-              }`}
-            >
-              {type}
-            </button>
-          ))}
-        </div>
-
         <motion.div 
           className="booking-card"
           initial={{ opacity: 0, y: 30 }}
@@ -309,23 +292,6 @@ export default function HeroSection() {
           transition={{ delay: 0.2 }}
         >
           <form onSubmit={handleSearch} aria-label="Search stays">
-            {/* Property type */}
-            <div className="mb-3 flex gap-1 rounded-full bg-slate-100 p-1 lg:hidden" role="group" aria-label="Property type">
-              {['Hotels', 'Villas', 'Apartments'].map(type => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => setActiveFilter(type)}
-                  aria-pressed={activeFilter === type}
-                  className={`flex-1 rounded-full py-2 text-xs font-semibold tracking-wide transition ${
-                    activeFilter === type ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600'
-                  }`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-
             <div className="grid grid-cols-2 gap-2 lg:flex lg:items-center lg:gap-0">
               {/* WHERE */}
               <div ref={locationRef} className="relative col-span-2 lg:flex-[1.25]">
