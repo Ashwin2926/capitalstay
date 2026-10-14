@@ -308,7 +308,7 @@ export default function HeroSection() {
                   onClick={() => setActiveFilter(type)}
                   aria-pressed={activeFilter === type}
                   className={`flex-1 rounded-full py-2 text-xs font-semibold tracking-wide transition ${
-                    activeFilter === type ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
+                    activeFilter === type ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600'
                   }`}
                 >
                   {type}
