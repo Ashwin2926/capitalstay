@@ -77,7 +77,7 @@ export default function TeamPage() {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-8 md:mb-10 max-w-2xl mx-auto">
             <h2 className="font-display text-2xl md:text-3xl font-medium text-gray-900 mb-3">
-              World-class management, <em className="italic text-blue-600">local heart</em>
+              World-class management
             </h2>
             <p className="text-sm md:text-base text-gray-600 leading-relaxed">
               From DTCM compliance to 24/7 guest support, our team handles every detail
