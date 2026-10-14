@@ -140,7 +140,7 @@ const ScopedStyles = () => (
     .cs-services {
       position: relative;
       z-index: 1;
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('../assets/services/Owner_bg.png');
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('/assets/services/Owner_bg.webp');
       background-size: cover;
       background-position: center;
       color: white;
@@ -279,7 +279,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
         </div>
       </PageHeader>
 
-      <main className="cs-container">
+      <div className="cs-container">
         {/* HERO SECTION */}
         <section className="cs-card grid lg:grid-cols-2 gap-8 items-center">
           <div className="cs-p-lg">
@@ -307,7 +307,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
                   <p className="text-xl font-black text-slate-900">Asset Growth</p>
                 </div>
                 <div className="statBoxSecondary">
-                  <p className="text-[0.65rem] font-black uppercase text-slate-500 tracking-tighter">Transparency</p>
+                  <p className="text-[0.65rem] font-black uppercase text-slate-600 tracking-tighter">Transparency</p>
                   <p className="text-xl font-black text-slate-900">Owner Portal Access</p>
                 </div>
               </div>
@@ -485,7 +485,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
             </motion.button>
           </div>
         </motion.section>
-      </main>
+      </div>
     </div>
   );
 };

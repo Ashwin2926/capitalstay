@@ -5,6 +5,7 @@ import { FaMapMarkerAlt, FaCheckCircle, FaMoneyBillWave, FaChevronDown, FaInfoCi
 import PageHeader from "../Pageheader/PageHeader";
 import MobileRail from "../ui/MobileRail";
 import ReadMore from "../ui/ReadMore";
+import NotFound from "../NotFound";
 import { Helmet } from "react-helmet-async";
 
 // --- Interfaces for Type Safety ---
@@ -41,12 +42,7 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
     const property = cleanKey ? (COMPLETE_PROPERTY_DATA as Record<string, RawProperty>)[cleanKey] : null;
 
     if (!property) {
-        return (
-            <div className="py-20 text-center">
-                <h2 className="text-2xl font-bold text-gray-800">Location not found.</h2>
-                <p className="text-gray-500 mt-2">Please return to the explore page to select a valid neighborhood.</p>
-            </div>
-        );
+        return <NotFound />;
     }
 
     // Original Logic for Breadcrumbs

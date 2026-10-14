@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 
 // --- Premium Icons (Optimized with aria-hidden) ---
@@ -37,6 +37,7 @@ const dubaiLocations = ["Dubai", "Fujairah", "Ras Al-Khaimah", "Sharjah"];
 
 export default function HeroSection() {
   const [currentIdx, setCurrentIdx] = useState(0);
+  const reduceMotion = useReducedMotion();
   const [location, setLocation] = useState('Any location');
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [checkIn, setCheckIn] = useState('');
@@ -81,12 +82,21 @@ export default function HeroSection() {
     };
   }, [isLocationOpen]);
 
-  // 1. PRELOAD IMAGES: Prevents flickering by caching images ahead of time
+  // Fetch the other slides only after the page has finished loading,
+  // so they never compete with the first paint.
   useEffect(() => {
-    backgroundImages.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
+    const preloadRest = () => {
+      backgroundImages.slice(1).forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+    if (document.readyState === 'complete') {
+      const t = window.setTimeout(preloadRest, 1500);
+      return () => window.clearTimeout(t);
+    }
+    window.addEventListener('load', preloadRest, { once: true });
+    return () => window.removeEventListener('load', preloadRest);
   }, []);
 
   useEffect(() => {
@@ -236,10 +246,10 @@ export default function HeroSection() {
             alt="Dubai Luxury Accommodation"
             fetchPriority="high" 
             className="bg-slide"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, scale: reduceMotion ? 1 : 1.08 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ opacity: { duration: 1.5, ease: "easeInOut" }, scale: { duration: 7.5, ease: "linear" } }}
             style={{ position: 'absolute', inset: 0 }}
           />
         </AnimatePresence>

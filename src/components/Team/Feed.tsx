@@ -98,12 +98,12 @@ type NewsType =
 
 const getIconColor = (type: NewsType): string => {
     switch (type) {
-        case 'Award': return '#FFD700'; 
+        case 'Award': return '#B45309'; 
         case 'Portfolio': return tokens.color.primary; 
-        case 'Service': return '#22C55E'; 
-        case 'Guest Story': return '#EF4444'; 
-        case 'Partnership': return '#8B5CF6'; 
-        case 'Innovation': return '#F97316'; 
+        case 'Service': return '#15803D'; 
+        case 'Guest Story': return '#DC2626'; 
+        case 'Partnership': return '#7C3AED'; 
+        case 'Innovation': return '#C2410C'; 
         default: return tokens.color.primary;
     }
 };
@@ -317,7 +317,7 @@ const NewsAndAccomplishments = () => (
             .cta-section p {
                 max-width: 700px;
                 margin: 0 auto 30px auto;
-                color: rgba(255, 255, 255, 0.85);
+                color: #ffffff;
                 line-height: 1.6;
             }
 

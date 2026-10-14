@@ -197,7 +197,7 @@ const Amenities = () => {
                   viewport={{ once: true }}
                 >
                   <div className="icon">{icon}</div>  
-                  <h6 className="amenity-title">{title}</h6>  
+                  <h3 className="amenity-title">{title}</h3>  
                   <p className="amenity-desc">{desc}</p>  
                 </motion.div>
               ))}

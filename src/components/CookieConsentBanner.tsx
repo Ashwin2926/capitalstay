@@ -76,59 +76,33 @@ const CookieConsentBanner: React.FC = () => {
   }
 
   return (
-    <div style={styles.banner as React.CSSProperties}>
-      <p style={styles.text as React.CSSProperties}>
-        We use cookies to enhance your experience. By clicking "Accept", you agree to our use of cookies for analytics.
+    <div
+      role="region"
+      aria-label="Cookie consent"
+      className="fixed inset-x-3 bottom-3 z-[1150] mx-auto flex max-w-3xl flex-col gap-3 rounded-2xl border border-white/10 bg-slate-900/95 p-4 text-white shadow-2xl backdrop-blur-md sm:flex-row sm:items-center sm:gap-6 sm:px-6"
+      style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+    >
+      <p className="m-0 text-[13px] leading-snug text-white/85 sm:flex-1">
+        We use cookies for analytics to improve your experience.
       </p>
-      <div style={{ display: 'flex' }}>
-        <button style={styles.button as React.CSSProperties} onClick={handleAccept}>Accept</button>
-        <button style={styles.buttonDecline as React.CSSProperties} onClick={handleDecline}>Decline</button>
+      <div className="flex shrink-0 gap-2">
+        <button
+          type="button"
+          onClick={handleDecline}
+          className="flex-1 rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:flex-none"
+        >
+          Decline
+        </button>
+        <button
+          type="button"
+          onClick={handleAccept}
+          className="flex-1 rounded-full bg-white px-5 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 sm:flex-none"
+        >
+          Accept
+        </button>
       </div>
     </div>
   );
-};
-
-// Typed Styles object
-const styles: Record<string, React.CSSProperties> = {
-  banner: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#222',
-    color: 'white',
-    padding: '15px 25px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    zIndex: 1000,
-  },
-  text: {
-    margin: 0,
-    marginRight: '20px',
-    fontSize: '14px',
-    lineHeight: '1.4',
-  },
-  button: {
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    padding: '10px 20px',
-    cursor: 'pointer',
-    borderRadius: '5px',
-    margin: '0 5px',
-    fontWeight: 'bold',
-  },
-  buttonDecline: {
-    backgroundColor: '#f44336',
-    color: 'white',
-    border: 'none',
-    padding: '10px 20px',
-    cursor: 'pointer',
-    borderRadius: '5px',
-    margin: '0 5px',
-    fontWeight: 'bold',
-  }
 };
 
 export default CookieConsentBanner;

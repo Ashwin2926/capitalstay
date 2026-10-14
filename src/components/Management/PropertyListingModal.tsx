@@ -163,34 +163,34 @@ const PropertyListingModal: React.FC<PropertyListingModalProps> = ({ isOpen, onC
           <form onSubmit={handleSubmit} className="space-y-3.5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block text-sm font-bold mb-1.5">First Name*</label>
-                <input type="text" name="firstName" className="sleek-input" required value={formData.firstName} onChange={handleChange} />
+                <label htmlFor="lp-firstName" className="block text-sm font-bold mb-1.5">First Name*</label>
+                <input type="text" id="lp-firstName" name="firstName" className="sleek-input" required value={formData.firstName} onChange={handleChange} />
               </div>
               <div>
-                <label className="block text-sm font-bold mb-1.5">Last Name*</label>
-                <input type="text" name="lastName" className="sleek-input" required value={formData.lastName} onChange={handleChange} />
+                <label htmlFor="lp-lastName" className="block text-sm font-bold mb-1.5">Last Name*</label>
+                <input type="text" id="lp-lastName" name="lastName" className="sleek-input" required value={formData.lastName} onChange={handleChange} />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-bold mb-1.5">Phone Number*</label>
-              <input type="tel" name="phone" className="sleek-input" required value={formData.phone} onChange={handleChange} placeholder="+971..." />
+              <label htmlFor="lp-phone" className="block text-sm font-bold mb-1.5">Phone Number*</label>
+              <input type="tel" id="lp-phone" name="phone" className="sleek-input" required value={formData.phone} onChange={handleChange} placeholder="+971..." />
             </div>
             <div>
-              <label className="block text-sm font-bold mb-1.5">Your Email*</label>
-              <input type="email" name="email" className="sleek-input" required value={formData.email} onChange={handleChange} />
+              <label htmlFor="lp-email" className="block text-sm font-bold mb-1.5">Your Email*</label>
+              <input type="email" id="lp-email" name="email" className="sleek-input" required value={formData.email} onChange={handleChange} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block text-sm font-bold mb-1.5">Property Type</label>
-                <select name="propertyType" className="sleek-input" value={formData.propertyType} onChange={handleChange}>
+                <label htmlFor="lp-propertyType" className="block text-sm font-bold mb-1.5">Property Type</label>
+                <select id="lp-propertyType" name="propertyType" className="sleek-input" value={formData.propertyType} onChange={handleChange}>
                   <option>Apartment</option>
                   <option>Villa/House</option>
                   <option>Penthouse</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-bold mb-1.5">Unit Type</label>
-                <select name="unitType" className="sleek-input" value={formData.unitType} onChange={handleChange}>
+                <label htmlFor="lp-unitType" className="block text-sm font-bold mb-1.5">Unit Type</label>
+                <select id="lp-unitType" name="unitType" className="sleek-input" value={formData.unitType} onChange={handleChange}>
                   <option>Studio</option>
                   <option>1 Bedroom</option>
                   <option>2 Bedrooms</option>
@@ -200,17 +200,17 @@ const PropertyListingModal: React.FC<PropertyListingModalProps> = ({ isOpen, onC
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block text-sm font-bold mb-1.5">Location*</label>
-                <input type="text" name="city" className="sleek-input" required value={formData.city} onChange={handleChange} placeholder="e.g. Dubai Marina" />
+                <label htmlFor="lp-city" className="block text-sm font-bold mb-1.5">Location*</label>
+                <input type="text" id="lp-city" name="city" className="sleek-input" required value={formData.city} onChange={handleChange} placeholder="e.g. Dubai Marina" />
               </div>
               <div>
-                <label className="block text-sm font-bold mb-1.5">Size (sqft)</label>
-                <input type="text" name="size" className="sleek-input" value={formData.size} onChange={handleChange} />
+                <label htmlFor="lp-size" className="block text-sm font-bold mb-1.5">Size (sqft)</label>
+                <input type="text" id="lp-size" name="size" className="sleek-input" value={formData.size} onChange={handleChange} />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-bold mb-1.5">Additional Notes</label>
-              <textarea name="notes" rows={2} className="sleek-input" value={formData.notes} onChange={handleChange} placeholder="Property details..." />
+              <label htmlFor="lp-notes" className="block text-sm font-bold mb-1.5">Additional Notes</label>
+              <textarea id="lp-notes" name="notes" rows={2} className="sleek-input" value={formData.notes} onChange={handleChange} placeholder="Property details..." />
             </div>
 
             {successMessage && (

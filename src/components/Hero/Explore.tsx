@@ -88,6 +88,12 @@ function ExploreOptionsPage() {
         .journal-item.is-featured .card-title { font-size: 2rem; }
         .card-desc { font-size: 0.85rem; opacity: 0.8; margin-bottom: 14px; line-height: 1.5; max-width: 32rem; }
         .explore-link { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; display: flex; align-items: center; gap: 10px; }
+        .explore-link svg { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+        .journal-item:hover .explore-link svg, .journal-item:focus-visible .explore-link svg { transform: translateX(8px); }
+        .card-overlay { transition: background 0.6s ease; }
+        .journal-item:hover .card-overlay { background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 70%); }
+        .journal-item:focus-visible { outline: 2px solid #2563eb; outline-offset: 3px; }
+        @media (prefers-reduced-motion: reduce) { .journal-item img, .explore-link svg { transition: none !important; } }
       `}} />
 
       <section className="journal-section">

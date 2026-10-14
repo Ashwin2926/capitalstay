@@ -517,7 +517,7 @@ const ServicesPage = () => {
           <p className="header-subtitle">Tailored lifestyle solutions for the modern traveler in Dubai.</p>
         </header>
 
-        <main className="main-grid" role="main">
+        <div className="main-grid">
           <section className="accordion-list" aria-label="Services list">
             {SERVICE_ITEMS.map((item, idx) => (
               <AccordionItem
@@ -534,7 +534,7 @@ const ServicesPage = () => {
           </section>
 
           <RightImagePanel />
-        </main>
+        </div>
       </div>
     </>
   );

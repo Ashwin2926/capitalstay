@@ -31,14 +31,14 @@ const FloatingButtons = () => {
     <div className="floating-buttons">
       {/* Back to Top Button */}
       {showScroll && (
-        <button className="back-to-top" onClick={scrollToTop}>
+        <button type="button" className="back-to-top" onClick={scrollToTop} aria-label="Back to top">
           <FontAwesomeIcon icon={faArrowUp} />
         </button>
       )}
 
       {/* Floating Action Button */}
       <div className="fab-container">
-        <button className="fab" onClick={toggleMenu}>
+        <button type="button" className="fab" onClick={toggleMenu} aria-label={menuOpen ? "Close contact options" : "Open contact options"} aria-expanded={menuOpen}>
           +
         </button>
         {menuOpen && (
@@ -48,6 +48,7 @@ const FloatingButtons = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="fab-icon whatsapp"
+              aria-label="Chat with us on WhatsApp"
             >
               <FontAwesomeIcon icon={faWhatsapp} />
             </a>

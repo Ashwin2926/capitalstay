@@ -83,7 +83,7 @@ export default function MobileRail({
             className={`font-display text-sm tabular-nums tracking-[0.2em] ${dark ? "text-white/80" : "text-slate-700"}`}
           >
             {String(active + 1).padStart(2, "0")}
-            <span className={dark ? "text-white/50" : "text-slate-500"}>
+            <span className={dark ? "text-white/60" : "text-slate-600"}>
               {" / "}
               {String(items.length).padStart(2, "0")}
             </span>
