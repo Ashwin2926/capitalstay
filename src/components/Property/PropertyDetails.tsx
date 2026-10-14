@@ -4,6 +4,7 @@ import { COMPLETE_PROPERTY_DATA } from "../lib/locations";
 import { FaMapMarkerAlt, FaCheckCircle, FaMoneyBillWave, FaChevronDown, FaInfoCircle, FaStar, FaKey, FaCompass } from "react-icons/fa";
 import PageHeader from "../Pageheader/PageHeader";
 import MobileRail from "../ui/MobileRail";
+import ReadMore from "../ui/ReadMore";
 import { Helmet } from "react-helmet-async";
 
 // --- Interfaces for Type Safety ---
@@ -114,11 +115,13 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                                 <FaInfoCircle className="text-xl" />
                                 <span className="font-bold uppercase tracking-widest text-[10px]">Overview</span>
                             </div>
-                            {property.intro?.map((para, i) => (
-                                <p key={i} className="text-gray-600 text-lg leading-relaxed mb-6 last:mb-0">
-                                    {para}
-                                </p>
-                            ))}
+                            <ReadMore collapsedHeight={170}>
+                                {property.intro?.map((para, i) => (
+                                    <p key={i} className="text-gray-600 text-base md:text-lg leading-relaxed mb-6 last:mb-0">
+                                        {para}
+                                    </p>
+                                ))}
+                            </ReadMore>
                         </section>
 
                         {/* Why Choose Section */}
@@ -132,7 +135,9 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
                                                 <FaCheckCircle className="text-blue-600" />
                                                 <h3 className="font-bold text-gray-800 text-lg">{item.title}</h3>
                                             </div>
-                                            <p className="text-gray-600 text-sm leading-relaxed">{item.content}</p>
+                                            <ReadMore collapsedHeight={112}>
+                                                <p className="text-gray-600 text-sm leading-relaxed">{item.content}</p>
+                                            </ReadMore>
                                         </div>
                                     ))}
                                 </MobileRail>

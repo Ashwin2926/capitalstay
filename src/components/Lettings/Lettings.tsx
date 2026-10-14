@@ -1,3 +1,4 @@
+import ReadMore from "../ui/ReadMore";
 import  { useEffect } from "react";
 import { motion } from "framer-motion"; // Add motion for refined effects
 import { useSeo } from "../../hooks/useSeo";
@@ -218,12 +219,14 @@ function Lettings() {
             variants={textVariants}
           >
             <h2 className="section-title mb-3">Long-Term Lettings</h2>
-            <p className="text-lead-muted">
+            <ReadMore collapsedHeight={100} className="mb-6">
+              <p className="text-lead-muted !mb-0">
               Affordable renting in key locations in Dubai. Live with us in your dream home
               for a minimum of 1 month stay. We accommodate hundreds of families, working
               professionals, and students just like you! Most of our properties come with premium concierge
               services.
             </p>
+            </ReadMore>
             <button
                 onClick={handleNavigateToBooking} // <-- Added Booking Link
               className="btn-premium"
@@ -261,11 +264,13 @@ function Lettings() {
             variants={textVariants}
           >
             <h2 className="section-title mb-3">Luxury Holiday Stays</h2>
-            <p className="text-lead-muted">
+            <ReadMore collapsedHeight={100} className="mb-6">
+              <p className="text-lead-muted !mb-0">
               Stay with us in one of our modern, hand-picked apartments in fantastic tourist destinations. All
               within short distances of Dubai's key features. Experience effortless check-in, 24-hour
               on-call experienced host, luxury bed linens, towels, and essential amenities.
             </p>
+            </ReadMore>
             <button
               onClick={handleNavigateToBooking}  
               className="btn-premium"

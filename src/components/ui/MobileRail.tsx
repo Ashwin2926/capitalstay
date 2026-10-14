@@ -44,7 +44,6 @@ export default function MobileRail({
   }, [items.length]);
 
   useEffect(() => {
-    update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, [update]);
