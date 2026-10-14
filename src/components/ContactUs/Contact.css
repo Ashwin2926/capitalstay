@@ -60,6 +60,10 @@
 }
 
 /* 2. Content Grid */
+.contact-content > * {
+    min-width: 0;
+}
+
 .contact-content {
     display: grid;
     grid-template-columns: 1fr 1.2fr; /* Bento-style asymmetry */
@@ -117,6 +121,7 @@
 
 /* Typography inside Cards */
 .contact-details {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -206,21 +211,61 @@
 
 @media (max-width: 640px) {
     .contact-container {
-        padding: 60px 1.5rem;
+        padding: 56px 16px;
+    }
+
+    /* App-style 2x2 tiles instead of a stacked list */
+    .contact-info {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
     }
 
     .contact-card {
-        padding: 24px;
-        gap: 16px;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 16px;
+        background: #ffffff;
+        border-color: #e2e8f0;
+        box-shadow: 0 8px 24px -14px rgba(15, 23, 42, 0.18);
+    }
+
+    .contact-card:hover {
+        transform: none;
     }
 
     .contact-icon {
-        width: 48px;
-        height: 48px;
-        font-size: 1.2rem;
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+        border-radius: 11px;
+    }
+
+    .contact-label {
+        font-size: 0.62rem;
     }
 
     .contact-link {
-        font-size: 1.1rem;
+        font-size: 0.95rem;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+    }
+
+    .contact-link-email {
+        font-size: 0.8rem;
+    }
+
+    .contact-address-title {
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+
+    .contact-address-text {
+        font-size: 0.75rem;
+    }
+
+    .contact-map-container {
+        min-height: 260px;
     }
 }

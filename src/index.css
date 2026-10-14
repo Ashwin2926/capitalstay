@@ -63,3 +63,12 @@ body {
   background: #94a3b8;
   background-clip: content-box;
 }
+
+/* Hide scrollbars on swipeable rails while keeping them scrollable */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

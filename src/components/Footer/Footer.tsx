@@ -162,7 +162,11 @@ export default function Footer({ toggleForm }: FooterProps) {
         @media (max-width: 600px) {
           .footer { padding: 40px 20px 20px; }
           .cta { flex-direction: column; text-align: center; padding: 24px; margin-top: -70px; }
-          .links-grid { grid-template-columns: 1fr; text-align: center; }
+          .links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; text-align: left; }
+          .links-grid h4 { font-size: 11px; letter-spacing: 0.14em; margin-bottom: 14px; color: #0f172a; }
+          .links-grid li { font-size: 13px; margin-bottom: 10px; }
+          .footer-contact-info { grid-column: 1 / -1; padding-top: 20px; border-top: 1px solid #eee; }
+          .footer-contact-info p { overflow-wrap: anywhere; }
           .socials { justify-content: center; }
           .brand { text-align: center; }
           .brand img { margin: 0 auto 15px; }

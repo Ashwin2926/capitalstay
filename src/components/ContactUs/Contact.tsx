@@ -37,7 +37,7 @@ const ContactUs = () => {
             <div className="contact-icon"><FaEnvelope /></div>
             <div className="contact-details">
               <span className="contact-label">Business Inquiries</span>
-              <a href="mailto:hellodubai@capitalstayuae.com" className="contact-link">hellodubai@capitalstayuae.com</a>
+              <a href="mailto:hellodubai@capitalstayuae.com" className="contact-link contact-link-email">hellodubai@<wbr />capitalstayuae.com</a>
             </div>
           </div>
 
