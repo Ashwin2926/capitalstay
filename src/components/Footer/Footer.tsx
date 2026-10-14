@@ -11,7 +11,7 @@ import {
   SiVisa,
   SiMastercard,
   SiAmericanexpress,
-  SiTrustpilot,
+  SiAirbnb,
 } from "react-icons/si";
 
 const darkLogo = "/assets/logo.webp";
@@ -174,7 +174,8 @@ export default function Footer({ toggleForm }: FooterProps) {
           margin-top: 30px; padding: 20px 0; border-top: 1px solid #eee;
           display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap;
         }
-        .trust { display: flex; align-items: center; gap: 8px; font-size: 13px; background: #f9f9f9; padding: 6px 14px; border-radius: 50px; }
+        .trust { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #1f2937; text-decoration: none; background: #f9f9f9; padding: 6px 14px; border-radius: 50px; border: 1px solid transparent; transition: border-color 0.2s; }
+        .trust:hover { border-color: #E00B41; }
         .bottom-bar {
           display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
           text-align: center; color: #6b7280; font-size: 11px; padding-bottom: 10px;
@@ -268,10 +269,16 @@ export default function Footer({ toggleForm }: FooterProps) {
           <SiVisa size={32} color="#1A1F71" role="img" aria-label="Visa" />
           <SiMastercard size={32} color="#EB001B" role="img" aria-label="Mastercard" />
           <SiAmericanexpress size={32} color="#007BC1" role="img" aria-label="American Express" />
-          <div className="trust">
-            <SiTrustpilot color="#00B67A" size={18} aria-hidden="true" />
-            TrustScore <strong>4.9</strong>
-          </div>
+          <a
+            className="trust"
+            href="https://www.airbnb.ae/users/show/551099812"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Rated 4.9 on Airbnb. View our Airbnb profile"
+          >
+            <SiAirbnb color="#E00B41" size={18} aria-hidden="true" />
+            <span><strong>4.9</strong> on Airbnb</span>
+          </a>
         </div>
 
         <div className="bottom-bar">
