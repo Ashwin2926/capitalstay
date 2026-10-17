@@ -8,9 +8,9 @@ const faqs = [
   {
     question: "What premium services does Capital Stay provide across Dubai?",
     answer: `Capital Stay offers end-to-end luxury
-    <a href="/vacation-rentals-dubai">vacation rentals</a>
+    <a href="https://booking.capitalstayuae.com/">vacation rentals</a>
     and property management throughout Dubai. Whether you are in Business Bay, Al Barsha, or
-    <a href="/dubai-marina-holiday-homes">Dubai Marina</a>, guests enjoy 5-star amenities including
+    <a href="/luxury-apartments-in-dubai-marina">Dubai Marina</a>, guests enjoy 5-star amenities including
     high-speed Wi-Fi, professional housekeeping, 24/7 guest support, and access to premium facilities
     like infinity pools and gyms. For owners, we provide DTCM-licensed management and ROI optimization.`,
   },
@@ -18,7 +18,7 @@ const faqs = [
     question: "Where can I find Capital Stay holiday homes in Dubai?",
     answer: `We provide luxury holiday homes across Dubai’s most popular residential and business hubs,
     including Downtown Dubai, Business Bay, and
-    <a href="/dubai-marina-holiday-homes">Dubai Marina</a>.
+    <a href="/luxury-apartments-in-dubai-marina">Dubai Marina</a>.
     Our portfolio also extends to Abu Dhabi, Sharjah, and Ras Al Khaimah.`,
   },
   {
@@ -28,7 +28,7 @@ const faqs = [
     • Al Furjan / JLT: One-bedrooms range from AED 100,000 to AED 150,000.
     • Northern Emirates: Competitive rates starting from AED 45,000 in Ras Al Khaimah.
     Contact us for real-time daily or monthly
-    <a href="/short-term-rentals-dubai">short-term rental rates</a>.`,
+    <a href="https://booking.capitalstayuae.com/">short-term rental rates</a>.`,
   },
   {
     question: "What amenities are included in a Capital Stay holiday home?",

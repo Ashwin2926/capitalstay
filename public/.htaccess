@@ -1,20 +1,62 @@
-# Single-page app routing: serve index.html for any path that isn't a real file or folder,
-# so deep links like /team or /services work on refresh.
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+Options -Indexes
+ErrorDocument 404 /404.html
+
+## Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/ld+json image/svg+xml
 </IfModule>
 
-# Always fetch a fresh index.html; hashed assets can be cached long-term.
+## Browser caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Always fetch fresh HTML; hashed assets can be cached long-term.
 <IfModule mod_headers.c>
-  <FilesMatch "index\.html$">
+  <FilesMatch "\.html$">
     Header set Cache-Control "no-cache"
   </FilesMatch>
   <FilesMatch "\.(js|css)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Block WordPress/PHP probes
+  RewriteRule \.php$ - [F,L]
+  RewriteRule ^(wp-admin|wp-content|wp-includes) - [F,L]
+
+  # One host for search engines: www -> bare domain (matches every canonical tag)
+  RewriteCond %{HTTP_HOST} ^www\.capitalstayuae\.com$ [NC]
+  RewriteRule ^ https://capitalstayuae.com%{REQUEST_URI} [R=301,L,NE]
+
+  # Old and broken URLs from earlier sitemaps and links
+  RewriteRule ^locations/([a-z0-9-]+)/?$ /luxury-apartments-in-$1 [NC,R=301,L]
+  RewriteRule ^(locations|explore)/?$ / [NC,R=301,L]
+  RewriteRule ^about-us/?$ /#about-us [NC,NE,R=301,L]
+  RewriteRule ^contact-us/?$ /#contact [NC,NE,R=301,L]
+  RewriteRule ^(management|landlord-services)/?$ /landlord-services/property-management [NC,R=301,L]
+  RewriteRule ^furnishing/?$ /landlord-services/furnishing-solutions [NC,R=301,L]
+  RewriteRule ^dubai-marina-holiday-homes/?$ /luxury-apartments-in-dubai-marina [NC,R=301,L]
+  RewriteRule ^(vacation-rentals-dubai|short-term-rentals-dubai)/?$ https://booking.capitalstayuae.com/ [NC,R=301,L]
+
+  # Mixed-case or trailing-slash copies of real pages -> their lowercase URL (generated at build)
+  # @prerender-redirects
+
+  # Serve the prerendered HTML for each page: /team -> team.html
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+)$ $1.html [L]
+
+  # Anything else is a real 404 (ErrorDocument above)
 </IfModule>

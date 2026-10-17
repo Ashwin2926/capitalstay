@@ -183,29 +183,6 @@ const CallToAction: React.FC<CallToActionProps> = ({ showForm, toggleForm }) => 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isEmailJSApiReady, setIsEmailJSApiReady] = useState<boolean>(false);
 
-  /* -----------------------------------------------------
-     SEO + AI Search Readiness
-  ----------------------------------------------------- */
-  useEffect(() => {
-    const schema = document.createElement("script");
-    schema.type = "application/ld+json";
-    schema.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "ContactPage",
-      "name": "Property Listing Request",
-      "description": "Request a free rental income valuation for your Dubai property.",
-      "mainEntity": {
-        "@type": "Question",
-        "name": "How to list my property in Dubai?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Fill out the Capital Stay UAE form to receive a professional holiday home management quote."
-        }
-      }
-    });
-    document.head.appendChild(schema);
-    return () => { document.head.removeChild(schema); };
-  }, []);
 
   useEffect(() => {
     loadEmailJSScript(() => {
@@ -252,7 +229,7 @@ const CallToAction: React.FC<CallToActionProps> = ({ showForm, toggleForm }) => 
             Rent your property confidently with Capital Stay
           </h2>
           <p className="text-sm md:text-base mb-4 opacity-90">
-            Professional <Link to="/management" className="text-white font-bold underline underline-offset-2">property management</Link> with 24/7 support and higher returns.
+            Professional <Link to="/landlord-services/property-management" className="text-white font-bold underline underline-offset-2">property management</Link> with 24/7 support and higher returns.
           </p>
           <button
             className="btn-cta-premium"

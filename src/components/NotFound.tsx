@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import Seo from "./Seo";
 import { motion } from "framer-motion";
 import { COMPLETE_PROPERTY_DATA } from "./lib/locations";
 
@@ -10,10 +10,11 @@ const toLabel = (key: string) => key.replace(/-/g, " ").replace(/\b\w/g, (c) => 
 export default function NotFound() {
   return (
     <section className="relative overflow-hidden bg-slate-950 px-4 pb-24 pt-32 text-white md:pt-40">
-      <Helmet>
-        <title>Page not found | Capital Stay</title>
-        <meta name="robots" content="noindex" />
-      </Helmet>
+      <Seo
+        title="Page not found | Capital Stay"
+        description="This page doesn't exist. Explore Capital Stay's luxury holiday homes across Dubai."
+        noindex
+      />
 
       {/* Soft ambient glow */}
       <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-blue-600/25 blur-[140px]" />
@@ -53,7 +54,7 @@ export default function NotFound() {
             {popularAreas.map((key) => (
               <li key={key}>
                 <Link
-                  to={`/${key}`}
+                  to={`/luxury-apartments-in-${key}`}
                   className="inline-block rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/85 transition hover:border-white/40 hover:text-white"
                 >
                   {toLabel(key)}

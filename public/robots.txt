@@ -1,4 +1,22 @@
+# Allow all standard search engines  
 User-agent: *
 Allow: /
 
+# Specifically allow AI Search and LLM Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Reference your Sitemap
 Sitemap: https://capitalstayuae.com/sitemap.xml

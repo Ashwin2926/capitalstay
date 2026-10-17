@@ -1,5 +1,6 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import Seo from '../Seo';
+import { absoluteUrl, ORGANIZATION_ID } from '../lib/seo';
 import { Zap, Award, Globe, Heart, Building2, UserCheck, ChevronRight } from 'lucide-react';
 import PageHeader from "../Pageheader/PageHeader";
 import MobileRail from "../ui/MobileRail";
@@ -145,28 +146,34 @@ const NewsCard: React.FC<NewsCardProps> = ({ item, index }) => {
 };
 
 
+// Schema wants ISO 8601 dates; the feed stores display dates like "Oct 25, 2025"
+const toIsoDate = (display: string) => {
+    const d = new Date(display);
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+
 // --- Main Page Component ---
 const NewsAndAccomplishments = () => (
     <div className="news-page-wrapper">
-        <Helmet>
-            <title>News & Accomplishments | Capital Stay UAE</title>
-            <meta name="description" content="The latest awards, portfolio expansions, and service milestones from Capital Stay UAE, Dubai's leading luxury holiday home management company." />
-            <script type="application/ld+json">
-                {JSON.stringify({
-                    "@context": "https://schema.org",
-                    "@type": "CollectionPage",
-                    "name": "Capital Stay News & Accomplishments",
-                    "description": "Latest portfolio additions, awards, key partnerships, and service enhancements from Capital Stay UAE.",
-                    "hasPart": NEWS_FEED.map((item) => ({
-                        "@type": "Article",
-                        "headline": item.title,
-                        "description": item.content,
-                        "image": item.image,
-                        "datePublished": item.date,
-                    })),
-                })}
-            </script>
-        </Helmet>
+        <Seo
+            title="News & Accomplishments | Capital Stay UAE"
+            description="The latest awards, portfolio expansions, and service milestones from Capital Stay UAE, Dubai's leading luxury holiday home management company."
+            jsonLd={{
+                "@type": "CollectionPage",
+                "name": "Capital Stay News & Accomplishments",
+                "description": "Latest portfolio additions, awards, key partnerships, and service enhancements from Capital Stay UAE.",
+                "publisher": { "@id": ORGANIZATION_ID },
+                "hasPart": NEWS_FEED.map((item) => ({
+                    "@type": "Article",
+                    "headline": item.title,
+                    "description": item.content,
+                    "image": absoluteUrl(item.image),
+                    "datePublished": toIsoDate(item.date),
+                    "publisher": { "@id": ORGANIZATION_ID },
+                })),
+            }}
+        />
         <style>{`
             /* --- KEYFRAMES --- */
             @keyframes fadeInSlideUp {

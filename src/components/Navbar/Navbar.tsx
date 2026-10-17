@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { SITE_URL } from "../lib/seo";
 import { FaBars, FaTimes, FaAngleDown } from "react-icons/fa";
 
 const whiteLogo = "/assets/logo_white.webp";
@@ -96,17 +97,17 @@ const SiteNavigationSchema = () => (
         {
           "@type": "WebPage",
           name: "Dubai Holiday Home Management",
-          url: "https://capitalstayuae.com/landlord-services/property-management",
+          url: `${SITE_URL}/landlord-services/property-management`,
         },
         {
           "@type": "WebPage",
-          name: "Vacation Rentals Al Barsha & Business Bay",
-          url: "https://capitalstayuae.com/locations",
+          name: "Dubai Furnishing Solutions",
+          url: `${SITE_URL}/landlord-services/furnishing-solutions`,
         },
         {
           "@type": "WebPage",
           name: "Luxury Guest Services",
-          url: "https://capitalstayuae.com/services",
+          url: `${SITE_URL}/services`,
         },
       ],
     })}

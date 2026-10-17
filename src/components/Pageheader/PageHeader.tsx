@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+import { absoluteUrl } from '../lib/seo';
 
 /** * TYPES 
  */
@@ -42,15 +44,29 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   backgroundImage, 
   children 
 }) => {
-  const [windowWidth, setWindowWidth] = useState<number>(
-    typeof window !== 'undefined' ? window.innerWidth : 1200
-  );
+  // Start from the prerendered (desktop) width so hydration matches the static HTML,
+  // then correct it before the first paint.
+  const [windowWidth, setWindowWidth] = useState<number>(1200);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs
+      .filter((crumb, i, all) => crumb.href && crumb.href !== '#' && all.findIndex((c) => c.href === crumb.href) === i)
+      .map((crumb, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: crumb.name.trim(),
+        item: absoluteUrl(crumb.href),
+      })),
+  };
 
   // --- Dynamic Styles ---
 
@@ -116,6 +132,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 
   return (
     <header style={headerBaseStyle}>
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      </Helmet>
       <div style={overlayStyle}></div>
 
       <div style={contentWrapperStyle}>

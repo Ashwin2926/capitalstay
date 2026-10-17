@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
+
+const noopSubscribe = () => () => {};
 
 // --- Premium Icons (Optimized with aria-hidden) ---
 interface IconProps {
@@ -48,7 +50,9 @@ export default function HeroSection() {
   const checkOutRef = useRef<HTMLInputElement>(null);
 
   const HOSTAWAY_BASE_URL = 'https://booking.capitalstayuae.com/search';
-  const getTodayString = () => new Date().toISOString().split('T')[0];
+  // Empty in the prerendered HTML (a build-time date would go stale); filled in once hydrated
+  const today = useSyncExternalStore(noopSubscribe, () => new Date().toISOString().split('T')[0], () => '');
+  const getTodayString = () => today;
 
   const isDateInvalid = checkIn && checkOut && new Date(checkOut) <= new Date(checkIn);
   const nights = checkIn && checkOut && !isDateInvalid

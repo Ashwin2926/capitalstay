@@ -6,7 +6,8 @@ import PageHeader from "../Pageheader/PageHeader";
 import MobileRail from "../ui/MobileRail";
 import ReadMore from "../ui/ReadMore";
 import NotFound from "../NotFound";
-import { Helmet } from "react-helmet-async";
+import Seo from "../Seo";
+import { SITE_URL, ORGANIZATION_ID } from "../lib/seo";
 
 // --- Interfaces for Type Safety ---
 
@@ -45,51 +46,67 @@ const { propertyKey } = useParams<{ propertyKey: string }>();
         return <NotFound />;
     }
 
+    const pagePath = `/${CONSTANT_PREFIX}${cleanKey}`;
+    const areaName = cleanKey!.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    const pageUrl = `${SITE_URL}${pagePath}`;
+
     // Original Logic for Breadcrumbs
     const breadcrumbs = [
         { name: "Home", href: "/" },
-        { name: "Locations", href: "/locations" },
-        { name: cleanKey?.replace(/-/g, " ") || "Details", href: "#" },
+        { name: "Locations", href: "/" },
+        { name: cleanKey?.replace(/-/g, " ") || "Details", href: pagePath },
     ];
 
     // AI Search Schema (JSON-LD) - Dynamic for every neighborhood
-    const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "RealEstateListing",
-        "name": property.meta_title,
-        "description": property.meta_description,
-        "url": window.location.href,
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": propertyKey?.replace("-", " "),
-            "addressRegion": "Dubai",
-            "addressCountry": "AE"
-        },
-        "brand": { "@type": "Brand", "name": "Capital Stay" },
-        "mainEntity": {
-            "@type": "FAQPage",
-            "mainEntity": property.faqs?.map(faq => ({
-                "@type": "Question",
-                "name": faq.question,
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": Array.isArray(faq.answer) ? faq.answer.join(" ") : faq.answer
+    const structuredData = [
+        {
+            "@type": "WebPage",
+            "@id": `${pageUrl}#webpage`,
+            "url": pageUrl,
+            "name": property.meta_title,
+            "description": property.meta_description,
+            "about": {
+                "@type": "Place",
+                "name": areaName,
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": areaName,
+                    "addressCountry": "AE"
                 }
-            }))
-        }
-    };
+            },
+            "publisher": { "@id": ORGANIZATION_ID }
+        },
+        {
+            "@type": "Service",
+            "name": `Luxury holiday home rentals in ${areaName}`,
+            "serviceType": "Short-term holiday home rental",
+            "provider": { "@id": ORGANIZATION_ID },
+            "areaServed": { "@type": "Place", "name": areaName },
+            "url": pageUrl
+        },
+        ...(property.faqs?.length
+            ? [{
+                "@type": "FAQPage",
+                "mainEntity": property.faqs.map(faq => ({
+                    "@type": "Question",
+                    "name": faq.question,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": Array.isArray(faq.answer) ? faq.answer.join(" ") : faq.answer
+                    }
+                }))
+            }]
+            : [])
+    ];
 
     return (
         <div className="bg-[#fcfcfc] min-h-screen font-sans">
-            <Helmet>
-                <title>{property.meta_title}</title>
-                <meta name="description" content={property.meta_description} />
-                <link rel="canonical" href={`https://capitalstayuae.com/locations/${propertyKey}`} />
-                <meta property="og:title" content={property.meta_title} />
-                <meta property="og:description" content={property.meta_description} />
-                <meta property="og:type" content="website" />
-                <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-            </Helmet>
+            <Seo
+                title={property.meta_title}
+                description={property.meta_description ?? property.title}
+                path={pagePath}
+                jsonLd={structuredData}
+            />
 
             {/* RESTORED ORIGINAL PAGEHEADER LOGIC */}
             <PageHeader

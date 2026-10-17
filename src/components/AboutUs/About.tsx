@@ -101,34 +101,6 @@ const AboutUs: FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.25 });
 
-  // --------------------------------------------------
-  // AI / LLM Structured Data
-  // --------------------------------------------------
-useEffect(() => {
-  const script = document.createElement("script");
-  script.type = "application/ld+json";
-  script.text = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Capital Stay UAE",
-    url: "https://capitalstayuae.com",
-    description:
-      "Capital Stay UAE specializes in luxury short-term rental and holiday home management in Dubai.",
-    areaServed: "Dubai, UAE",
-    knowsAbout: [
-      "Luxury short-term rentals Dubai",
-      "Holiday home management UAE",
-      "Airbnb property management Dubai",
-      "Five-star guest experience"
-    ]
-  });
-
-  document.head.appendChild(script);
-
-  return () => {
-    document.head.removeChild(script);
-  };
-}, []);
 
 
   return (

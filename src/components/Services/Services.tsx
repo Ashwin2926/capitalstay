@@ -4,7 +4,8 @@
  import React, { useState, useCallback, useEffect } from 'react';
 import { ChevronDown, Plane, Car, Home, Utensils, Sailboat } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import Seo from '../Seo';
+import { SITE_URL, ORGANIZATION_ID } from '../lib/seo';
 import PageHeader from '../Pageheader/PageHeader';
 import ReadMore from '../ui/ReadMore';
 
@@ -170,28 +171,31 @@ const ServicesPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Luxury Guest Services Dubai | Airport Transfer & Yacht Charter | Capital Stay</title>
-        <meta name="description" content="Elevate your Dubai stay with Capital Stay's executive lifestyle services. Premium airport transfers, luxury car rentals, private chefs, and yacht charters." />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "name": "Capital Stay Premium Services",
-            "itemListElement": SERVICE_ITEMS.map((item, index) => ({
-              "@type": "ListItem",
-              "position": index + 1,
+      <Seo
+        title="Luxury Guest Services Dubai | Airport Transfer & Yacht Charter | Capital Stay"
+        description="Elevate your Dubai stay with Capital Stay's executive lifestyle services. Premium airport transfers, luxury car rentals, private chefs, and yacht charters."
+        jsonLd={{
+          "@type": "ItemList",
+          "name": "Capital Stay Premium Services",
+          "itemListElement": SERVICE_ITEMS.map((item, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+              "@type": "Service",
               "name": item.title,
-              "description": item.description
-            }))
-          })}
-        </script>
-      </Helmet>
+              "description": item.description.replace(/\s+/g, " ").trim(),
+              "url": `${SITE_URL}/services#${item.id}`,
+              "provider": { "@id": ORGANIZATION_ID },
+              "areaServed": { "@type": "City", "name": "Dubai" }
+            }
+          }))
+        }}
+      />
 
       <PageHeader
         title="Executive Lifestyle Services"
         description="Premium services curated by CapitalStay — designed for comfort, luxury, and complete peace of mind."
-        breadcrumbs={[{ name: 'Home', href: '/' }, { name: ' Services', href: '' }]}
+        breadcrumbs={[{ name: 'Home', href: '/' }, { name: ' Services', href: '/services' }]}
         backgroundImage="../assets/services/guest_services_banner.webp"
       />
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom"; 
-import { useSeo } from "./hooks/useSeo";
+import { Helmet } from "react-helmet-async";
+import Seo from "./components/Seo";
+import { SITE_URL, ORGANIZATION_ID } from "./components/lib/seo";
 import "./index.css";
 import Navbar from "./components/Navbar/Navbar";
 import RouteAnalyticsTracker from "./components/RouteAnalyticsTracker";
@@ -31,36 +33,69 @@ const PropertyDetails = lazy(() => import("./components/Property/PropertyDetails
 
 
 
-const OrganizationSchema = () => (
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "RealEstateAgent",
+// Site-wide entity data for search engines and AI answer engines.
+// Keep these facts identical to llms.txt and the Google Business Profile.
+const siteSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LodgingBusiness",
+      "@id": ORGANIZATION_ID,
       "name": "Capital Stay UAE",
-      "url": "https://capitalstayuae.com",
-      "logo": "https://capitalstayuae.com/assets/logo.webp",
+      "alternateName": "Capital Stay",
+      "url": `${SITE_URL}/`,
+      "logo": `${SITE_URL}/assets/logo.webp`,
+      "image": `${SITE_URL}/assets/og-image.jpg`,
+      "description":
+        "DTCM-licensed holiday home operator in Dubai offering luxury short-term rentals and full-service holiday home management for property owners.",
       "telephone": "+971547047913",
+      "email": "hellodubai@capitalstayuae.com",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Abdullah Kamber Business Center, Deira",
         "addressLocality": "Dubai",
+        "addressRegion": "Dubai",
         "addressCountry": "AE"
+      },
+      "geo": { "@type": "GeoCoordinates", "latitude": 25.2697, "longitude": 55.333 },
+      "areaServed": ["Dubai", "Abu Dhabi", "Sharjah", "Ras Al Khaimah", "Fujairah", "Umm Al Quwain"].map((name) => ({
+        "@type": "City",
+        "name": name
+      })),
+      "knowsAbout": [
+        "Luxury short-term rentals Dubai",
+        "Holiday home management UAE",
+        "Airbnb property management Dubai",
+        "DTCM holiday home licensing",
+        "Five-star guest experience"
+      ],
+      "sameAs": [
+        "https://instagram.com/capitalstaydubai",
+        "https://www.airbnb.ae/users/show/551099812"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+971547047913",
+        "email": "hellodubai@capitalstayuae.com",
+        "contactType": "customer service"
       }
-    })}
-  </script>
-);
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      "url": `${SITE_URL}/`,
+      "name": "Capital Stay UAE",
+      "publisher": { "@id": ORGANIZATION_ID },
+      "inLanguage": "en"
+    }
+  ]
+};
 
 const App: React.FC = () => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   const toggleForm = () => setShowForm((prev) => !prev);
-
-  // Set Default SEO for the whole app
-useSeo({
-  title: "Luxury Holiday Homes Dubai",
-  description: "Premium short-term rentals and property management in Dubai."
-});
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 150);
@@ -70,6 +105,9 @@ useSeo({
 
   return (
     <div className="App">
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(siteSchema)}</script>
+      </Helmet>
       <RouteAnalyticsTracker />
       <CookieConsentBanner />
       
@@ -81,7 +119,6 @@ useSeo({
           <MainContent showForm={showForm} toggleForm={toggleForm} />
         </Suspense>
       </main>
-      <OrganizationSchema />
       <Footer toggleForm={toggleForm}/>
 
       <PropertyListingModal 
@@ -123,6 +160,11 @@ const MainContent: React.FC<{ showForm: boolean; toggleForm: () => void }> = ({
       <Routes>
         <Route path="/" element={
           <>
+            <Seo
+              title="Luxury Holiday Homes & Short-Term Rentals in Dubai | Capital Stay"
+              description="Stay in premium DTCM-licensed holiday homes across Dubai Marina, Downtown, Business Bay and more. Top-tier amenities, seamless booking and 24/7 guest support."
+              path="/"
+            />
             <HeroSection />
             <div id="about-us"><AboutUs /></div>
             <ExploreOptionsPage />

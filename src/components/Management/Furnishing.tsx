@@ -10,7 +10,8 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import PageHeader from "../Pageheader/PageHeader";
 import MobileRail from "../ui/MobileRail";
-import { Helmet } from "react-helmet-async";
+import Seo from "../Seo";
+import { ORGANIZATION_ID } from "../lib/seo";
 
 // -------------------- DATA --------------------
 const FEATURES = [
@@ -46,19 +47,11 @@ const PROCESS = [
 /* --- SEO & AI SEARCH ENHANCEMENTS --- */
 const FurnishingSchema = () => {
   const schema = {
-    "@context": "https://schema.org",
     "@type": "Service",
     "name": "Luxury Property Furnishing & Interior Curation",
     "description": "Professional furnishing services for Dubai holiday homes. We transform properties into high-yield short-term rentals using data-backed interior design to increase nightly rates and guest reviews.",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Capital Stay",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Dubai",
-        "addressCountry": "AE"
-      }
-    },
+    "provider": { "@id": ORGANIZATION_ID },
+    "areaServed": { "@type": "City", "name": "Dubai" },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Furnishing Packages",
@@ -70,12 +63,11 @@ const FurnishingSchema = () => {
     }
   };
   return (
-    <Helmet>
-      <title>Luxury Property Furnishing Dubai | High-Yield Interior Curation</title>
-      <meta name="description" content="Elevate your Dubai property's ROI with Capital Stay's furnishing services. Bespoke interior design tailored for Airbnb, Booking.com, and luxury short-term rentals." />
-      <meta name="keywords" content="Dubai holiday home furnishing, Airbnb interior design Dubai, short term rental furniture packages, property staging Dubai, luxury apartment curation" />
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
-    </Helmet>
+    <Seo
+      title="Luxury Property Furnishing Dubai | High-Yield Interior Curation"
+      description="Elevate your Dubai property's ROI with Capital Stay's furnishing services. Bespoke interior design tailored for Airbnb, Booking.com, and luxury short-term rentals."
+      jsonLd={schema}
+    />
   );
 };
 
@@ -99,8 +91,8 @@ const FurnishingPage = () => {
         backgroundImage="../assets/furniture2.webp"
         breadcrumbs={[
           { name: "Home", href: "/" },
-          { name: "Landlord Services", href: "/landlord-services" },
-          { name: "Furnishing", href: "/furnishing" },
+          { name: "Landlord Services", href: "/landlord-services/property-management" },
+          { name: "Furnishing", href: "/landlord-services/furnishing-solutions" },
         ]}
       />
 

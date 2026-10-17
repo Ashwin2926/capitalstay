@@ -71,3 +71,17 @@ export default defineConfig([
   },
 ])
 ```
+
+## SEO and prerendering
+
+`npm run build` does three things:
+
+1. `vite build` builds the browser app into `dist/`.
+2. `vite build --ssr src/entry-server.tsx` builds a Node renderer.
+3. `scripts/prerender.mjs` renders every route to static HTML (`dist/team.html`, `dist/luxury-apartments-in-dubai-marina.html`, ...), plus `404.html`, `sitemap.xml`, the per-page redirects in `.htaccess` and the neighbourhood list in `llms.txt`.
+
+Search engines and AI crawlers that don't run JavaScript get the full page; in the browser React hydrates the same markup, so nothing looks different.
+
+- Page titles, descriptions, canonical URLs, Open Graph tags and JSON-LD go through `src/components/Seo.tsx`. Site-wide constants (domain, organization id) live in `src/components/lib/seo.ts`.
+- New route? Add it to `routes` in `src/entry-server.tsx`, or production will serve it as a 404.
+- `public/.htaccess` serves the prerendered files, redirects `www` and old URLs, and returns real 404s.

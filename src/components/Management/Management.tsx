@@ -16,68 +16,49 @@ import {
 } from "react-icons/fa";
 import PageHeader from "../Pageheader/PageHeader";
 import { useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import Seo from "../Seo";
+import { SITE_URL, ORGANIZATION_ID } from "../lib/seo";
  
 
 /* ------------------------------
  * SEO & AI SEARCH SCHEMA (JSON-LD)
  * ------------------------------ */
+// Rendered on the page and mirrored in FAQPage schema, so the two never drift apart
+const OWNER_FAQS = [
+  { q: "What is your standard management fee?", a: "A competitive management fee is deducted from gross rental income. This covers global marketing, 24/7 guest support, DTCM compliance, and professional maintenance coordination." },
+  { q: "How is occupancy rate managed and optimized?", a: "We use AI-driven dynamic pricing, targeted marketing, and high-fidelity photography to ensure consistent occupancy and higher Average Daily Rates (ADR)." },
+  { q: "Is Capital Stay a legally licensed operator?", a: "Yes—we are a fully licensed holiday home operator by Dubai's DTCM, ensuring your property is 100% compliant with local laws." },
+  { q: "How is property damage handled?", a: "Guest security deposits and comprehensive insurance cover repairs. We manage the entire restoration process and provide itemized documentation for your records." },
+];
+
 const SchemaMetadata = () => {
   const schema = {
-    "@context": "https://schema.org",
     "@type": "Service",
     "name": "Capital Stay Property Management",
     "serviceType": "DTCM Licensed Holiday Home Management",
-    "areaServed": "Dubai",
+    "areaServed": { "@type": "City", "name": "Dubai" },
     "description": "Professional property management for Dubai landlords. High-yield short-term rentals, DTCM compliance, and 5-star hosting.",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Capital Stay",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Abdullah Kamber Business Center, Deira",
-        "addressLocality": "Dubai",
-        "addressCountry": "AE"
-      },
-      "telephone": "+971547047913"
-    },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://capitalstayuae.com/landlord-services/property-management"
-    }
+    "provider": { "@id": ORGANIZATION_ID },
+    "url": `${SITE_URL}/landlord-services/property-management`
   };
 
   return (
-    <Helmet>
-      <title>Expert Property Management Dubai | Maximize Rental ROI | Capital Stay</title>
-      <meta name="description" content="Join Dubai's leading holiday home managers. We handle DTCM licensing, marketing, and 5-star guest services to boost your rental income. List your property today." />
-      <meta name="keywords" content="Dubai property management, short term rental Dubai, landlord services Dubai, Airbnb management Dubai, DTCM holiday home" />
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
+    <Seo
+      title="Expert Property Management Dubai | Maximize Rental ROI | Capital Stay"
+      description="Join Dubai's leading holiday home managers. We handle DTCM licensing, marketing, and 5-star guest services to boost your rental income. List your property today."
+      path="/landlord-services/property-management"
+      jsonLd={[
+        schema,
+        {
           "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "Is Capital Stay a legally licensed operator in Dubai?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes, Capital Stay is a fully licensed holiday home operator authorized by Dubai's DTCM."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How does Capital Stay optimize occupancy?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "We use AI-driven dynamic pricing and marketing across major OTAs to target 90% occupancy."
-              }
-            }
-          ]
-        })}
-      </script>
-    </Helmet>
+          "mainEntity": OWNER_FAQS.map((faq) => ({
+            "@type": "Question",
+            "name": faq.q,
+            "acceptedAnswer": { "@type": "Answer", "text": faq.a }
+          }))
+        }
+      ]}
+    />
   );
 };
 
@@ -264,7 +245,7 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
         title="Premium Property Management for Dubai Landlords"
         description="Partner with Capital Stay for seamless, high-performance short-term rental management that maximizes your asset's value and minimizes your effort."
         backgroundImage="../assets/dining.webp"
-        breadcrumbs={[{ name: "Home", href: "/" }, { name: "Landlord Services", href: "/landlord-services" }]}
+        breadcrumbs={[{ name: "Home", href: "/" }, { name: "Landlord Services", href: "/landlord-services/property-management" }]}
       >
         <div className="flex gap-3">
           <button 
@@ -437,10 +418,9 @@ const Presentation = ({toggleForm}: {toggleForm: () => void}) => {
         <section className="bg-white-300 ">
           <h2 className="text-2xl font-black text-center text-slate-900 mb-8">Frequently Asked Questions</h2>
           <div className="max-w-4xl mx-auto">
-            <FAQItem q="What is your standard management fee?" a="A competitive management fee is deducted from gross rental income. This covers global marketing, 24/7 guest support, DTCM compliance, and professional maintenance coordination." delay={0.1} />
-            <FAQItem q="How is occupancy rate managed and optimized?" a="We use AI-driven dynamic pricing, targeted marketing, and high-fidelity photography to ensure consistent occupancy and higher Average Daily Rates (ADR)." delay={0.2} />
-            <FAQItem q="Is Capital Stay a legally licensed operator?" a="Yes—we are a fully licensed holiday home operator by Dubai's DTCM, ensuring your property is 100% compliant with local laws." delay={0.3} />
-            <FAQItem q="How is property damage handled?" a="Guest security deposits and comprehensive insurance cover repairs. We manage the entire restoration process and provide itemized documentation for your records." delay={0.4} />
+            {OWNER_FAQS.map((faq, i) => (
+              <FAQItem key={faq.q} q={faq.q} a={faq.a} delay={0.1 * (i + 1)} />
+            ))}
           </div>
         </section>
 

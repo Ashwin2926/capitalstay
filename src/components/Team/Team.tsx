@@ -2,28 +2,10 @@
 import { useState } from "react";
 import PageHeader from "../Pageheader/PageHeader";
 import TeamSpotlight from "./TeamSpotlight";
-import { useSeo } from "../../hooks/useSeo"; 
+import Seo from "../Seo";
+import { ORGANIZATION_ID } from "../lib/seo";
 
  
-const TeamSchema = ({ members }: { members: typeof TEAM_DATA }) => (
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "AboutPage",
-      "mainEntity": members.map(member => ({
-        "@type": "Person",
-        "name": member.name,
-        "jobTitle": member.role,
-        "description": member.description,
-        "worksFor": {
-          "@type": "LocalBusiness",
-          "name": "Capital Stay UAE"
-        }
-      }))
-    })}
-  </script>
-);
-
 type TeamMember = {
   name: string;
   role: string;
@@ -49,18 +31,24 @@ const TEAM_DATA: TeamMember[] = [
 ];
 
 export default function TeamPage() {
-  // 1. DYNAMIC SEO METADATA
-  // Targets "Expertise" (E-E-A-T) which is a major ranking signal for Dubai Real Estate in 2026.
-  useSeo({
-    title: "Expert Property Management Team in Dubai",
-    description: "Meet the professional team at Capital Stay UAE. DTCM-licensed specialists in guest relations, housekeeping, and high-yield property management.",
-    keywords: "Dubai property management team, professional Airbnb hosts Dubai, Capital Stay staff, guest relations specialists Dubai"
-  });
 
   return (
     <>
-      {/* 2. STRUCTURED DATA INJECTION */}
-      <TeamSchema members={TEAM_DATA} />
+      <Seo
+        title="Expert Property Management Team in Dubai | Capital Stay UAE"
+        description="Meet the professional team at Capital Stay UAE. DTCM-licensed specialists in guest relations, housekeeping, and high-yield property management."
+        jsonLd={{
+          "@type": "AboutPage",
+          "about": { "@id": ORGANIZATION_ID },
+          "mainEntity": TEAM_DATA.map((member) => ({
+            "@type": "Person",
+            "name": member.name,
+            "jobTitle": member.role,
+            "description": member.description,
+            "worksFor": { "@id": ORGANIZATION_ID }
+          }))
+        }}
+      />
 
      
       <PageHeader
@@ -69,7 +57,7 @@ export default function TeamPage() {
         backgroundImage="../assets/dining.webp"
         breadcrumbs={[
           { name: "Home", href: "/" },
-          { name: "Meet the Team", href: "" },
+          { name: "Meet the Team", href: "/team" },
         ]}
       />
 

@@ -1,42 +1,11 @@
 import ReadMore from "../ui/ReadMore";
 import  { useEffect } from "react";
 import { motion } from "framer-motion"; // Add motion for refined effects
-import { useSeo } from "../../hooks/useSeo";
  
-const LettingsSchema = () => (
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "VacationRental",
-      "name": "Capital Stay Luxury Holiday Homes",
-      "description": "Premium short-term apartments in Dubai Marina, Business Bay, and Downtown Dubai. DTCM licensed and fully serviced.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Dubai",
-        "addressCountry": "AE"
-      },
-      "amenityFeature": [
-        { "@type": "LocationFeatureSpecification", "name": "Infinity Pool", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "High-speed Wi-Fi", "value": true },
-        { "@type": "LocationFeatureSpecification", "name": "24/7 Check-in", "value": true }
-      ],
-      "containedInPlace": {
-        "@type": "Place",
-        "name": "Dubai Marina"
-      }
-    })}
-  </script>
-);
-
 function Lettings() {
   const letting1 = "/assets/lettings/lettings1.webp";
   const letting2 = "/assets/lettings/lettings2.webp";
 
- useSeo({
-    title: "Luxury Short Term Rentals & Holiday Homes in Dubai",
-    description: "Book premium DTCM-licensed holiday homes in Dubai Marina and Downtown. 5-star service, best rates, and seamless check-in.",
-    keywords: "Dubai holiday homes, short term rentals Dubai, Airbnb Dubai Marina, vacation rentals Business Bay"
-  });
   // --- Booking URL Constant ---
  
     const handleNavigateToBooking = () => {
@@ -207,7 +176,7 @@ function Lettings() {
             }
         }
       `}} />
-<LettingsSchema />
+
       <div className="lettings-container">
 
         {/* Lettings Section (Short-term/long-term) */}
